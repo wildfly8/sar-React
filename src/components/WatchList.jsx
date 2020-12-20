@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import WatchListTable, { WATCHLIST_HEADERS } from './WatchListTable'
+import WatchListTable  from './WatchListTable'
 import { Tabs, Tab, Button } from 'react-bootstrap'
 
 const WatchList = () => {
