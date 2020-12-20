@@ -82,6 +82,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.algoRating,
     text: 'algoRating',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -106,6 +107,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.earDate,
     text: 'earDate',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -117,6 +119,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.divYld,
     text: 'divYld',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -128,6 +131,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.exDate,
     text: 'exDate',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -139,6 +143,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.floatPercent,
     text: 'float%',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -150,6 +155,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.avgVolume,
     text: 'avgVol',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -161,6 +167,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.shortRatio,
     text: 'shortR',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -172,6 +179,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.numOfEmployees,
     text: 'empls',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -183,6 +191,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.insiderPercent,
     text: 'insider%',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -194,6 +203,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.institutionPercent,
     text: 'inst%',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -205,6 +215,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.netIncome,
     text: 'NIAC',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -216,6 +227,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.freeCashflow,
     text: 'LCF',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -227,6 +239,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.netMargin,
     text: 'netMargin',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -238,6 +251,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.returnOnAsset,
     text: 'ROA',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -249,6 +263,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.returnOnEquity,
     text: 'ROE',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -260,6 +275,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.annualRevenueGrowth,
     text: 'yRevGr',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -271,6 +287,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.annualEarningsGrowth,
     text: 'yEarGr',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -282,6 +299,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.debtToCash,
     text: 'debt/cash',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -293,6 +311,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.pE,
     text: 'P/E',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -304,6 +323,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.forwardPE,
     text: 'fwP/E',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -315,6 +335,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.pS,
     text: 'P/S',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -326,6 +347,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.pB,
     text: 'P/B',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -337,6 +359,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.isDow30,
     text: 'Dow30',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -348,6 +371,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.isSnP500,
     text: 'S&P500',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -359,6 +383,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.isNasdaq100,
     text: 'Nasdaq100',
+    editable: false,
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
