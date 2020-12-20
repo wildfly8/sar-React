@@ -1,0 +1,56 @@
+* {
+  font-size: 12px;
+}
+
+.SARNavBar {
+  font-size: 15px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.watchlist-panel {
+  border: ridge #D3D3D3;
+}
+
+.editlist-panel {
+  border: ridge #D3D3D3;
+  margin-top: 2px;
+}
+
+.editlist-panel-button {
+  background-color: #D3D3D3;
+}
+
+.watchlist-table {
+  height: 67vh;
+  overflow: auto;
+}
+
+.editlist-table {
+  height: 22vh;
+  overflow: auto;
+}
+
+.watchlist-tabs > a {
+  color: black;
+  font-weight: bold;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.watchlist-tabs > .nav-item.nav-link {
+  border: thin solid black;
+  background-color: #D3D3D3;
+}
+
+.watchlist-tabs > .nav-item.nav-link.active {
+  background-color: #99ccff;
+}
+
+.watchlist-table-header {
+  background-color: #D3D3D3;
+}
+
+label, ins {
+  font-size: 13px;
+}
