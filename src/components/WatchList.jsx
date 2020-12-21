@@ -1,14 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import WatchListTable  from './WatchListTable'
 import { Tabs, Tab, Button } from 'react-bootstrap'
 import SecurityConstants from '../SecurityConstants'
+import { SERVER_URL, myFetcher } from '../api'
 
 const WatchList = () => {
 
   const [tabKey, setTabKey] = useState(SecurityConstants.SECTOR_ETF)
+  const [allTickersBySector, setAllTickersBySector] = useState([])
 
   useEffect(() => {
-    myFetcher(`${SERVER_URL}/api/visitsCounter`).then(fulfillment => setVisitsCounter(fulfillment))
+    try {
+      myFetcher(`${SERVER_URL}/api/findBySectorOrderByMktCapDesc`).then(fulfillment => setAllTickersBySector(fulfillment))
+    } catch(error) {
+      console.error(`apiError=${error}`)
+    }
+    console.log(`allTickersBySector=${allTickersBySector}`)
+    // eslint-disable-next-line
   }, [])
   
   const input_list = [{
