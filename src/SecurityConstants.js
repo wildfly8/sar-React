@@ -12,5 +12,5 @@ export default class SecurityConstants {
     static SECTOR_HARDWARE      	   = "HW"
     static SECTOR_INDUSTRIAL_MATERIALS = "IM"
     static SECTOR_ENERGY               = "EN"
-    static TRADED_SECTORS     	       = [SecurityConstants.SECTOR_ETF, SecurityConstants.SECTOR_CONSUMER_GOODS, SecurityConstants.SECTOR_HEALTHCARE, SecurityConstants._MEDIA, SecurityConstants._SOFTWARE, SecurityConstants._BUSINESS_SERVICES, SecurityConstants._BANKS, SecurityConstants._CONSUMER_SERVICES, SecurityConstants._HARDWARE, SecurityConstants._INDUSTRIAL_MATERIALS, SecurityConstants._ENERGY]
+    static TRADED_SECTORS     	       = [SecurityConstants.SECTOR_ETF, SecurityConstants.SECTOR_CONSUMER_GOODS, SecurityConstants.SECTOR_HEALTHCARE, SecurityConstants.SECTOR_MEDIA, SecurityConstants.SECTOR_SOFTWARE, SecurityConstants.SECTOR_BUSINESS_SERVICES, SecurityConstants.SECTOR_BANKS, SecurityConstants.SECTOR_CONSUMER_SERVICES, SecurityConstants.SECTOR_HARDWARE, SecurityConstants.SECTOR_INDUSTRIAL_MATERIALS, SecurityConstants.SECTOR_ENERGY]
 }

@@ -10,14 +10,19 @@ const WatchList = () => {
   const [allTickersBySector, setAllTickersBySector] = useState([])
 
   useEffect(() => {
-    try {
-      myFetcher(`${SERVER_URL}/api/findBySectorOrderByMktCapDesc`).then(fulfillment => setAllTickersBySector(fulfillment))
-    } catch(error) {
-      console.error(`apiError=${error}`)
-    }
-    console.log(`allTickersBySector=${allTickersBySector}`)
+    SecurityConstants.TRADED_SECTORS.forEach(e => {
+      try {
+        myFetcher(`${SERVER_URL}/api/findINVWatchlistTickersBySector?sector=${e}`).then(fulfillment => {
+          setAllTickersBySector(oldArray => [...oldArray, fulfillment]);          
+        })
+      } catch(error) {
+        console.error(`apiError=${error}`)
+      }
+    })
     // eslint-disable-next-line
   }, [])
+
+  console.log(`allTickersBySector=${JSON.stringify(allTickersBySector)}`)
   
   const input_list = [{
     id: 0,
