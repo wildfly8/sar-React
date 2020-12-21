@@ -10,11 +10,13 @@
 
 .watchlist-panel {
   border: ridge #D3D3D3;
+  text-align: center;
 }
 
 .editlist-panel {
   border: ridge #D3D3D3;
   margin-top: 2px;
+  text-align: center;
 }
 
 .editlist-panel-button {

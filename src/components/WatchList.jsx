@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import WatchListTable  from './WatchListTable'
 import { Tabs, Tab, Button } from 'react-bootstrap'
+import SecurityConstants from '../SecurityConstants'
 
 const WatchList = () => {
 
+  const [tabKey, setTabKey] = useState(SecurityConstants.SECTOR_ETF)
+
+  useEffect(() => {
+    myFetcher(`${SERVER_URL}/api/visitsCounter`).then(fulfillment => setVisitsCounter(fulfillment))
+  }, [])
+  
   const input_list = [{
     id: 0,
     ticker: 'QQQ',
@@ -29,8 +36,6 @@ const WatchList = () => {
   const readonly_list = [...input_list, ...Array(50 - input_list.length).fill(0).map((element, i) => ({id: i + input_list.length, ticker: '', exchange: null, mktCap: null}))]
 
   const editable_list = Array(20).fill(0).map((element, i) => ({id: i, ticker: '', exchange: null, mktCap: null}))
-
-  const [tabKey, setTabKey] = useState('ETF')
 
   return (
     <>

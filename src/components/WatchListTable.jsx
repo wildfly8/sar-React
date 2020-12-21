@@ -35,6 +35,8 @@ const WATCHLIST_HEADERS = Object.freeze({
   isNasdaq100: 'isNasdaq100'
 })
 
+const rowStyle = { height: '17px' }
+
 const WatchListTable = ({ data, isEditable }) => {
 
   const columns = [{
@@ -395,7 +397,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }]
    
   const defaultSorted = [{
-    dataField: 'mktCap',
+    dataField: WATCHLIST_HEADERS.mktCap,
     order: 'desc'
   }]
 
@@ -419,8 +421,6 @@ const WatchListTable = ({ data, isEditable }) => {
       console.log(`afterSaveCell: oldValue=${oldValue}, newValue=${newValue}`)
     }
   })
-
-  const rowStyle = { height: '17px' }
 
   if(isEditable) {
     return (
