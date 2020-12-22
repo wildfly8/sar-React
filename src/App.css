@@ -2,6 +2,12 @@
   font-size: 12px;
 }
 
+th {
+  position: sticky;
+  top: 0;
+  background-color: #D3D3D3;
+}
+
 .SARNavBar {
   font-size: 15px;
   padding-top: 0px;
@@ -19,7 +25,7 @@
   text-align: center;
 }
 
-.editlist-panel-button {
+.editlist-button-panel {
   background-color: #D3D3D3;
 }
 
@@ -47,10 +53,6 @@
 
 .watchlist-tabs > .nav-item.nav-link.active {
   background-color: #99ccff;
-}
-
-.watchlist-table-header {
-  background-color: #D3D3D3;
 }
 
 label, ins {

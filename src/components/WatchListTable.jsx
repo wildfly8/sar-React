@@ -23,9 +23,9 @@ const WATCHLIST_HEADERS = Object.freeze({
   netMargin: 'netMargin',
   returnOnAsset: 'returnOnAsset',
   returnOnEquity: 'returnOnEquity',
-  annualRevenueGrowth: 'annualRevenueGrowth',
-  annualEarningsGrowth: 'annualEarningsGrowth',
-  debtToCash: 'debtToCash',
+  quarterlyRevenueGrowthYoY: 'quarterlyRevenueGrowthYoY',
+  quarterlyEarningsGrowthYoY: 'quarterlyEarningsGrowthYoY',
+  debtToEquity: 'debtToEquity',
   pE: 'pE',
   forwardPE: 'forwardPE',
   pS: 'pS',
@@ -83,7 +83,7 @@ const WatchListTable = ({ data, isEditable }) => {
     }
   }, {
     dataField: WATCHLIST_HEADERS.algoRating,
-    text: 'algoRating',
+    text: 'algoRt',
     editable: false,
     headerStyle: {
       paddingTop: '0px',
@@ -240,7 +240,7 @@ const WatchListTable = ({ data, isEditable }) => {
     }
   }, {
     dataField: WATCHLIST_HEADERS.netMargin,
-    text: 'netMargin',
+    text: 'nMgn',
     editable: false,
     headerStyle: {
       paddingTop: '0px',
@@ -275,7 +275,7 @@ const WatchListTable = ({ data, isEditable }) => {
       paddingBottom: '0px'
     }
   }, {
-    dataField: WATCHLIST_HEADERS.annualRevenueGrowth,
+    dataField: WATCHLIST_HEADERS.quarterlyRevenueGrowthYoY,
     text: 'yRevGr',
     editable: false,
     headerStyle: {
@@ -287,7 +287,7 @@ const WatchListTable = ({ data, isEditable }) => {
       paddingBottom: '0px'
     }
   }, {
-    dataField: WATCHLIST_HEADERS.annualEarningsGrowth,
+    dataField: WATCHLIST_HEADERS.quarterlyEarningsGrowthYoY,
     text: 'yEarGr',
     editable: false,
     headerStyle: {
@@ -299,8 +299,8 @@ const WatchListTable = ({ data, isEditable }) => {
       paddingBottom: '0px'
     }
   }, {
-    dataField: WATCHLIST_HEADERS.debtToCash,
-    text: 'debt/cash',
+    dataField: WATCHLIST_HEADERS.debtToEquity,
+    text: 'D/E',
     editable: false,
     headerStyle: {
       paddingTop: '0px',
@@ -384,7 +384,7 @@ const WatchListTable = ({ data, isEditable }) => {
     }
   }, {
     dataField: WATCHLIST_HEADERS.isNasdaq100,
-    text: 'Nasdaq100',
+    text: 'Nas100',
     editable: false,
     headerStyle: {
       paddingTop: '0px',

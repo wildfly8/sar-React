@@ -7,94 +7,77 @@ import { SERVER_URL, myFetcher } from '../api'
 const WatchList = () => {
 
   const [tabKey, setTabKey] = useState(SecurityConstants.SECTOR_ETF)
-  const [allTickersBySector, setAllTickersBySector] = useState([])
+  const [allTickersBySector, setAllTickersBySector] = useState({})
+  const [numOfLoadedSectors, setNumOfLoadedSectors] = useState(0)
 
   useEffect(() => {
     SecurityConstants.TRADED_SECTORS.forEach(e => {
-      try {
-        myFetcher(`${SERVER_URL}/api/findINVWatchlistTickersBySector?sector=${e}`).then(fulfillment => {
-          setAllTickersBySector(oldArray => [...oldArray, fulfillment]);          
-        })
-      } catch(error) {
-        console.error(`apiError=${error}`)
-      }
+        myFetcher(`${SERVER_URL}/api/findINVWatchlistTickersBySector?sector=${e}`)
+          .then(fulfillment => {
+                setAllTickersBySector(prev => {
+                  console.log(`allTickersBySector=${JSON.stringify(prev)}`)
+                  return {...prev, ...{[e]: fulfillment}}
+                })
+                setNumOfLoadedSectors(prev => {
+                  console.log(`numOfLoadedSectors=${prev}`)
+                  return ++prev
+                })
+            })
+          .catch(error => console.error(`API error when retrieving watchlist tickers for sector ${e}: ${error} !`))
+          //.finally(() => console.log(`numOfLoadedSectors=${numOfLoadedSectors}`))
     })
     // eslint-disable-next-line
   }, [])
-
-  console.log(`allTickersBySector=${JSON.stringify(allTickersBySector)}`)
   
-  const input_list = [{
-    id: 0,
-    ticker: 'QQQ',
-    exchange: 'SMART',
-    mktCap: 125
-  }, {
-    id: 1,
-    ticker: 'SPY',
-    exchange: 'SMART',
-    mktCap: 277
-  }, {
-    id: 2,
-    ticker: 'ARKG',
-    exchange: 'SMART',
-    mktCap: 2
-  }, {
-    id: 3, 
-    ticker: 'SMH',
-    exchange: 'SMART',
-    mktCap: 3
-  }]
+  const input_list = []
+  // SecurityConstants.TRADED_SECTORS.
 
-  const readonly_list = [...input_list, ...Array(50 - input_list.length).fill(0).map((element, i) => ({id: i + input_list.length, ticker: '', exchange: null, mktCap: null}))]
-
-  const editable_list = Array(20).fill(0).map((element, i) => ({id: i, ticker: '', exchange: null, mktCap: null}))
+  const readonly_list = [...input_list, ...Array(50 - input_list.length).fill(0).map((element, i) => ({id: i + input_list.length, ticker: '', exchange: null}))]
+  const editable_list = Array(20).fill(0).map((element, i) => ({id: i, ticker: '', exchange: null}))
 
   return (
     <>
       <div id="watchlist" className="watchlist-panel">
         <Tabs id="WatchList" className="watchlist-tabs" activeKey={tabKey} onSelect={(k) => setTabKey(k)}>
-          <Tab eventKey="ETF" title="ETF">
-            <WatchListTable data={readonly_list} isEditable={false} />
-          </Tab>
-          <Tab eventKey="CG" title="CG">
-            <WatchListTable data={readonly_list} isEditable={false} />
-          </Tab>
-          <Tab eventKey="HC" title="HC">
-            <WatchListTable data={readonly_list} isEditable={false} />
-          </Tab>
+          {SecurityConstants.TRADED_SECTORS.map((sector, i) => 
+            ( <Tab key={i} eventKey={sector} title={sector}>
+                <WatchListTable data={readonly_list} isEditable={false} />
+              </Tab>
+            )
+          )}
         </Tabs>
       </div>
       <div id="editlist" className="editlist-panel">
         <Tabs id="EditList" className="watchlist-tabs" activeKey={tabKey} onSelect={(k) => setTabKey(k)}>
-          <Tab eventKey="ETF" title="ETF">
-            <WatchListTable data={editable_list} isEditable={true} />
-          </Tab>
-          <Tab eventKey="CG" title="CG">
-            <WatchListTable data={editable_list} isEditable={true} />
-          </Tab>
-          <Tab eventKey="HC" title="HC">
-            <WatchListTable data={editable_list} isEditable={true} />
-          </Tab>
+          {SecurityConstants.TRADED_SECTORS.map((sector, i) => 
+            ( <Tab key={i} eventKey={sector} title={sector}>
+                <WatchListTable data={editable_list} isEditable={true} />
+              </Tab>
+            )
+          )}
         </Tabs>
-        <div align="center" className="editlist-panel-button">
-          <Button variant="dark">Add</Button>{' '}
-          <Button variant="dark">Update</Button>{' '}
-          <Button variant="dark">Delete</Button>{' '}
-          <Button variant="dark">UpdSTKPx</Button>{' '}
-          <Button variant="dark">Map</Button>{' '}
-          <Button variant="dark">Test</Button>{' '}
-          <label>&nbsp;&nbsp;TYT Yield:</label>{' '}
-          <ins>TBD</ins>{' '}
-          <label>| FOMC:</label>{' '}
-          <ins>TBD</ins>{' '}
-          <label>| Monthly Jobs:</label>{' '}
-          <ins>TBD</ins>{' '}
-          <label>| Retail Sales:</label>{' '}
-          <ins>TBD</ins>{' '}
-          <label>| GDP:</label>{' '}
-          <ins>TBD</ins>{' '}
-        </div>
+        {numOfLoadedSectors < SecurityConstants.TRADED_SECTORS.length? 
+          <div className="editlist-button-panel"><Button variant="warning">Loading All Watchlist Tickers...</Button></div> 
+          :
+          <div className="editlist-button-panel">
+            <Button variant="dark">Add</Button>{' '}
+            <Button variant="dark">Update</Button>{' '}
+            <Button variant="dark">Delete</Button>{' '}
+            <Button variant="dark">UpdSTKPx</Button>{' '}
+            <Button variant="dark">Map</Button>{' '}
+            <Button variant="dark">Test</Button>{' '}
+            <label>&nbsp;&nbsp;TYT Yield:</label>{' '}
+            <ins>TBD</ins>{' '}
+            <label>| FOMC:</label>{' '}
+            <ins>TBD</ins>{' '}
+            <label>| Monthly Jobs:</label>{' '}
+            <ins>TBD</ins>{' '}
+            <label>| Retail Sales:</label>{' '}
+            <ins>TBD</ins>{' '}
+            <label>| GDP:</label>{' '}
+            <ins>TBD</ins>{' '}
+          </div>
+        }
       </div>
     </>
   )
