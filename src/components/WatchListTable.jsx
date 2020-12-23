@@ -1,7 +1,7 @@
 import React from 'react'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor'
-
+import { formatNumber } from '../MyUtil'
 
 const WATCHLIST_HEADERS = Object.freeze({
   id: 'id',
@@ -98,6 +98,9 @@ const WatchListTable = ({ data, isEditable }) => {
     text: 'mktCap',
     sort: isEditable? false : true,
     editable: false,
+    formatter: (cell) => (
+      formatNumber(cell)
+    ),
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -158,6 +161,9 @@ const WatchListTable = ({ data, isEditable }) => {
     dataField: WATCHLIST_HEADERS.avgVolume,
     text: 'avgVol',
     editable: false,
+    formatter: (cell) => (
+      cell? formatNumber(parseFloat(cell.replace(/,/g, ''))) : null
+    ),
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'

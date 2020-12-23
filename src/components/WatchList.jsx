@@ -1,47 +1,47 @@
 import React, { useState, useEffect } from 'react'
-import WatchListTable  from './WatchListTable'
+import WatchListTable, { WATCHLIST_HEADERS } from './WatchListTable'
 import { Tabs, Tab, Button } from 'react-bootstrap'
 import SecurityConstants from '../SecurityConstants'
 import { SERVER_URL, myFetcher } from '../api'
+import { assembleWatchlistTableRow } from '../MyUtil'
+
+let readonlyInitMap = {}
+SecurityConstants.TRADED_SECTORS.forEach(e => {
+  readonlyInitMap = {...readonlyInitMap, ...{[e]: Array(50).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))}}
+})
+let editableInitMap = {}
+SecurityConstants.TRADED_SECTORS.forEach(e => {
+  editableInitMap = {...editableInitMap, ...{[e]: Array(20).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))}}
+})
 
 const WatchList = () => {
 
   const [tabKey, setTabKey] = useState(SecurityConstants.SECTOR_ETF)
-  const [allTickersBySector, setAllTickersBySector] = useState({})
-  const [numOfLoadedSectors, setNumOfLoadedSectors] = useState(0)
+  const [loaded, setLoaded] = useState(false)
+  const [readonlyMap, setReadonlyMap] = useState(readonlyInitMap)
+  const [editableMap, setEditableMap] = useState(editableInitMap)
 
   useEffect(() => {
-    SecurityConstants.TRADED_SECTORS.forEach(e => {
-        myFetcher(`${SERVER_URL}/api/findINVWatchlistTickersBySector?sector=${e}`)
-          .then(fulfillment => {
-                setAllTickersBySector(prev => {
-                  console.log(`allTickersBySector=${JSON.stringify(prev)}`)
-                  return {...prev, ...{[e]: fulfillment}}
-                })
-                setNumOfLoadedSectors(prev => {
-                  console.log(`numOfLoadedSectors=${prev}`)
-                  return ++prev
-                })
-            })
-          .catch(error => console.error(`API error when retrieving watchlist tickers for sector ${e}: ${error} !`))
-          //.finally(() => console.log(`numOfLoadedSectors=${numOfLoadedSectors}`))
-    })
+    myFetcher(`${SERVER_URL}/api/findINVWatchlistTickersBySectors?sectors=${SecurityConstants.TRADED_SECTORS}`)
+    .then(fulfillment => {
+        SecurityConstants.TRADED_SECTORS.forEach(sector => {
+          readonlyMap[sector] = [...fulfillment[sector].map((e, i) => assembleWatchlistTableRow(e, i)), ...Array(50 - fulfillment[sector].length).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i + fulfillment[sector].length, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))]
+        })
+        // console.log(`readonlyMap=${JSON.stringify(readonlyMap)}`)
+        setReadonlyMap(readonlyMap)
+      })
+    .catch(error => console.error(`API error when retrieving watchlist tickers: ${error} !`))
+    .finally(() => setLoaded(true))
     // eslint-disable-next-line
   }, [])
   
-  const input_list = []
-  // SecurityConstants.TRADED_SECTORS.
-
-  const readonly_list = [...input_list, ...Array(50 - input_list.length).fill(0).map((element, i) => ({id: i + input_list.length, ticker: '', exchange: null}))]
-  const editable_list = Array(20).fill(0).map((element, i) => ({id: i, ticker: '', exchange: null}))
-
   return (
     <>
       <div id="watchlist" className="watchlist-panel">
         <Tabs id="WatchList" className="watchlist-tabs" activeKey={tabKey} onSelect={(k) => setTabKey(k)}>
           {SecurityConstants.TRADED_SECTORS.map((sector, i) => 
             ( <Tab key={i} eventKey={sector} title={sector}>
-                <WatchListTable data={readonly_list} isEditable={false} />
+                <WatchListTable data={readonlyMap[sector]} isEditable={false} />
               </Tab>
             )
           )}
@@ -51,14 +51,12 @@ const WatchList = () => {
         <Tabs id="EditList" className="watchlist-tabs" activeKey={tabKey} onSelect={(k) => setTabKey(k)}>
           {SecurityConstants.TRADED_SECTORS.map((sector, i) => 
             ( <Tab key={i} eventKey={sector} title={sector}>
-                <WatchListTable data={editable_list} isEditable={true} />
+                <WatchListTable data={editableMap[sector]} isEditable={true} />
               </Tab>
             )
           )}
         </Tabs>
-        {numOfLoadedSectors < SecurityConstants.TRADED_SECTORS.length? 
-          <div className="editlist-button-panel"><Button variant="warning">Loading All Watchlist Tickers...</Button></div> 
-          :
+        {loaded? 
           <div className="editlist-button-panel">
             <Button variant="dark">Add</Button>{' '}
             <Button variant="dark">Update</Button>{' '}
@@ -77,6 +75,8 @@ const WatchList = () => {
             <label>| GDP:</label>{' '}
             <ins>TBD</ins>{' '}
           </div>
+          :
+          <div className="editlist-button-panel"><Button variant="warning">Loading All Watchlist Tickers...</Button></div> 
         }
       </div>
     </>

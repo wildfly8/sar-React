@@ -1,5 +1,9 @@
 import { WATCHLIST_HEADERS }  from './components/WatchListTable'
 
+const TRILLION = 1000000000000;
+const BILLION = 1000000000;
+const MILLION = 1000000;
+
 export const formatDate = (date) => {
     let year = new Date(date).getFullYear()
     let month = new Date(date).getUTCMonth() + 1
@@ -11,6 +15,19 @@ export const formatDate = (date) => {
         month = '0' + month
     }
     return month + '-' + dt + '-' + year.toString().slice(-2)
+}
+
+export const formatNumber = (number) => {
+    if(!number) {
+        return null
+    }
+    if(number > TRILLION) {
+        return `${(number / TRILLION).toFixed(2)} T`
+    } else if(number > BILLION) {
+        return `${(number / BILLION).toFixed(2)} B`
+    } else {
+        return `${(number / MILLION).toFixed(2)} M`
+    }
 }
 
 export const assembleWatchlistTableRow = (apiINVWatchlistTicker, index) => {
