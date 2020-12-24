@@ -37,7 +37,7 @@ export const assembleWatchlistTableRow = (apiINVWatchlistTicker, index) => {
         [WATCHLIST_HEADERS.exchange]: apiINVWatchlistTicker.exchange,
         [WATCHLIST_HEADERS.algoRating]: apiINVWatchlistTicker.algoRating,
         [WATCHLIST_HEADERS.mktCap]: apiINVWatchlistTicker.mktCap,
-        [WATCHLIST_HEADERS.earDate]: apiINVWatchlistTicker.keyStats.earDate,
+        [WATCHLIST_HEADERS.earDate]: apiINVWatchlistTicker.keyStats.nextEarningsDate,
         [WATCHLIST_HEADERS.divYld]: apiINVWatchlistTicker.keyStats.divYield,
         [WATCHLIST_HEADERS.exDate]: apiINVWatchlistTicker.keyStats.nextExDate,
         [WATCHLIST_HEADERS.floatPercent]: apiINVWatchlistTicker.keyStats.floatPercent,

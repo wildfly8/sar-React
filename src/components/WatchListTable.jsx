@@ -86,6 +86,7 @@ const WatchListTable = ({ data, isEditable }) => {
     text: 'algoRt',
     editable: false,
     headerStyle: {
+      width: '3%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },
@@ -98,6 +99,7 @@ const WatchListTable = ({ data, isEditable }) => {
     text: 'mktCap',
     sort: isEditable? false : true,
     editable: false,
+    type: Type.number,
     formatter: (cell) => (
       formatNumber(cell)
     ),
@@ -113,6 +115,9 @@ const WatchListTable = ({ data, isEditable }) => {
     dataField: WATCHLIST_HEADERS.earDate,
     text: 'earDate',
     editable: false,
+    formatter: (cell) => (
+      cell? (cell.startsWith(",")? cell.replace(",", "") : cell.replace(",", " ")) : null
+    ),
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -366,9 +371,13 @@ const WatchListTable = ({ data, isEditable }) => {
     }
   }, {
     dataField: WATCHLIST_HEADERS.isDow30,
-    text: 'Dow30',
+    text: 'D&J',
     editable: false,
+    formatter: (cell) => (
+      cell? "Y" : null
+    ),
     headerStyle: {
+      width: '2%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },
@@ -378,9 +387,13 @@ const WatchListTable = ({ data, isEditable }) => {
     }
   }, {
     dataField: WATCHLIST_HEADERS.isSnP500,
-    text: 'S&P500',
+    text: 'S&P',
     editable: false,
+    formatter: (cell) => (
+      cell? "Y" : null
+    ),
     headerStyle: {
+      width: '2%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },
@@ -390,9 +403,13 @@ const WatchListTable = ({ data, isEditable }) => {
     }
   }, {
     dataField: WATCHLIST_HEADERS.isNasdaq100,
-    text: 'Nas100',
+    text: 'NAS',
     editable: false,
+    formatter: (cell) => (
+      cell? "Y" : null
+    ),
     headerStyle: {
+      width: '2%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },
