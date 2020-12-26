@@ -32,7 +32,7 @@ const MacroEconTable = ({ data }) => {
     dataField: HEADERS.nextReportDate,
     text: 'nextReportDate',
     headerStyle: {
-      width: '5%',
+      width: '6%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },
