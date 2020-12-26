@@ -119,6 +119,7 @@ const WatchListTable = ({ data, isEditable }) => {
       cell? (cell.startsWith(",")? cell.replace(",", "") : cell.replace(",", " ")) : null
     ),
     headerStyle: {
+      width: '5%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },
@@ -143,6 +144,7 @@ const WatchListTable = ({ data, isEditable }) => {
     text: 'exDate',
     editable: false,
     headerStyle: {
+      width: '5%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },
@@ -448,14 +450,14 @@ const WatchListTable = ({ data, isEditable }) => {
   if(isEditable) {
     return (
       <div className="editlist-table">
-        <BootstrapTable bootstrap4 columns={ columns } keyField='id' data={ data } headerWrapperClasses='watchlist-table-header' 
+        <BootstrapTable bootstrap4 columns={ columns } keyField='id' data={ data }
           selectRow={ selectRow } condensed = { true } rowStyle={ rowStyle } cellEdit={ cellEdit }  />
       </div>
     )
   } else {
     return (
       <div className="watchlist-table">
-        <BootstrapTable bootstrap4 columns={ columns } keyField='id' data={ data } defaultSorted={ defaultSorted } headerWrapperClasses='watchlist-table-header' 
+        <BootstrapTable bootstrap4 columns={ columns } keyField='id' data={ data } defaultSorted={ defaultSorted } 
           selectRow={ selectRow } condensed = { true } rowStyle={ rowStyle } />
       </div>
     )

@@ -20,6 +20,7 @@ const SARNavBarWithRouter = ({ location }) => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto" activeKey={location.pathname}>
               <Nav.Link href="/" className="nav-link SARNavBar">WatchList</Nav.Link>
+              <Nav.Link href="/macro-econ" className="nav-link SARNavBar">MacroEcon</Nav.Link>
               <Nav.Link href="/company-scan" className="nav-link SARNavBar">CompanyScan</Nav.Link>
               <Nav.Link href="/rating-enforce" className="nav-link SARNavBar">RatingEnforce</Nav.Link>
               <Nav.Link href="/screening" className="nav-link SARNavBar">Screening</Nav.Link>

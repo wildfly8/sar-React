@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, useHistory } from 'react-router-dom'
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react'
 import config from './config'
 import WatchList from './components/WatchList'
+import MacroEcon from './components/MacroEcon'
 import CompanyScan from './components/CompanyScan'
 import RatingEnforce from './components/RatingEnforce'
 import Screening from './components/Screening'
@@ -33,6 +34,7 @@ const HasAccessToRouter = () => {
         <Route path="/" exact component={WatchList} />
         <Route path="/implicit/callback" exact component={LoginCallback} />
         <Route path="/login" exact component={CustomLoginComponent} />
+        <Route path="/macro-econ" exact component={MacroEcon} />
         <Route path="/company-scan" exact component={CompanyScan} />
         <Route path="/rating-enforce" exact component={RatingEnforce} />
         <Route path="/screening" exact component={Screening} />

@@ -4,17 +4,20 @@ const TRILLION = 1000000000000;
 const BILLION = 1000000000;
 const MILLION = 1000000;
 
-export const formatDate = (date) => {
-    let year = new Date(date).getFullYear()
-    let month = new Date(date).getUTCMonth() + 1
-    let dt = new Date(date).getUTCDate()
+export const formatDate = (long) => {
+    if(!long)
+        return null
+    const date = new Date(long)
+    let year = date.getFullYear()
+    let month = date.getUTCMonth() + 1
+    let dt = date.getUTCDate()
     if (dt < 10) {
         dt = '0' + dt
     }
     if (month < 10) {
         month = '0' + month
     }
-    return month + '-' + dt + '-' + year.toString().slice(-2)
+    return month + '/' + dt + '/' + year.toString().slice(-2)
 }
 
 export const formatNumber = (number) => {

@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import WatchListTable, { WATCHLIST_HEADERS } from './WatchListTable'
 import { Tabs, Tab, Button } from 'react-bootstrap'
 import SecurityConstants from '../SecurityConstants'
+import MacroEconomicIndexConstants from '../MacroEconomicIndexConstants'
 import { SERVER_URL, myFetcher } from '../api'
-import { assembleWatchlistTableRow } from '../MyUtil'
+import { assembleWatchlistTableRow, formatDate } from '../MyUtil'
+import { MyContext } from '../MyContext'
+
 
 let readonlyInitMap = {}
 SecurityConstants.TRADED_SECTORS.forEach(e => {
@@ -15,7 +18,8 @@ SecurityConstants.TRADED_SECTORS.forEach(e => {
 })
 
 const WatchList = () => {
-
+  const { econIndices } = useContext(MyContext)
+  const [economicIndices, ] = econIndices;
   const [tabKey, setTabKey] = useState(SecurityConstants.SECTOR_ETF)
   const [loaded, setLoaded] = useState(false)
   const [readonlyMap, setReadonlyMap] = useState(readonlyInitMap)
@@ -65,15 +69,15 @@ const WatchList = () => {
             <Button variant="dark">Map</Button>{' '}
             <Button variant="dark">Test</Button>{' '}
             <label>&nbsp;&nbsp;TYT Yield:</label>{' '}
-            <ins>TBD</ins>{' '}
+            <span>TBD</span>{' '}
             <label>| FOMC:</label>{' '}
-            <ins>TBD</ins>{' '}
+            <span>{economicIndices[MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT] && formatDate(economicIndices[MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT].nextReportDate)}</span>{' '}
             <label>| Monthly Jobs:</label>{' '}
-            <ins>TBD</ins>{' '}
+            <span>{economicIndices[MacroEconomicIndexConstants.MONTHLY_EMPLOYMENT_SITUATION] && formatDate(economicIndices[MacroEconomicIndexConstants.MONTHLY_EMPLOYMENT_SITUATION].nextReportDate)}</span>{' '}
             <label>| Retail Sales:</label>{' '}
-            <ins>TBD</ins>{' '}
+            <span>{economicIndices[MacroEconomicIndexConstants.MONTHLY_RETAIL_SALES] && formatDate(economicIndices[MacroEconomicIndexConstants.MONTHLY_RETAIL_SALES].nextReportDate)}</span>{' '}
             <label>| GDP:</label>{' '}
-            <ins>TBD</ins>{' '}
+            <span>{economicIndices[MacroEconomicIndexConstants.MONTHLY_GDP_RELEASE] && formatDate(economicIndices[MacroEconomicIndexConstants.MONTHLY_GDP_RELEASE].nextReportDate)}</span>{' '}
           </div>
           :
           <div className="editlist-button-panel"><Button variant="warning">Loading All Watchlist Tickers...</Button></div> 
