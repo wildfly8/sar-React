@@ -5,7 +5,7 @@ import MacroEconTable from './MacroEconTable'
 
 const MacroEcon = () => {
   const { econIndices } = useContext(MyContext)
-  const [economicIndices, ] = econIndices;
+  const [economicIndices, ] = econIndices
 
   return (
     <>

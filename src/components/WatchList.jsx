@@ -19,7 +19,8 @@ SecurityConstants.TRADED_SECTORS.forEach(e => {
 
 const WatchList = () => {
   const { econIndices } = useContext(MyContext)
-  const [economicIndices, ] = econIndices;
+  const [economicIndices, ] = econIndices
+  console.log(`WatchList rendered usingContext. economicIndices=${economicIndices? JSON.stringify(economicIndices) : null}`)
   const [tabKey, setTabKey] = useState(SecurityConstants.SECTOR_ETF)
   const [loaded, setLoaded] = useState(false)
   const [readonlyMap, setReadonlyMap] = useState(readonlyInitMap)

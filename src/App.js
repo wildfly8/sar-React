@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react'
-import { BrowserRouter as Router, Route, useHistory } from 'react-router-dom'
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router-dom'
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react'
 import config from './config'
 import WatchList from './components/WatchList'
@@ -31,17 +31,19 @@ const HasAccessToRouter = () => {
     <Security {...config.oidc} onAuthRequired={customAuthHandler}>
       <MyContextProvider>
         <SARNavBarWithRouter />
-        <Route path="/" exact component={WatchList} />
-        <Route path="/implicit/callback" exact component={LoginCallback} />
-        <Route path="/login" exact component={CustomLoginComponent} />
-        <Route path="/macro-econ" exact component={MacroEcon} />
-        <Route path="/company-scan" exact component={CompanyScan} />
-        <Route path="/rating-enforce" exact component={RatingEnforce} />
-        <Route path="/screening" exact component={Screening} />
-        <Route path="/valuation" exact component={Valuation} />
-        <Route path="/px-target" exact component={PxTarget} />
-        <Route path="/security-rank" exact component={SecurityRank} />
-        <SecureRoute path="/profile" exact component={Profile} />
+        <Switch>
+          <Route path="/" exact component={WatchList} />
+          <Route path="/implicit/callback" exact component={LoginCallback} />
+          <Route path="/login" exact component={CustomLoginComponent} />
+          <Route path="/macro-econ" exact component={MacroEcon} />
+          <Route path="/company-scan" exact component={CompanyScan} />
+          <Route path="/rating-enforce" exact component={RatingEnforce} />
+          <Route path="/screening" exact component={Screening} />
+          <Route path="/valuation" exact component={Valuation} />
+          <Route path="/px-target" exact component={PxTarget} />
+          <Route path="/security-rank" exact component={SecurityRank} />
+          <SecureRoute path="/profile" exact component={Profile} />
+        </Switch>
       </MyContextProvider>
     </Security>
   );
@@ -51,9 +53,7 @@ const App = () => {
 
   return (
     <Router>
-      <Fragment>
-        <HasAccessToRouter />
-      </Fragment>
+      <HasAccessToRouter />
     </Router>
 )}
 
