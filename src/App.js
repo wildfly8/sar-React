@@ -48,17 +48,17 @@ const HasAccessToRouter = () => {
       <MyContext.Provider value={{ economicIndices: economicIndices, user: [userInfo, setUserInfo], auth: [authState, authService] }}>
         <SARNavBarWithRouter userInfo={userInfo} authState={authState} authService={authService} />
         <Switch>
-          <Route exact path="/" render={() => <WatchList />} />
+          <Route exact path="/" render={(props) => <WatchList {...props} />} />
           <Route exact path="/implicit/callback" component={LoginCallback} />
           <Route exact path="/login" component={CustomLoginComponent} />
-          <Route exact path="/macro-econ" render={() => <MacroEcon economicIndices={economicIndices} />} />
-          <Route exact path="/company-scan" render={() => <CompanyScan />} />
-          <Route exact path="/rating-enforce" render={() => <RatingEnforce />} />
-          <Route exact path="/screening" render={() => <Screening />} />
-          <Route exact path="/valuation" render={() => <Valuation />} />
-          <Route exact path="/px-target" render={() => <PxTarget />} />
-          <Route exact path="/security-rank" render={() => <SecurityRank />} />
-          <SecureRoute exact path="/profile" render={() => <Profile userInfo={userInfo} />}  />
+          <Route exact path="/macro-econ" render={(props) => <MacroEcon {...props} economicIndices={economicIndices} />} />
+          <Route exact path="/company-scan" render={(props) => <CompanyScan {...props} />} />
+          <Route exact path="/rating-enforce" render={(props) => <RatingEnforce {...props} />} />
+          <Route exact path="/screening" render={(props) => <Screening {...props} />} />
+          <Route exact path="/valuation" render={(props) => <Valuation {...props} />} />
+          <Route exact path="/px-target" render={(props) => <PxTarget {...props} />} />
+          <Route exact path="/security-rank" render={(props) => <SecurityRank {...props} />} />
+          <SecureRoute exact path="/profile" render={(props) => <Profile {...props} userInfo={userInfo} />}  />
         </Switch>
       </MyContext.Provider>
   )

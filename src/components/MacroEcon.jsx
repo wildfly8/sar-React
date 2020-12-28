@@ -11,4 +11,9 @@ const MacroEcon = ({ economicIndices }) => {
     </>
   )
 }
-export default React.memo(MacroEcon)
+
+const areEconIndicesEqual = (prevProps, props) => {
+  return prevProps.economicIndices === props.economicIndices
+}
+
+export default React.memo(MacroEcon, areEconIndicesEqual)
