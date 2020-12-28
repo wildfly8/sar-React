@@ -1,11 +1,6 @@
-import React, { useContext } from 'react'
-import { MyContext } from '../MyContext'
+import React from 'react'
 
-
-const Profile = () => {
-  const { user } = useContext(MyContext)
-  const [userInfo, ] = user;
-
+const Profile = ({ userInfo }) => {
   if (!userInfo) {
     return (
       <div>
@@ -47,4 +42,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default React.memo(Profile)

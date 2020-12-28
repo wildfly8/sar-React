@@ -1,15 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { MyContext } from '../MyContext'
 import { Navbar, Nav } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 
-
-const SARNavBarWithRouter = ({ location }) => {
-  const { user, auth } = useContext(MyContext)
-  const [userInfo, ] = user
-  const [authState, authService] = auth
-
+const SARNavBarWithRouter = ({ location, userInfo, authState, authService }) => {
   // const login = async () => authService.login('/')
   const logout = async () => authService.logout('/')
 
@@ -40,4 +34,11 @@ const SARNavBarWithRouter = ({ location }) => {
   )
 }
 
-export default withRouter(SARNavBarWithRouter)
+const areLocationsEqual = (prevProps, nextProps) => {
+  return prevProps.location.pathname === nextProps.location.pathname 
+    && prevProps.userInfo === nextProps.userInfo
+    && prevProps.authState === nextProps.authState
+    && prevProps.authService === nextProps.authService
+}
+
+export default withRouter(React.memo(SARNavBarWithRouter, areLocationsEqual))

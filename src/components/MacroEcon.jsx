@@ -1,11 +1,7 @@
-import React, { useContext } from 'react'
-import { MyContext } from '../MyContext'
+import React from 'react'
 import MacroEconTable from './MacroEconTable'
 
-
-const MacroEcon = () => {
-  const { econIndices } = useContext(MyContext)
-  const [economicIndices, ] = econIndices
+const MacroEcon = ({ economicIndices }) => {
 
   return (
     <>
@@ -15,4 +11,4 @@ const MacroEcon = () => {
     </>
   )
 }
-export default MacroEcon
+export default React.memo(MacroEcon)

@@ -1,13 +1,12 @@
 import React, { useContext } from 'react'
 import { Button } from 'react-bootstrap'
-import { MyContext } from '../MyContext'
+import { MyContext } from '../App'
 import { formatDate } from '../MyUtil'
 import MacroEconomicIndexConstants from '../MacroEconomicIndexConstants'
 
 const EditlistButtonPanel = ({ loaded }) => {
-  const { econIndices } = useContext(MyContext)
-  const [economicIndices, ] = econIndices
-  
+  const { economicIndices } = useContext(MyContext)
+
   return (
       <>
         {loaded? 
@@ -36,4 +35,4 @@ const EditlistButtonPanel = ({ loaded }) => {
   )
 }
 
-export default EditlistButtonPanel
+export default React.memo(EditlistButtonPanel)
