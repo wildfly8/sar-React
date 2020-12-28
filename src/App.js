@@ -48,16 +48,16 @@ const HasAccessToRouter = () => {
       <MyContext.Provider value={{ economicIndices: economicIndices, user: [userInfo, setUserInfo], auth: [authState, authService] }}>
         <SARNavBarWithRouter userInfo={userInfo} authState={authState} authService={authService} />
         <Switch>
-          <Route exact path="/" component={WatchList} />
+          <Route exact path="/" render={() => <WatchList />} />
           <Route exact path="/implicit/callback" component={LoginCallback} />
           <Route exact path="/login" component={CustomLoginComponent} />
           <Route exact path="/macro-econ" render={() => <MacroEcon economicIndices={economicIndices} />} />
-          <Route exact path="/company-scan" component={CompanyScan} />
-          <Route exact path="/rating-enforce" component={RatingEnforce} />
-          <Route exact path="/screening" component={Screening} />
-          <Route exact path="/valuation" component={Valuation} />
-          <Route exact path="/px-target" component={PxTarget} />
-          <Route exact path="/security-rank" component={SecurityRank} />
+          <Route exact path="/company-scan" render={() => <CompanyScan />} />
+          <Route exact path="/rating-enforce" render={() => <RatingEnforce />} />
+          <Route exact path="/screening" render={() => <Screening />} />
+          <Route exact path="/valuation" render={() => <Valuation />} />
+          <Route exact path="/px-target" render={() => <PxTarget />} />
+          <Route exact path="/security-rank" render={() => <SecurityRank />} />
           <SecureRoute exact path="/profile" render={() => <Profile userInfo={userInfo} />}  />
         </Switch>
       </MyContext.Provider>

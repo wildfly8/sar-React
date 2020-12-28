@@ -10,4 +10,4 @@ const PxTarget = () => {
     </div>
   );
 };
-export default PxTarget;
+export default React.memo(PxTarget)

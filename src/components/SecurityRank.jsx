@@ -3,11 +3,10 @@ import React from 'react'
 
 const SecurityRank = () => {
 
-
   return (
     <div>
 
     </div>
   );
 };
-export default SecurityRank;
+export default React.memo(SecurityRank)

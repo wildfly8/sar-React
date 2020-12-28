@@ -10,4 +10,4 @@ const RatingEnforce = () => {
     </div>
   );
 };
-export default RatingEnforce;
+export default React.memo(RatingEnforce)

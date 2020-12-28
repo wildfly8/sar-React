@@ -10,4 +10,4 @@ const CompanyScan = () => {
     </div>
   );
 };
-export default CompanyScan;
+export default React.memo(CompanyScan)

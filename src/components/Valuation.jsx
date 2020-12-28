@@ -3,11 +3,10 @@ import React from 'react'
 
 const Valuation = () => {
 
-
   return (
     <div>
 
     </div>
   );
 };
-export default Valuation;
+export default React.memo(Valuation)
