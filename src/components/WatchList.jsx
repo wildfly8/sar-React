@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { Tabs, Tab, Button } from 'react-bootstrap'
 import WatchListTable, { WATCHLIST_HEADERS } from './WatchListTable'
-import { Tabs, Tab } from 'react-bootstrap'
 import EditlistButtonPanel from './EditlistButtonPanel'
 import SecurityConstants from '../SecurityConstants'
 import { SERVER_URL, myFetcher } from '../api'
@@ -44,7 +44,7 @@ const WatchList = () => {
   
   return (
     <>
-      {error && <div>{error}</div>}
+      {error && <Button variant="danger">{error}</Button>}
       {!error && 
         <div id="watchlist" className="watchlist-panel">
           <Tabs id="WatchList" className="watchlist-tabs" activeKey={tabKey} onSelect={(k) => setTabKey(k)}>
