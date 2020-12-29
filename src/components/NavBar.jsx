@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
 
-const SARNavBarWithRouter = ({ userInfo, authState, authService }) => {
+const NavBar = ({ userInfo, authState, authService }) => {
   // const login = async () => authService.login('/')
   const logout = async () => authService.logout('/')
 
@@ -33,4 +33,4 @@ const SARNavBarWithRouter = ({ userInfo, authState, authService }) => {
   )
 }
 
-export default React.memo(SARNavBarWithRouter)
+export default React.memo(NavBar)

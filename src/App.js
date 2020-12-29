@@ -12,7 +12,7 @@ import PxTarget from './components/PxTarget'
 import SecurityRank from './components/SecurityRank'
 import CustomLoginComponent from './components/Login'
 import Profile from './components/Profile'
-import SARNavBarWithRouter from './components/SARNavBarWithRouter'
+import NavBar from './components/NavBar'
 import { SERVER_URL, myFetcher } from './api'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
@@ -46,7 +46,7 @@ const HasAccessToRouter = () => {
 
   return (
       <MyContext.Provider value={{ economicIndices: economicIndices, user: [userInfo, setUserInfo], auth: [authState, authService] }}>
-        <SARNavBarWithRouter userInfo={userInfo} authState={authState} authService={authService} />
+        <NavBar userInfo={userInfo} authState={authState} authService={authService} />
         <Switch>
           <Route exact path="/" render={(props) => <WatchList {...props} />} />
           <Route exact path="/implicit/callback" component={LoginCallback} />
