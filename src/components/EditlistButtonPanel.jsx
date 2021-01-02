@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Button, ProgressBar } from 'react-bootstrap'
 import { MyContext } from '../App'
 import { formatDate } from '../MyUtil'
@@ -9,6 +9,12 @@ import { SERVER_URL, myFetcher } from '../api'
 const EditlistButtonPanel = ({ loaded }) => {
   const { economicIndices } = useContext(MyContext)
   const [progress, setProgress] = useState(0)
+  const [subscribed, setSubscribed] = useState(false)
+
+  useEffect(() => {
+    return () => setSubscribed(false) //cleanup API subscription during unmounting
+    // eslint-disable-next-line
+  }, [])
 
   const handleUpdSTKPx = () => {
     const putMethodArgs = {
@@ -21,7 +27,12 @@ const EditlistButtonPanel = ({ loaded }) => {
     myFetcher(`${SERVER_URL}/api/updateTickerLastEODPx/all`, putMethodArgs)
     .then(fulfillment => console.log(`UpdSTKPx response: ${fulfillment} tickers' last EOD px have been updated in MongoDB.`))
     .catch(error => console.log(`UpdSTKPx response error! ${error}`))
-    .finally(() => setProgress(100))
+    .finally(() => {
+      if(subscribed) {
+        setProgress(100)
+      }
+    })
+    setSubscribed(true)
     setProgress(10)
   }
 
