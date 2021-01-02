@@ -54,3 +54,8 @@ th {
 .watchlist-tabs > .nav-item.nav-link.active {
   background-color: #99ccff;
 }
+
+.progressbar {
+  display: inline-block;
+  width: 5%;
+}
