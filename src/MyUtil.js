@@ -1,4 +1,7 @@
 import { WATCHLIST_HEADERS }  from './components/WatchListTable'
+import SecurityConstants from './SecurityConstants'
+import ExchangeConstants from './ExchangeConstants'
+
 
 const TRILLION = 1000000000000;
 const BILLION = 1000000000;
@@ -65,4 +68,13 @@ export const assembleWatchlistTableRow = (apiINVWatchlistTicker, index) => {
         [WATCHLIST_HEADERS.isSnP500]: apiINVWatchlistTicker.keyStats.isSnP500,
         [WATCHLIST_HEADERS.isNasdaq100]: apiINVWatchlistTicker.keyStats.isNasdaq100,
     }
+}
+
+export const aggregateFullTickers = (editableMap) => {
+    let allUITickers = []
+    SecurityConstants.TRADED_SECTORS.forEach(sector => {
+        const sectorValidRows = editableMap[sector].filter(row => row.ticker)
+        allUITickers = [...allUITickers, ...sectorValidRows.map(row => `${row.exchange? row.exchange : ExchangeConstants.STR_SMART}_${row.ticker.toUpperCase()}_${sector}`)]
+    })
+    return allUITickers
 }

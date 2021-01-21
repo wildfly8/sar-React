@@ -2,6 +2,8 @@ import React from 'react'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor'
 import { formatNumber } from '../MyUtil'
+import ExchangeConstants from '../ExchangeConstants'
+
 
 const WATCHLIST_HEADERS = Object.freeze({
   id: 'id',
@@ -37,7 +39,7 @@ const WATCHLIST_HEADERS = Object.freeze({
 
 const rowStyle = { height: '17px' }
 
-const WatchListTable = ({ data, isEditable }) => {
+const WatchListTable = ({ data, isEditable, sector, populateEditableMap }) => {
 
   const columns = [{
     dataField: WATCHLIST_HEADERS.id,
@@ -71,14 +73,20 @@ const WatchListTable = ({ data, isEditable }) => {
     editor: {
       type: Type.SELECT,
       options: [{
-        value: 'SMART',
-        label: 'SMART'
+        value: ExchangeConstants.STR_SMART,
+        label: ExchangeConstants.STR_SMART
       }, {
-        value: 'CVE',
-        label: 'CVE'
+        value: ExchangeConstants.STR_TSE,
+        label: ExchangeConstants.STR_TSE
       }, {
-        value: 'AXS',
-        label: 'AXZ'
+        value: ExchangeConstants.STR_CVE,
+        label: ExchangeConstants.STR_CVE
+      }, {
+        value: ExchangeConstants.STR_ASX,
+        label: ExchangeConstants.STR_ASX
+      }, {
+        value: ExchangeConstants.STR_HKG,
+        label: ExchangeConstants.STR_HKG
       }]
     }
   }, {
@@ -450,15 +458,15 @@ const WatchListTable = ({ data, isEditable }) => {
   if(isEditable) {
     return (
       <div className="editlist-table">
-        <BootstrapTable bootstrap4 columns={ columns } keyField='id' data={ data }
-          selectRow={ selectRow } condensed = { true } rowStyle={ rowStyle } cellEdit={ cellEdit }  />
+        <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data}
+          selectRow={selectRow} condensed={true} rowStyle={rowStyle} cellEdit={cellEdit}  />
       </div>
     )
   } else {
     return (
       <div className="watchlist-table">
-        <BootstrapTable bootstrap4 columns={ columns } keyField='id' data={ data } defaultSorted={ defaultSorted } 
-          selectRow={ selectRow } condensed = { true } rowStyle={ rowStyle } />
+        <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data} defaultSorted={defaultSorted} 
+          selectRow={selectRow} condensed={true} rowStyle={rowStyle} />
       </div>
     )
   }

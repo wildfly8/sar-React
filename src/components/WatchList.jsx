@@ -20,7 +20,7 @@ const WatchList = () => {
   const [tabKey, setTabKey] = useState(SecurityConstants.SECTOR_ETF)
   const [loaded, setLoaded] = useState(false)
   const [readonlyMap, setReadonlyMap] = useState(readonlyInitMap)
-  const [editableMap, setEditableMap] = useState(editableInitMap)
+  const [editableMap, ] = useState(editableInitMap)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const WatchList = () => {
             </Tab>)
           )}
         </Tabs>
-        <EditlistButtonPanel loaded={loaded} />
+        <EditlistButtonPanel loaded={loaded} editableMap={editableMap} />
       </div>
     </>
   )

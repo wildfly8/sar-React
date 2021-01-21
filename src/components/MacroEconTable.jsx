@@ -1,5 +1,7 @@
 import React from 'react'
 import BootstrapTable from 'react-bootstrap-table-next'
+import { formatDate } from '../MyUtil'
+
 
 const HEADERS = Object.freeze({
   id: 'id',
@@ -31,6 +33,9 @@ const MacroEconTable = ({ data }) => {
   }, {
     dataField: HEADERS.nextReportDate,
     text: 'nextReportDate',
+    formatter: (cell) => (
+      formatDate(cell)
+    ),
     headerStyle: {
       width: '6%',
       paddingTop: '0px',
