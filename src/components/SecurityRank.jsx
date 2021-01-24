@@ -7,6 +7,6 @@ const SecurityRank = () => {
     <div>
 
     </div>
-  );
-};
+  )
+}
 export default React.memo(SecurityRank)

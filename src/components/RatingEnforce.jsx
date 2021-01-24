@@ -8,6 +8,6 @@ const RatingEnforce = () => {
     <div>
 
     </div>
-  );
-};
+  )
+}
 export default React.memo(RatingEnforce)

@@ -14,7 +14,7 @@ const NavBar = ({ userInfo, authState, authService }) => {
             <Nav className="mr-auto">
               <NavLink to="/" exact={true} className="nav-link SARNavBar">WatchList</NavLink>
               <NavLink to="/macro-econ" className="nav-link SARNavBar">MacroEcon</NavLink>
-              <NavLink to="/company-scan" className="nav-link SARNavBar">CompanyScan</NavLink>
+              <NavLink to="/company-analysis" className="nav-link SARNavBar">CompanyAnalysis</NavLink>
               <NavLink to="/rating-enforce" className="nav-link SARNavBar">RatingEnforce</NavLink>
               <NavLink to="/screening" className="nav-link SARNavBar">Screening</NavLink>
               <NavLink to="/valuation" className="nav-link SARNavBar">Valuation</NavLink>

@@ -36,14 +36,14 @@ const WatchList = () => {
         }
       })
     .catch(error => (isSubscribed ? setError(error.toString()) : null))
-    .finally(() => setLoaded(true))
+    .finally(() => (isSubscribed ? setLoaded(true) : null))
 
     return () => (isSubscribed = false) //cleanup API subscription during unmounting
     // eslint-disable-next-line
   }, [])
   
   return (
-    <>
+    <div>
       {error && <Button variant="danger">{error}</Button>}
       {!error && 
         <div id="watchlist" className="watchlist-panel">
@@ -66,7 +66,7 @@ const WatchList = () => {
         </Tabs>
         <EditlistButtonPanel loaded={loaded} editableMap={editableMap} />
       </div>
-    </>
+    </div>
   )
 }
 

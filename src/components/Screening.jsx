@@ -7,6 +7,6 @@ const Screening = () => {
     <div>
 
     </div>
-  );
-};
+  )
+}
 export default React.memo(Screening)

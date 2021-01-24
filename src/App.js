@@ -4,7 +4,7 @@ import { Security, SecureRoute, LoginCallback, useOktaAuth } from '@okta/okta-re
 import config from './config'
 import WatchList from './components/WatchList'
 import MacroEcon from './components/MacroEcon'
-import CompanyScan from './components/CompanyScan'
+import CompanyAnalysis from './components/CompanyAnalysis'
 import RatingEnforce from './components/RatingEnforce'
 import Screening from './components/Screening'
 import Valuation from './components/Valuation'
@@ -52,7 +52,7 @@ const HasAccessToRouter = () => {
           <Route exact path="/implicit/callback" component={LoginCallback} />
           <Route exact path="/login" component={CustomLoginComponent} />
           <Route exact path="/macro-econ" render={(props) => <MacroEcon {...props} economicIndices={economicIndices} />} />
-          <Route exact path="/company-scan" render={(props) => <CompanyScan {...props} />} />
+          <Route exact path="/company-analysis" render={(props) => <CompanyAnalysis {...props} />} />
           <Route exact path="/rating-enforce" render={(props) => <RatingEnforce {...props} />} />
           <Route exact path="/screening" render={(props) => <Screening {...props} />} />
           <Route exact path="/valuation" render={(props) => <Valuation {...props} />} />

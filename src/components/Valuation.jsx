@@ -7,6 +7,6 @@ const Valuation = () => {
     <div>
 
     </div>
-  );
-};
+  )
+}
 export default React.memo(Valuation)
