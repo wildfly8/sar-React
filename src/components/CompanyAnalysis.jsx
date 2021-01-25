@@ -3,6 +3,7 @@ import { InputGroup, FormControl, Button } from 'react-bootstrap'
 import { SERVER_URL, myFetcher } from '../api'
 import { replaceWithEdgeCodes } from '../MyUtil'
 
+const majorCountriesFromSessionStorage = sessionStorage.getItem('majorCountries')
 
 const CompanyAnalysis = () => {
 
@@ -48,12 +49,10 @@ const CompanyAnalysis = () => {
     <div>
       <div className="company-analysis-input-panel">
         <label>Ticker:</label>{" "}
-        <div>
-          <InputGroup className="mb-3">
-            <FormControl onChange={onInputChange} onKeyPress={handleKeyPress} aria-label="Ticker" aria-describedby="ticker-addon1" />
-            <InputGroup.Append><Button variant="dark" onClick={analyzeCompany}>Analysis</Button></InputGroup.Append>
-          </InputGroup>
-        </div>
+        <InputGroup>
+          <FormControl onChange={onInputChange} onKeyPress={handleKeyPress} aria-label="Ticker" aria-describedby="ticker-addon1" />
+          <InputGroup.Append><Button variant="dark" onClick={analyzeCompany}>Analysis</Button></InputGroup.Append>
+        </InputGroup>
         <label>Employees:</label>{" "}
         <span>{companyBasics && companyBasics.basicsOverview && companyBasics.basicsOverview.numOfEmployees}</span>
         <label>Auditor:</label>{" "}
@@ -66,10 +65,9 @@ const CompanyAnalysis = () => {
         <br/><br/>
         {companyAnalystReport}
       </div>
-      <p className="company-analysis-sar-report-panel">
+      <div className="company-analysis-sar-report-panel">
         {companyReport}
-      </p>
-
+      </div>
     </div>
   )
 }

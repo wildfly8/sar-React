@@ -9,8 +9,8 @@ import { aggregateFullTickers } from '../MyUtil'
 
 const EditlistButtonPanel = ({ loaded, editableMap }) => {
   const { economicIndices } = useContext(MyContext)
-  const [progress, setProgress] = useState(0)
   const [subscribed, setSubscribed] = useState(false)
+  const [progress, setProgress] = useState(0)
   const [showStartModal, setShowStartModal] = useState(false)
   const [showEndModal, setShowEndModal] = useState(false)
 

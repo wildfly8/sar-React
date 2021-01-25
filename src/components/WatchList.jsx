@@ -38,7 +38,9 @@ const WatchList = () => {
     .catch(error => (isSubscribed ? setError(error.toString()) : null))
     .finally(() => (isSubscribed ? setLoaded(true) : null))
 
-    return () => (isSubscribed = false) //cleanup API subscription during unmounting
+    return () => {
+      isSubscribed = false //cleanup API subscription during unmounting
+    }
     // eslint-disable-next-line
   }, [])
   

@@ -63,26 +63,47 @@ th {
 .company-analysis-input-panel {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  padding: 10px;
+  align-items: center;
   font-weight: bold;
+  border: ridge #D3D3D3;
+  padding: 5px;
+  background-color: #D3D3D3;
 }
 
 .company-analysis-analyst-report-panel {
-  background-color: #D3D3D3;
   font-size: 13px;
   white-space: pre-line;
   text-align: left;
-  padding: 10px;
+  padding: 5px;
   overflow: auto;
-  height: 40vh;
+  height: 35vh;
+  border: ridge #D3D3D3;
 }
 
 .company-analysis-sar-report-panel {
-  background-color: #D3D3D3;
   font-size: 13px;
   white-space: pre-line;
   text-align: left;
-  padding: 10px;
+  padding: 5px;
   overflow: auto;
-  height: 50vh;
+  height: 55vh;
+  border: ridge #D3D3D3;
+}
+
+.screening-button-panel {
+  align-items: center;
+  font-weight: bold;
+  border: ridge #D3D3D3;
+  padding: 5px;
+  background-color: #D3D3D3;
+}
+
+.screening-report-panel {
+  font-size: 13px;
+  white-space: pre-line;
+  text-align: left;
+  padding: 5px;
+  overflow: auto;
+  height: 90vh;
+  border: ridge #D3D3D3;
 }
