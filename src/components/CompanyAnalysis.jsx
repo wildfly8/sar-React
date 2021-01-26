@@ -3,34 +3,48 @@ import { InputGroup, FormControl, Button } from 'react-bootstrap'
 import { SERVER_URL, myFetcher } from '../api'
 import { replaceWithEdgeCodes } from '../MyUtil'
 
-const majorCountriesFromSessionStorage = sessionStorage.getItem('majorCountries')
-
 const CompanyAnalysis = () => {
+  const numOfEmployeesFromStorage = sessionStorage.getItem('numOfEmployees')
+  const auditorFromStorage = sessionStorage.getItem('auditor')
+  const legalAdvisorFromStorage = sessionStorage.getItem('legalAdvisor')
+  const analystReportTitileFromStorage = sessionStorage.getItem('analystReportTitile')
+  const analystReportFromStorage = sessionStorage.getItem('analystReport')
+  const sarReportFromStorage = sessionStorage.getItem('sarReport')
 
   const [ticker, setTicker] = useState(null)
-  const [companyBasics, setCompanyBasics] = useState(null)
-  const [companyAnalystReportTitile, setCompanyAnalystReportTitle] = useState(null)
-  const [companyAnalystReport, setCompanyAnalystReport] = useState(null)
-  const [companyReport, setCompanyReport] = useState(null)
+  const [numOfEmployees, setNumOfEmployees] = useState(numOfEmployeesFromStorage? numOfEmployeesFromStorage : null)
+  const [auditor, setAuditor] = useState(auditorFromStorage? auditorFromStorage : null)
+  const [legalAdvisor, setLegalAdvisor] = useState(legalAdvisorFromStorage? legalAdvisorFromStorage : null)
+  const [analystReportTitile, setAnalystReportTitle] = useState(analystReportTitileFromStorage? analystReportTitileFromStorage : null)
+  const [analystReport, setAnalystReport] = useState(analystReportFromStorage? analystReportFromStorage : null)
+  const [sarReport, setSarReport] = useState(sarReportFromStorage? sarReportFromStorage : null)
 
   const analyzeCompany = () => {
-    myFetcher(`${SERVER_URL}/api/company-basics?ticker=${ticker}`)
+    myFetcher(`${SERVER_URL}/api/company-basics?version=1&ticker=${ticker}`)
     .then(fulfillment => {
-        setCompanyBasics(fulfillment)
         if(fulfillment && fulfillment.basicsOverview) {
-          setCompanyAnalystReportTitle(`${replaceWithEdgeCodes(fulfillment.basicsOverview.morningstarTake)}`)
-          setCompanyAnalystReport(`${replaceWithEdgeCodes(fulfillment.basicsOverview.analystNote)}`)
+          setNumOfEmployees(fulfillment.basicsOverview.numOfEmployees)
+          sessionStorage.setItem('numOfEmployees', fulfillment.basicsOverview.numOfEmployees)
+          setAuditor(fulfillment.basicsOverview.auditor)
+          sessionStorage.setItem('auditor', fulfillment.basicsOverview.auditor)
+          setLegalAdvisor(fulfillment.basicsOverview.legalAdvisor)
+          sessionStorage.setItem('legalAdvisor', fulfillment.basicsOverview.legalAdvisor)
+          setAnalystReportTitle(`${replaceWithEdgeCodes(fulfillment.basicsOverview.morningstarTake)}`)
+          sessionStorage.setItem('analystReportTitile', fulfillment.basicsOverview.morningstarTake)
+          setAnalystReport(`${replaceWithEdgeCodes(fulfillment.basicsOverview.analystNote)}`)
+          sessionStorage.setItem('analystReport', fulfillment.basicsOverview.analystNote)
         }
       })
-    .catch(error => setCompanyBasics(error.toString()))
+    .catch(error => console.log(`Error during company-basics API call! ${error}`))
 
-    myFetcher(`${SERVER_URL}/api/company-report?ticker=${ticker}`)
+    myFetcher(`${SERVER_URL}/api/company-report?version=1&ticker=${ticker}`)
     .then(fulfillment => {
         if(fulfillment) {
-          setCompanyReport(fulfillment.response)
+          setSarReport(fulfillment.response)
+          sessionStorage.setItem('sarReport', fulfillment.response)
         }
       })
-    .catch(error => setCompanyReport(error.toString()))
+    .catch(error => setSarReport(error.toString()))
   }
 
   const onInputChange = (e) => {
@@ -54,19 +68,19 @@ const CompanyAnalysis = () => {
           <InputGroup.Append><Button variant="dark" onClick={analyzeCompany}>Analysis</Button></InputGroup.Append>
         </InputGroup>
         <label>Employees:</label>{" "}
-        <span>{companyBasics && companyBasics.basicsOverview && companyBasics.basicsOverview.numOfEmployees}</span>
+        <span>{numOfEmployees}</span>
         <label>Auditor:</label>{" "}
-        <span>{companyBasics && companyBasics.basicsOverview && companyBasics.basicsOverview.auditor}</span>
+        <span>{auditor}</span>
         <label>Legal Advisor:</label>{" "}
-        <span>{companyBasics && companyBasics.basicsOverview && companyBasics.basicsOverview.legalAdvisor}</span>
+        <span>{legalAdvisor}</span>
       </div>
       <div className="company-analysis-analyst-report-panel">
-        {companyAnalystReportTitile}
+        {analystReportTitile}
         <br/><br/>
-        {companyAnalystReport}
+        {analystReport}
       </div>
       <div className="company-analysis-sar-report-panel">
-        {companyReport}
+        {sarReport}
       </div>
     </div>
   )

@@ -26,7 +26,7 @@ const HasAccessToRouter = () => {
   const { authState, authService } = useOktaAuth()
 
   useEffect(() => {
-    myFetcher(`${SERVER_URL}/api/findAllMacroEconomicIndices`)
+    myFetcher(`${SERVER_URL}/api/findAllMacroEconomicIndices?version=1`)
     .then(fulfillment => {
         setEconomicIndices(fulfillment)
       })

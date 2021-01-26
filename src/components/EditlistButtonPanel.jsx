@@ -34,7 +34,7 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
       },
       body: JSON.stringify(aggregateFullTickers(editableMap))
     }
-    myFetcher(`${SERVER_URL}/api/addWatchlistSecurities`, postMethodArgs)
+    myFetcher(`${SERVER_URL}/api/addWatchlistSecurities?version=1`, postMethodArgs)
     .then(fulfillment => {
         console.log(`${fulfillment} Company(s) Info have been added successfully!`)
       })
@@ -51,7 +51,7 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
     const putMethodArgs = {
       method: 'PUT',
     }
-    myFetcher(`${SERVER_URL}/api/updateWatchlistSecurities`, putMethodArgs)
+    myFetcher(`${SERVER_URL}/api/updateWatchlistSecurities?version=1`, putMethodArgs)
     .then(fulfillment => {
         console.log(`${fulfillment} Company(s) Info have been updated successfully!`)
       })
@@ -68,7 +68,7 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
     const deleteMethodArgs = {
       method: 'DELETE',
     }
-    myFetcher(`${SERVER_URL}/api/deleteWatchlistSecurities?fullTickers=${aggregateFullTickers(editableMap)}`, deleteMethodArgs)
+    myFetcher(`${SERVER_URL}/api/deleteWatchlistSecurities?version=1&fullTickers=${aggregateFullTickers(editableMap)}`, deleteMethodArgs)
     .then(fulfillment => {
         console.log(`${fulfillment} Company(s) Info have been deleted completely!`)
       })
@@ -89,7 +89,7 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
       },
       body: "needAPICall"
     }
-    myFetcher(`${SERVER_URL}/api/updateTickerLastEODPx/all`, putMethodArgs)
+    myFetcher(`${SERVER_URL}/api/updateTickerLastEODPx/all?version=1`, putMethodArgs)
     .then(fulfillment => console.log(`UpdSTKPx response: ${fulfillment} tickers' last EOD px have been updated in MongoDB.`))
     .catch(error => console.log(`UpdSTKPx response error! ${error}`))
     .finally(() => {

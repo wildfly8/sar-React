@@ -4,8 +4,9 @@ import { SERVER_URL, myFetcher } from '../api'
 
 
 const Screening = () => {
+  const screeningReportFromStorage = sessionStorage.getItem('screeningReport')
 
-  const [screeningReport, setScreeningReport] = useState(null)
+  const [screeningReport, setScreeningReport] = useState(screeningReportFromStorage? screeningReportFromStorage : null)
   const [subscribed, setSubscribed] = useState(false)
   const [progress, setProgress] = useState(0)
   const [showStartModal, setShowStartModal] = useState(false)
@@ -21,10 +22,11 @@ const Screening = () => {
   const generateScreeningResult = () => {
     setSubscribed(true)
     setProgress(0)
-    myFetcher(`${SERVER_URL}/api/screening`)
+    myFetcher(`${SERVER_URL}/api/screening?version=1`)
     .then(fulfillment => {
         if(fulfillment) {
           setScreeningReport(fulfillment.response)
+          sessionStorage.setItem('screeningReport', fulfillment.response)
         }
       })
     .catch(error => setScreeningReport(error.toString()))
