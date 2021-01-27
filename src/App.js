@@ -13,7 +13,7 @@ import SecurityRank from './components/SecurityRank'
 import CustomLoginComponent from './components/Login'
 import Profile from './components/Profile'
 import NavBar from './components/NavBar'
-import { SERVER_URL, myFetcher } from './api'
+import { SERVER_URL, VERSION, myFetcher } from './api'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import './App.css'
@@ -26,7 +26,7 @@ const HasAccessToRouter = () => {
   const { authState, authService } = useOktaAuth()
 
   useEffect(() => {
-    myFetcher(`${SERVER_URL}/api/findAllMacroEconomicIndices?version=1`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/macro-economic-indices`)
     .then(fulfillment => {
         setEconomicIndices(fulfillment)
       })

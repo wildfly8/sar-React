@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Modal, Spinner } from 'react-bootstrap'
-import { SERVER_URL, myFetcher } from '../api'
+import { SERVER_URL, VERSION, myFetcher } from '../api'
 
 
 const Screening = () => {
@@ -22,7 +22,7 @@ const Screening = () => {
   const generateScreeningResult = () => {
     setSubscribed(true)
     setProgress(0)
-    myFetcher(`${SERVER_URL}/api/screening?version=1`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/screening-result`)
     .then(fulfillment => {
         if(fulfillment) {
           setScreeningReport(fulfillment.response)

@@ -3,7 +3,7 @@ import { Tabs, Tab, Button } from 'react-bootstrap'
 import WatchListTable, { WATCHLIST_HEADERS } from './WatchListTable'
 import EditlistButtonPanel from './EditlistButtonPanel'
 import SecurityConstants from '../SecurityConstants'
-import { SERVER_URL, myFetcher } from '../api'
+import { SERVER_URL, VERSION, myFetcher } from '../api'
 import { assembleWatchlistTableRow } from '../MyUtil'
 
 
@@ -25,7 +25,7 @@ const WatchList = () => {
 
   useEffect(() => {
     let isSubscribed = true
-    myFetcher(`${SERVER_URL}/api/findINVWatchlistTickersBySectors?version=1&sectors=${SecurityConstants.TRADED_SECTORS}`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/inv-watchlist-tickers-of-sectors?sectors=${SecurityConstants.TRADED_SECTORS}`)
     .then(fulfillment => {
         SecurityConstants.TRADED_SECTORS.forEach(sector => {
           readonlyMap[sector] = [...fulfillment[sector].map((e, i) => assembleWatchlistTableRow(e, i)), ...Array(50 - fulfillment[sector].length).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i + fulfillment[sector].length, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))]

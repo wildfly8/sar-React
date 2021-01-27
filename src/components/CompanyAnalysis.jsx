@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { InputGroup, FormControl, Button } from 'react-bootstrap'
-import { SERVER_URL, myFetcher } from '../api'
+import { SERVER_URL, VERSION, myFetcher } from '../api'
 import { replaceWithEdgeCodes } from '../MyUtil'
 
 const CompanyAnalysis = () => {
@@ -20,7 +20,7 @@ const CompanyAnalysis = () => {
   const [sarReport, setSarReport] = useState(sarReportFromStorage? sarReportFromStorage : null)
 
   const analyzeCompany = () => {
-    myFetcher(`${SERVER_URL}/api/company-basics?version=1&ticker=${ticker}`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/company-basics?ticker=${ticker}`)
     .then(fulfillment => {
         if(fulfillment && fulfillment.basicsOverview) {
           setNumOfEmployees(fulfillment.basicsOverview.numOfEmployees)
@@ -37,7 +37,7 @@ const CompanyAnalysis = () => {
       })
     .catch(error => console.log(`Error during company-basics API call! ${error}`))
 
-    myFetcher(`${SERVER_URL}/api/company-report?version=1&ticker=${ticker}`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/company-report?ticker=${ticker}`)
     .then(fulfillment => {
         if(fulfillment) {
           setSarReport(fulfillment.response)
@@ -65,7 +65,7 @@ const CompanyAnalysis = () => {
         <label>Ticker:</label>{" "}
         <InputGroup>
           <FormControl onChange={onInputChange} onKeyPress={handleKeyPress} aria-label="Ticker" aria-describedby="ticker-addon1" />
-          <InputGroup.Append><Button variant="dark" onClick={analyzeCompany}>Analysis</Button></InputGroup.Append>
+          <InputGroup.Append><Button variant="dark" onClick={analyzeCompany}>Analyze</Button></InputGroup.Append>
         </InputGroup>
         <label>Employees:</label>{" "}
         <span>{numOfEmployees}</span>
