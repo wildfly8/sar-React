@@ -126,13 +126,13 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
           <Button variant="dark" onClick={updateWatchlistSecurities}>Update</Button>{" "}
           <Button variant="dark" onClick={deleteWatchlistSecurities}>Delete</Button>{" "}
           <label>&nbsp;&nbsp;TYT Yield:</label> <span>TBD</span>{" "}
-          <label>| FOMC:</label>{" "}
+          <label>|| FOMC:</label>{" "}
           <span>{economicIndices[MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT] && formatDate(economicIndices[MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT].nextReportDate)}</span>{" "}
-          <label>| Monthly Jobs:</label>{" "}
+          <label>|| Monthly Jobs:</label>{" "}
           <span>{economicIndices[MacroEconomicIndexConstants.MONTHLY_EMPLOYMENT_SITUATION] && formatDate(economicIndices[MacroEconomicIndexConstants.MONTHLY_EMPLOYMENT_SITUATION].nextReportDate)}</span>{" "}
-          <label>| Retail Sales:</label>{" "}
+          <label>|| Retail Sales:</label>{" "}
           <span>{economicIndices[MacroEconomicIndexConstants.MONTHLY_RETAIL_SALES] && formatDate(economicIndices[MacroEconomicIndexConstants.MONTHLY_RETAIL_SALES].nextReportDate)}</span>{" "}
-          <label>| GDP:</label>{" "}
+          <label>|| GDP:</label>{" "}
           <span>{economicIndices[MacroEconomicIndexConstants.MONTHLY_GDP_RELEASE] && formatDate(economicIndices[MacroEconomicIndexConstants.MONTHLY_GDP_RELEASE].nextReportDate)}</span>{" "}
           <label>&nbsp;&nbsp;</label>
           <Button variant="dark">Map</Button>{" "}

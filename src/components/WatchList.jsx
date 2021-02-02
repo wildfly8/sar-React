@@ -6,14 +6,15 @@ import SecurityConstants from '../SecurityConstants'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import { assembleWatchlistTableRow } from '../MyUtil'
 
-
+const READONLY_TABLE_ROWS = 100
+const EDIT_TABLE_ROWS = 100
 let readonlyInitMap = {}
 SecurityConstants.TRADED_SECTORS.forEach(e => {
-  readonlyInitMap = {...readonlyInitMap, ...{[e]: Array(50).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))}}
+  readonlyInitMap = {...readonlyInitMap, ...{[e]: Array(READONLY_TABLE_ROWS).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))}}
 })
 let editableInitMap = {}
 SecurityConstants.TRADED_SECTORS.forEach(e => {
-  editableInitMap = {...editableInitMap, ...{[e]: Array(20).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))}}
+  editableInitMap = {...editableInitMap, ...{[e]: Array(EDIT_TABLE_ROWS).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))}}
 })
 
 const WatchList = () => {
@@ -28,7 +29,7 @@ const WatchList = () => {
     myFetcher(`${SERVER_URL}/${VERSION}/api/inv-watchlist-tickers-of-sectors?sectors=${SecurityConstants.TRADED_SECTORS}`)
     .then(fulfillment => {
         SecurityConstants.TRADED_SECTORS.forEach(sector => {
-          readonlyMap[sector] = [...fulfillment[sector].map((e, i) => assembleWatchlistTableRow(e, i)), ...Array(50 - fulfillment[sector].length).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i + fulfillment[sector].length, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))]
+          readonlyMap[sector] = [...fulfillment[sector].map((e, i) => assembleWatchlistTableRow(e, i)), ...Array(READONLY_TABLE_ROWS - fulfillment[sector].length).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i + fulfillment[sector].length, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))]
         })
         if(isSubscribed) {
           // console.log(`readonlyMap=${JSON.stringify(readonlyMap)}`)

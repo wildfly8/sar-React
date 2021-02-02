@@ -1,12 +1,12 @@
 * {
-  font-size: 12px;
+  font-size: 13px;
   text-align: center;
 }
 
 th {
   position: sticky;
   top: 0;
-  background-color: #D3D3D3;
+  background-color: #e6e6e6;
 }
 
 .SARNavBar {
@@ -25,7 +25,7 @@ th {
 }
 
 .editlist-button-panel {
-  background-color: #D3D3D3;
+  background-color: #e6e6e6;
   font-weight: bold;
 }
 
@@ -48,7 +48,7 @@ th {
 
 .watchlist-tabs > .nav-item.nav-link {
   border: thin solid black;
-  background-color: #D3D3D3;
+  background-color: #e6e6e6;
 }
 
 .watchlist-tabs > .nav-item.nav-link.active {
@@ -67,11 +67,37 @@ th {
   font-weight: bold;
   border: ridge #D3D3D3;
   padding: 5px;
-  background-color: #D3D3D3;
+  background-color: #e6e6e6;
+}
+
+.company-performance-summary {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  justify-items: start;
+  padding: 5px;
+  overflow: auto;
+  height: 20vh;
+  border: ridge #D3D3D3;
+  font-weight: bold;
+  background-color: #e6e6e6;
+}
+
+.company-performance-summary label {
+  margin: 0px;
 }
 
 .company-analysis-analyst-report-panel {
-  font-size: 13px;
+  white-space: pre-line;
+  text-align: left;
+  padding: 5px;
+  overflow: auto;
+  height: 35vh;
+  border: ridge #D3D3D3;
+  background-color: #e6e6e6;
+}
+
+.company-analysis-sar-report-panel {
   white-space: pre-line;
   text-align: left;
   padding: 5px;
@@ -80,26 +106,15 @@ th {
   border: ridge #D3D3D3;
 }
 
-.company-analysis-sar-report-panel {
-  font-size: 13px;
-  white-space: pre-line;
-  text-align: left;
-  padding: 5px;
-  overflow: auto;
-  height: 55vh;
-  border: ridge #D3D3D3;
-}
-
 .screening-button-panel {
   align-items: center;
   font-weight: bold;
   border: ridge #D3D3D3;
   padding: 5px;
-  background-color: #D3D3D3;
+  background-color: #e6e6e6;
 }
 
 .screening-report-panel {
-  font-size: 13px;
   white-space: pre-line;
   text-align: left;
   padding: 5px;
