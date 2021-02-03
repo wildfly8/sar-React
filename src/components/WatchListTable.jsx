@@ -39,8 +39,7 @@ const WATCHLIST_HEADERS = Object.freeze({
 
 const rowStyle = { height: '17px' }
 
-const WatchListTable = ({ data, isEditable, sector, populateEditableMap }) => {
-
+const WatchListTable = ({ data, isEditable }) => {
   const columns = [{
     dataField: WATCHLIST_HEADERS.id,
     text: 'id',

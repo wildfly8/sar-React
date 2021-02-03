@@ -114,6 +114,17 @@ th {
   background-color: #e6e6e6;
 }
 
+.rating-enforcement-table-panel {
+  overflow: auto;
+  border: ridge #D3D3D3;
+  height: 93vh;
+}
+
+.rating-enforcement-button-panel {
+  background-color: #e6e6e6;
+  border: ridge #D3D3D3;
+}
+
 .screening-report-panel {
   white-space: pre-line;
   text-align: left;

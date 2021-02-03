@@ -1,4 +1,5 @@
 import { WATCHLIST_HEADERS }  from './components/WatchListTable'
+import { RATING_ENFORCEMENT_HEADERS }  from './components/RatingEnforcementTable'
 import SecurityConstants from './SecurityConstants'
 import ExchangeConstants from './ExchangeConstants'
 
@@ -70,6 +71,16 @@ export const assembleWatchlistTableRow = (apiINVWatchlistTicker, index) => {
     }
 }
 
+export const assembleRatingEnforcementTableRow = (apiRatingEnforcement) => {
+    return {
+        [RATING_ENFORCEMENT_HEADERS.id]: apiRatingEnforcement.id,
+        [RATING_ENFORCEMENT_HEADERS.ticker]: apiRatingEnforcement.ticker,
+        [RATING_ENFORCEMENT_HEADERS.systemRating]: apiRatingEnforcement.systemRating.propRatingCode,
+        [RATING_ENFORCEMENT_HEADERS.enforcedRating]: apiRatingEnforcement.enforcedRating.propRatingCode,
+        [RATING_ENFORCEMENT_HEADERS.enforcedReason]: apiRatingEnforcement.enforcedReason
+    }
+}
+
 export const aggregateFullTickers = (editableMap) => {
     let allUITickers = []
     SecurityConstants.TRADED_SECTORS.forEach(sector => {
@@ -77,6 +88,19 @@ export const aggregateFullTickers = (editableMap) => {
         allUITickers = [...allUITickers, ...sectorValidRows.map(row => `${row.exchange? row.exchange : ExchangeConstants.STR_SMART}_${row.ticker.toUpperCase()}_${sector}`)]
     })
     return allUITickers
+}
+
+export const aggregateEditableRatingEnforcements = (editableArray) => {
+    const validRows = editableArray.filter(row => row.ticker)
+    return validRows.map(row => {
+        if(row.isNew) {
+            row.id = null
+        }
+        row.ticker = row.ticker.toUpperCase()
+        row.systemRating = row.systemRating.toUpperCase()
+        row.enforcedRating = row.enforcedRating.toUpperCase()
+        return row
+    })
 }
 
 export const replaceWithEdgeCodes = (text) => {

@@ -13,7 +13,6 @@ const HEADERS = Object.freeze({
 const rowStyle = { height: '17px' }
 
 const MacroEconTable = ({ data }) => {
-
   const columns = [{
     dataField: HEADERS.id,
     text: 'id',
@@ -22,7 +21,7 @@ const MacroEconTable = ({ data }) => {
     dataField: HEADERS.indexName,
     text: 'indexName',
     headerStyle: {
-      width: '20%',
+      width: '40%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },
@@ -68,11 +67,10 @@ const MacroEconTable = ({ data }) => {
 
   return (
     <div className="watchlist-table">
-      <BootstrapTable bootstrap4 columns={ columns } keyField='id' data={ data }
-        selectRow={ selectRow } condensed = { true } rowStyle={ rowStyle } />
+      <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data}
+        selectRow={selectRow} condensed = {true} rowStyle={rowStyle} />
     </div>
   )
 }
 
 export default MacroEconTable
-export { HEADERS }

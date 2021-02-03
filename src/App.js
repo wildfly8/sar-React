@@ -21,7 +21,7 @@ import './App.css'
 export const MyContext = React.createContext()
 
 const HasAccessToRouter = () => {
-  const [economicIndices, setEconomicIndices] = useState({})
+  const [economicIndices, setEconomicIndices] = useState([])
   const [userInfo, setUserInfo] = useState(null)
   const { authState, authService } = useOktaAuth()
 
