@@ -22,6 +22,7 @@ export const MyContext = React.createContext()
 
 const HasAccessToRouter = () => {
   const [economicIndices, setEconomicIndices] = useState([])
+  const [treasuryYield, setTreasuryYield] = useState(null)
   const [userInfo, setUserInfo] = useState(null)
   const { authState, authService } = useOktaAuth()
 
@@ -31,6 +32,11 @@ const HasAccessToRouter = () => {
         setEconomicIndices(fulfillment)
       })
     .catch(error => console.error(`API error when retrieving All Macro Economic Indices: ${error} !`))
+    myFetcher(`${SERVER_URL}/${VERSION}/api/ticker-eod-px?ticker=TYT`)
+    .then(fulfillment => {
+      setTreasuryYield(fulfillment)
+      })
+    .catch(error => console.error(`API error when retrieving 10 year Treasury Yield: ${error} !`))
     // eslint-disable-next-line
   }, [])
 
@@ -45,7 +51,7 @@ const HasAccessToRouter = () => {
   }, [authState, authService])
 
   return (
-      <MyContext.Provider value={{ economicIndices: economicIndices, user: [userInfo, setUserInfo], auth: [authState, authService] }}>
+      <MyContext.Provider value={{ economicIndices: economicIndices, treasuryYield: treasuryYield, user: [userInfo, setUserInfo], auth: [authState, authService] }}>
         <NavBar userInfo={userInfo} authState={authState} authService={authService} />
         <Switch>
           <Route exact path="/" render={(props) => <WatchList {...props} />} />

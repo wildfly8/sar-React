@@ -8,7 +8,7 @@ import { aggregateFullTickers } from '../MyUtil'
 
 
 const EditlistButtonPanel = ({ loaded, editableMap }) => {
-  const { economicIndices } = useContext(MyContext)
+  const { economicIndices, treasuryYield } = useContext(MyContext)
   const [subscribed, setSubscribed] = useState(false)
   const [progress, setProgress] = useState(0)
   const [showStartModal, setShowStartModal] = useState(false)
@@ -125,15 +125,16 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
           <Button variant="dark" onClick={addWatchlistSecurities}>Add</Button>{" "}
           <Button variant="dark" onClick={updateWatchlistSecurities}>Update</Button>{" "}
           <Button variant="dark" onClick={deleteWatchlistSecurities}>Delete</Button>{" "}
-          <label>&nbsp;&nbsp;TYT Yield:</label> <span>TBD</span>{" "}
+          <label>&nbsp;&nbsp;10y Treasury Yield:</label>{" "}
+          <span>{treasuryYield * 100}%</span>{" "}
           <label>|| FOMC:</label>{" "}
-          <span>{economicIndices[MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT] && formatDate(economicIndices[MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT].nextReportDate)}</span>{" "}
+          <span>{economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT)[0] && formatDate(economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT)[0].nextReportDate)}</span>{" "}
           <label>|| Monthly Jobs:</label>{" "}
-          <span>{economicIndices[MacroEconomicIndexConstants.MONTHLY_EMPLOYMENT_SITUATION] && formatDate(economicIndices[MacroEconomicIndexConstants.MONTHLY_EMPLOYMENT_SITUATION].nextReportDate)}</span>{" "}
+          <span>{economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.MONTHLY_EMPLOYMENT_SITUATION)[0] && formatDate(economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.MONTHLY_EMPLOYMENT_SITUATION)[0].nextReportDate)}</span>{" "}
           <label>|| Retail Sales:</label>{" "}
-          <span>{economicIndices[MacroEconomicIndexConstants.MONTHLY_RETAIL_SALES] && formatDate(economicIndices[MacroEconomicIndexConstants.MONTHLY_RETAIL_SALES].nextReportDate)}</span>{" "}
+          <span>{economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.MONTHLY_RETAIL_SALES)[0] && formatDate(economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.MONTHLY_RETAIL_SALES)[0].nextReportDate)}</span>{" "}
           <label>|| GDP:</label>{" "}
-          <span>{economicIndices[MacroEconomicIndexConstants.MONTHLY_GDP_RELEASE] && formatDate(economicIndices[MacroEconomicIndexConstants.MONTHLY_GDP_RELEASE].nextReportDate)}</span>{" "}
+          <span>{economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.MONTHLY_GDP_RELEASE)[0] && formatDate(economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.MONTHLY_GDP_RELEASE)[0].nextReportDate)}</span>{" "}
           <label>&nbsp;&nbsp;</label>
           <Button variant="dark">Map</Button>{" "}
           <Button variant="dark">Test</Button>{" "}
