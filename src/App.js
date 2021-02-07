@@ -23,6 +23,7 @@ export const MyContext = React.createContext()
 const HasAccessToRouter = () => {
   const [economicIndices, setEconomicIndices] = useState([])
   const [treasuryYield, setTreasuryYield] = useState(null)
+  const [vix, setVix] = useState(null)
   const [userInfo, setUserInfo] = useState(null)
   const { authState, authService } = useOktaAuth()
 
@@ -32,11 +33,12 @@ const HasAccessToRouter = () => {
         setEconomicIndices(fulfillment)
       })
     .catch(error => console.error(`API error when retrieving All Macro Economic Indices: ${error} !`))
-    myFetcher(`${SERVER_URL}/${VERSION}/api/ticker-eod-px?ticker=TYT`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/ticker-eod-px?tickers=TYT,%5EVIX`)
     .then(fulfillment => {
-      setTreasuryYield(fulfillment)
+      setTreasuryYield(fulfillment['TYT'])
+      setVix(fulfillment['^VIX'])
       })
-    .catch(error => console.error(`API error when retrieving 10 year Treasury Yield: ${error} !`))
+    .catch(error => console.error(`API error when retrieving ticker EOD Px: ${error} !`))
     // eslint-disable-next-line
   }, [])
 
@@ -51,7 +53,7 @@ const HasAccessToRouter = () => {
   }, [authState, authService])
 
   return (
-      <MyContext.Provider value={{ economicIndices: economicIndices, treasuryYield: treasuryYield, user: [userInfo, setUserInfo], auth: [authState, authService] }}>
+      <MyContext.Provider value={{ economicIndices: economicIndices, treasuryYield: treasuryYield, vix: vix, user: [userInfo, setUserInfo], auth: [authState, authService] }}>
         <NavBar userInfo={userInfo} authState={authState} authService={authService} />
         <Switch>
           <Route exact path="/" render={(props) => <WatchList {...props} />} />

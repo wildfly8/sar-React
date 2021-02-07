@@ -8,7 +8,7 @@ import { aggregateFullTickers } from '../MyUtil'
 
 
 const EditlistButtonPanel = ({ loaded, editableMap }) => {
-  const { economicIndices, treasuryYield } = useContext(MyContext)
+  const { economicIndices, treasuryYield, vix } = useContext(MyContext)
   const [subscribed, setSubscribed] = useState(false)
   const [progress, setProgress] = useState(0)
   const [showStartModal, setShowStartModal] = useState(false)
@@ -67,8 +67,9 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
     setProgress(0)
     const deleteMethodArgs = {
       method: 'DELETE',
+      body: JSON.stringify(aggregateFullTickers(editableMap))
     }
-    myFetcher(`${SERVER_URL}/${VERSION}/api/watchlist/selected/delete?fullTickers=${aggregateFullTickers(editableMap)}`, deleteMethodArgs)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/watchlist/selected/delete`, deleteMethodArgs)
     .then(fulfillment => {
         console.log(`${fulfillment} Company(s) Info have been deleted completely!`)
       })
@@ -125,7 +126,9 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
           <Button variant="dark" onClick={addWatchlistSecurities}>Add</Button>{" "}
           <Button variant="dark" onClick={updateWatchlistSecurities}>Update</Button>{" "}
           <Button variant="dark" onClick={deleteWatchlistSecurities}>Delete</Button>{" "}
-          <label>&nbsp;&nbsp;10y Treasury Yield:</label>{" "}
+          <label>&nbsp;&nbsp;VIX:</label>{" "}
+          <span>{vix}</span>{" "}
+          <label>|| 10y Treasury Yield:</label>{" "}
           <span>{treasuryYield * 100}%</span>{" "}
           <label>|| FOMC:</label>{" "}
           <span>{economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT)[0] && formatDate(economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT)[0].nextReportDate)}</span>{" "}
