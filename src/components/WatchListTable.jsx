@@ -104,7 +104,7 @@ const WatchListTable = ({ data, isEditable }) => {
   }, {
     dataField: WATCHLIST_HEADERS.mktCap,
     text: 'mktCap',
-    sort: isEditable? false : true,
+    // sort: isEditable? false : true,
     editable: false,
     type: Type.number,
     formatter: (cell) => (
@@ -428,10 +428,10 @@ const WatchListTable = ({ data, isEditable }) => {
     }
   }]
    
-  const defaultSorted = [{
-    dataField: WATCHLIST_HEADERS.mktCap,
-    order: 'desc'
-  }]
+  // const defaultSorted = [{
+  //   dataField: WATCHLIST_HEADERS.mktCap,
+  //   order: 'desc'
+  // }]
 
   const selectRow = {
     mode: 'radio',
@@ -464,7 +464,7 @@ const WatchListTable = ({ data, isEditable }) => {
   } else {
     return (
       <div className="watchlist-table">
-        <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data} defaultSorted={defaultSorted} 
+        <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data} 
           selectRow={selectRow} condensed={true} rowStyle={rowStyle} />
       </div>
     )

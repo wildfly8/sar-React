@@ -26,7 +26,7 @@ const WatchList = () => {
 
   useEffect(() => {
     let isSubscribed = true
-    myFetcher(`${SERVER_URL}/${VERSION}/api/inv-watchlist-tickers-of-sectors?sectors=${SecurityConstants.TRADED_SECTORS}`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/ordered-inv-watchlist-tickers-of-sectors?order=desc&sectors=${SecurityConstants.TRADED_SECTORS}`)
     .then(fulfillment => {
         SecurityConstants.TRADED_SECTORS.forEach(sector => {
           readonlyMap[sector] = [...fulfillment[sector].map((e, i) => assembleWatchlistTableRow(e, i)), ...Array(READONLY_TABLE_ROWS - fulfillment[sector].length).fill(0).map((_, i) => ({[WATCHLIST_HEADERS.id]: i + fulfillment[sector].length, [WATCHLIST_HEADERS.ticker]: '', [WATCHLIST_HEADERS.exchange]: null}))]
