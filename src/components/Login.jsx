@@ -21,16 +21,13 @@ const Login = () => {
       logo: '/react.svg',
       i18n: {
         'en': {
-          'primaryauth.title': 'Sign in Monad Wisdom',
+          'primaryauth.title': 'Sign in SAR',
         },
         'es': {
-          'primaryauth.title': 'Iniciar sesión Monad Wisdom'
+          'primaryauth.title': 'Iniciar sesión SAR'
         },
         'zh-CN': {
-          'primaryauth.title': '登录 如是智慧'
-        },
-        'zh-TW': {
-          'primaryauth.title': '登錄 如實智慧'
+          'primaryauth.title': '登录 锐金'
         }
       },
       features: {
