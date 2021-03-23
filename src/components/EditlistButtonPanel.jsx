@@ -129,7 +129,7 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
           <label>&nbsp;&nbsp;VIX:</label>{" "}
           <span>{vix}</span>{" "}
           <label>|| 10y Treasury Yield:</label>{" "}
-          <span>{treasuryYield * 100}%</span>{" "}
+          <span>{(treasuryYield * 100).toFixed(2)}%</span>{" "}
           <label>|| FOMC:</label>{" "}
           <span>{economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT)[0] && formatDate(economicIndices.filter(e => e.indexName === MacroEconomicIndexConstants.FOMC_ANNOUNCEMENT)[0].nextReportDate)}</span>{" "}
           <label>|| Monthly Jobs:</label>{" "}
