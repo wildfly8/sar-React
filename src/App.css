@@ -60,6 +60,12 @@ th {
   width: 5%;
 }
 
+.macro-econ-table {
+  overflow: auto;
+  border: ridge #D3D3D3;
+  height: 93vh;
+}
+
 .company-analysis-input-panel {
   display: grid;
   grid-template-columns: repeat(8, 1fr);

@@ -66,7 +66,7 @@ const MacroEconTable = ({ data }) => {
   }
 
   return (
-    <div className="watchlist-table">
+    <div className="macro-econ-table">
       <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data}
         selectRow={selectRow} condensed = {true} rowStyle={rowStyle} />
     </div>
