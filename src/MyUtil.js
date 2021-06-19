@@ -105,7 +105,7 @@ export const aggregateEditableRatingEnforcements = (editableArray) => {
 
 export const replaceWithEdgeCodes = (text) => {
     if(text && text.length > 0) {
-        return text.replaceAll("鈥", "'").replaceAll("檛", "t").replaceAll("檙", "r").replaceAll("渂", "b").replaceAll("渢", "t").replaceAll("檇", "d").replaceAll("u0027", "'").replaceAll("u0026", "&").replaceAll("â€™", "'").replaceAll("u003c", "<").replaceAll("u003e", ">").replaceAll("檚", "s").replaceAll("檝", "ve")
+        return text.replaceAll("鈥檚", "'s").replaceAll("鈥", "'").replaceAll("檚", "s").replaceAll("檛", "t").replaceAll("檙", "r").replaceAll("渂", "b").replaceAll("渢", "t").replaceAll("檇", "d").replaceAll("u0027", "'").replaceAll("u0026", "&").replaceAll("â€™", "'").replaceAll("u003c", "<").replaceAll("u003e", ">").replaceAll("檝", "ve")
     } else {
         return null
     }
