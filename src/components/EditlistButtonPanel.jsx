@@ -51,7 +51,7 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
     const putMethodArgs = {
       method: 'PUT',
     }
-    myFetcher(`${SERVER_URL}/${VERSION}/${VERSION}/api/watchlist/all/update`, putMethodArgs)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/watchlist/all/update`, putMethodArgs)
     .then(fulfillment => {
         console.log(`${fulfillment} Company(s) Info have been updated successfully!`)
       })
