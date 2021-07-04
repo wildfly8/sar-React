@@ -39,7 +39,7 @@ const RatingEnforce = () => {
   }
 
   return (
-    <div className="rating-enforcement-panel">
+    <div>
       <div className="rating-enforcement-table-panel">
         <RatingEnforcementTable data={editableArray} />
       </div>

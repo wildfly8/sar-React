@@ -139,3 +139,60 @@ th {
   height: 90vh;
   border: ridge #D3D3D3;
 }
+
+.valuation-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.relative-valuation-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  font-weight: bold;
+  background-color: #e6e6e6;
+}
+
+.value-traps {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: left;
+  align-items: center;
+  border: ridge #D3D3D3;
+  padding: 5px;
+}
+
+.current-relative-value {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  justify-items: left;
+  align-items: center;
+  border: ridge #D3D3D3;
+  padding: 5px;
+}
+
+.forward-relative-value {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  justify-items: left;
+  align-items: center;
+  border: ridge #D3D3D3;
+  padding: 5px;
+}
+
+.keyratios-table {
+  overflow: auto;
+  height: 74vh;
+  border: ridge #D3D3D3;
+}
+
+.intrinsic-valuation-panel {
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  border: ridge #D3D3D3;
+  font-weight: bold;
+  background-color: #e6e6e6;
+}

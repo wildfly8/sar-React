@@ -24,6 +24,18 @@ export const formatDate = (long) => {
     return month + '/' + dt + '/' + year.toString().slice(-2)
 }
 
+export const formatSimpleDate = (long) => {
+    if(!long)
+        return null
+    const date = new Date(long)
+    let year = date.getFullYear()
+    let month = date.getUTCMonth() + 1
+    if (month < 10) {
+        month = '0' + month
+    }
+    return year.toString() + '-' + month
+}
+
 export const formatNumber = (number) => {
     if(!number) {
         return null
@@ -35,6 +47,27 @@ export const formatNumber = (number) => {
     } else {
         return `${(number / MILLION).toFixed(2)} M`
     }
+}
+
+export const formatNumberInComma = (number) => {
+    if(!number) {
+        return null
+    }
+    return number.toLocaleString()
+}
+
+export const formatNumberInCommaWithDecimal = (number, decimal) => {
+    if(!number) {
+        return null
+    }
+    return number.toLocaleString('en-US', {minimumFractionDigits: decimal, maximumFractionDigits: decimal})
+}
+
+export const formatNumberInPercent = (number) => {
+    if(!number) {
+        return null
+    }
+    return number.toLocaleString('en-US', {style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0})
 }
 
 export const assembleWatchlistTableRow = (apiINVWatchlistTicker, index) => {
