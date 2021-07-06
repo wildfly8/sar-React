@@ -11,7 +11,14 @@ const Valuation = () => {
   const [vendorValuations, setVendorValuations] = useState(null)
   const [keyRatiosArray, setKeyRatiosArray] = useState([])
   const [lastPx, setLastPx] = useState(null)
-  const [intrinsicValuation, setIntrinsicValuation] = useState(null)
+  const [nyFCF, setNyFCF] = useState(null)
+  const [fcfGr, setFcfGr] = useState(null)
+  const [sharesGr, setSharesGr] = useState(null)
+  const [discR, setDiscR] = useState(null)
+  const [perpGr, setPerpGr] = useState(null)
+  const [moS, setMoS] = useState(null)
+  const [buyPx, setBuyPx] = useState(null)
+  const [perShareIV, setPerShareIV] = useState(null)
 
   const onInputChange = (e) => {
     e.target.value = e.target.value.toUpperCase()
@@ -34,7 +41,10 @@ const Valuation = () => {
           setVendorValuations(fulfillment)
         }
       })
-    .catch(error => console.log(`Error during relative-valuations API call! ${error}`))
+    .catch(error => {
+        console.log(`${ticker}: Error during relative-valuations API call! ${error}`)
+        setVendorValuations(null)
+      })
   }
 
   const getKeyRatios = () => {
@@ -49,7 +59,10 @@ const Valuation = () => {
           setKeyRatiosArray(fulfillment)          
         }
       })
-    .catch(error => console.log(`Error during keyratios API call! ${error}`))
+    .catch(error => {
+        console.log(`${ticker}: Error during keyratios API call! ${error}`)
+        setKeyRatiosArray([])
+      })
   }
 
   const getIntrinsicValuation = () => {
@@ -57,19 +70,72 @@ const Valuation = () => {
     .then(fulfillment => {
       setLastPx(fulfillment[ticker])
       })
-    .catch(error => console.error(`API error when retrieving ticker EOD Px: ${error} !`))
+    .catch(error => {
+        console.error(`${ticker}: API error when retrieving ticker EOD Px: ${error} !`)
+        setLastPx(null)
+      })
     myFetcher(`${SERVER_URL}/${VERSION}/api/intrinsic-valuation?ticker=${ticker}`)
     .then(fulfillment => {
         if(fulfillment) {
-          setIntrinsicValuation(fulfillment)
+          setNyFCF(fulfillment.nextYearFCF)
+          setFcfGr(fulfillment.nextDecadeFCFGrowthRate)
+          setSharesGr(fulfillment.nextDecadeSharesGrowthRate)
+          setDiscR(fulfillment.discountRate)
+          setPerpGr(fulfillment.perpetuityGrowthRate)
+          setMoS(fulfillment.marginOfSafety)
+          setBuyPx(fulfillment.buyPx)
+          setPerShareIV(fulfillment.perShareIV)
         }
       })
-    .catch(error => console.log(`Error during intrinsic-valuation API call! ${error}`))
+    .catch(error => {
+        console.log(`${ticker}: Error during intrinsic-valuation API call! ${error}`)
+        setNyFCF(null)
+        setFcfGr(null)
+        setSharesGr(null)
+        setDiscR(null)
+        setPerpGr(null)
+        setMoS(null)
+        setBuyPx(null)
+        setPerShareIV(null)
+      })
   }
 
-  const calculateIV = (event) => {
-    event.preventDefault()
-    
+  const handleIVInputChange = (e) => {
+    if(e.target.id === 'nyFCF') {
+      setNyFCF(e.target.value)
+    } else if(e.target.id === 'fcfGr') {
+      setFcfGr(e.target.value)
+    } else if(e.target.id === 'SharesGr') {
+      setSharesGr(e.target.value)
+    } else if(e.target.id === 'DiscR') {
+      setDiscR(e.target.value)
+    } else if(e.target.id === 'PerpGr') {
+      setPerpGr(e.target.value)
+    } else if(e.target.id === 'MoS') {
+      setMoS(e.target.value)
+    }
+  }
+
+  const calculateIV = (e) => {
+    e.preventDefault()
+    if(nyFCF == null || nyFCF.length === 0 || fcfGr == null || fcfGr.length === 0 || sharesGr == null || sharesGr.length === 0 || discR == null || discR.length === 0 || perpGr == null || perpGr.length === 0 || moS == null || moS.length === 0) {
+      alert("FCF || Gr || Sh || DR || Pp || MoS is not valid!")
+      return
+    }
+    myFetcher(`${SERVER_URL}/${VERSION}/api/intrinsic-valuation/calculate?ticker=${ticker}&nyFCF=${nyFCF}&fcfGr=${fcfGr}&SharesGr=${sharesGr}&DiscR=${discR}&PerpGr=${perpGr}&MoS=${moS}`)
+    .then(fulfillment => {
+        if(fulfillment) {
+          setNyFCF(fulfillment.nextYearFCF)
+          setFcfGr(fulfillment.nextDecadeFCFGrowthRate)
+          setSharesGr(fulfillment.nextDecadeSharesGrowthRate)
+          setDiscR(fulfillment.discountRate)
+          setPerpGr(fulfillment.perpetuityGrowthRate)
+          setMoS(fulfillment.marginOfSafety)
+          setBuyPx(fulfillment.buyPx)
+          setPerShareIV(fulfillment.perShareIV)
+        }
+      })
+    .catch(error => alert(`${ticker}: Error during intrinsic-valuation/calculate API call! ${error}`))
   }
 
   return (
@@ -137,58 +203,58 @@ const Valuation = () => {
         <KeyRatiosTable data={keyRatiosArray} />
       </div>
       <div className="intrinsic-valuation-panel">
-        <Form inline onSubmit={calculateIV}>
-          <Form.Label htmlFor="nyFCF" srOnly>nyFCF:</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>nyFCF:</Form.Label>
-            <Form.Control id="nyFCF" placeholder={intrinsicValuation? formatNumberInCommaWithDecimal(intrinsicValuation.nextYearFCF, 0) : null} />
+        <Form noValidate inline onSubmit={calculateIV}>
+          <Form.Label htmlFor="nyFCF" srOnly>nyFCF</Form.Label>
+          <InputGroup>
+            <Form.Label>FCF</Form.Label>
+            <Form.Control id="nyFCF" value={formatNumberInCommaWithDecimal(nyFCF, 0)} onChange={handleIVInputChange} />
           </InputGroup>
-          <Form.Label htmlFor="fcfGr" srOnly>fcfGr</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>fcfGr:</Form.Label>
-            <FormControl id="fcfGr" placeholder={intrinsicValuation? formatNumberInCommaWithDecimal(intrinsicValuation.nextDecadeFCFGrowthRate, 2) : null} />
+          <Form.Label htmlFor="fcfGr" srOnly>Gr</Form.Label>
+          <InputGroup>
+            <Form.Label>Gr</Form.Label>
+            <FormControl id="fcfGr" value={formatNumberInCommaWithDecimal(fcfGr, 2)} onChange={handleIVInputChange} />
           </InputGroup>
           <Form.Label htmlFor="SharesGr" srOnly>SharesGr</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>SharesGr:</Form.Label>
-            <FormControl id="SharesGr" placeholder={intrinsicValuation? formatNumberInCommaWithDecimal(intrinsicValuation.nextDecadeSharesGrowthRate, 2) : null} />
+          <InputGroup>
+            <Form.Label>Sh</Form.Label>
+            <FormControl id="SharesGr" value={formatNumberInCommaWithDecimal(sharesGr, 2)} onChange={handleIVInputChange} />
           </InputGroup>
           <Form.Label htmlFor="DiscR" srOnly>DiscR</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>DiscR:</Form.Label>
-            <FormControl id="DiscR" placeholder={intrinsicValuation? formatNumberInCommaWithDecimal(intrinsicValuation.discountRate, 3) : null} />
+          <InputGroup>
+            <Form.Label>DR</Form.Label>
+            <FormControl id="DiscR" value={formatNumberInCommaWithDecimal(discR, 3)} onChange={handleIVInputChange} />
           </InputGroup>
           <Form.Label htmlFor="PerpGr" srOnly>PerpGr</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>PerpGr:</Form.Label>
-            <FormControl id="PerpGr" placeholder={intrinsicValuation? formatNumberInCommaWithDecimal(intrinsicValuation.perpetuityGrowthRate, 2) : null} />
+          <InputGroup>
+            <Form.Label>Pp</Form.Label>
+            <FormControl id="PerpGr" value={formatNumberInCommaWithDecimal(perpGr, 2)} onChange={handleIVInputChange} />
           </InputGroup>
           <Form.Label htmlFor="MoS" srOnly>MoS</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>MoS:</Form.Label>
-            <FormControl id="MoS" placeholder={intrinsicValuation? formatNumberInCommaWithDecimal(intrinsicValuation.marginOfSafety, 2) : null} />
+          <InputGroup>
+            <Form.Label>MoS</Form.Label>
+            <FormControl id="MoS" value={formatNumberInCommaWithDecimal(moS, 2)} onChange={handleIVInputChange} />
           </InputGroup>
-          <Form.Label htmlFor="BuyPx" srOnly>BuyPx</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>BuyPx:</Form.Label>
-            <FormControl id="BuyPx" placeholder={intrinsicValuation? formatNumberInCommaWithDecimal(intrinsicValuation.buyPx, 1) : null} readOnly />
+          <Form.Label htmlFor="BuyPx" srOnly>TP</Form.Label>
+          <InputGroup>
+            <Form.Label>TP</Form.Label>
+            <FormControl id="BuyPx" defaultValue={formatNumberInCommaWithDecimal(buyPx, 1)} readOnly />
           </InputGroup>
           <Form.Label htmlFor="IV" srOnly>IV</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>IV:</Form.Label>
-            <FormControl id="IV" placeholder={intrinsicValuation? formatNumberInCommaWithDecimal(intrinsicValuation.perShareIV, 1) : null} readOnly />
+          <InputGroup>
+            <Form.Label>IV</Form.Label>
+            <FormControl id="IV" defaultValue={formatNumberInCommaWithDecimal(perShareIV, 1)} readOnly />
           </InputGroup>
           <Form.Label htmlFor="NT" srOnly>NT</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>NT:</Form.Label>
-            <FormControl id="NT" placeholder={intrinsicValuation && lastPx? formatNumberInPercent((intrinsicValuation.buyPx - lastPx) / lastPx) : null} readOnly />
+          <InputGroup>
+            <Form.Label>NT</Form.Label>
+            <FormControl id="NT" defaultValue={buyPx != null && lastPx? ((buyPx - lastPx) < 0? '(' + formatNumberInPercent(-(buyPx - lastPx) / lastPx) + ')' : formatNumberInPercent((buyPx - lastPx) / lastPx)) : null} readOnly />
           </InputGroup>
           <Form.Label htmlFor="LT" srOnly>LT</Form.Label>
-          <InputGroup size="sm">
-            <Form.Label>LT:</Form.Label>
-            <FormControl id="LT" placeholder={intrinsicValuation && lastPx? formatNumberInPercent((intrinsicValuation.perShareIV - lastPx) / lastPx) : null} readOnly />
+          <InputGroup>
+            <Form.Label>LT</Form.Label>
+            <FormControl id="LT" defaultValue={perShareIV != null && lastPx? ((perShareIV - lastPx) < 0? '(' + formatNumberInPercent(-(perShareIV - lastPx) / lastPx) + ')' : formatNumberInPercent((perShareIV - lastPx) / lastPx)) : null} readOnly />
           </InputGroup>
-          <Button size="sm" variant="dark" type="submit">Calc</Button>
+          <Button variant="dark" type="submit">IV</Button>
         </Form>
       </div>
     </div>

@@ -37,7 +37,7 @@ export const formatSimpleDate = (long) => {
 }
 
 export const formatNumber = (number) => {
-    if(!number) {
+    if(number == null) {
         return null
     }
     if(number > TRILLION) {
@@ -50,22 +50,22 @@ export const formatNumber = (number) => {
 }
 
 export const formatNumberInComma = (number) => {
-    if(!number) {
-        return null
+    if(number == null) {
+        return ""
     }
     return number.toLocaleString()
 }
 
 export const formatNumberInCommaWithDecimal = (number, decimal) => {
-    if(!number) {
-        return null
+    if(number == null) {
+        return ""
     }
     return number.toLocaleString('en-US', {minimumFractionDigits: decimal, maximumFractionDigits: decimal})
 }
 
 export const formatNumberInPercent = (number) => {
-    if(!number) {
-        return null
+    if(number == null) {
+        return ""
     }
     return number.toLocaleString('en-US', {style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0})
 }
