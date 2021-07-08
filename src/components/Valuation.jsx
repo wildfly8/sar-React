@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, InputGroup, FormControl, Button } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import KeyRatiosTable from './KeyRatiosTable'
@@ -6,23 +6,41 @@ import { formatNumberInCommaWithDecimal, formatNumberInPercent } from '../MyUtil
 
 
 const Valuation = () => {
+  const tickerStorage = sessionStorage.getItem('ticker')
+  const lastPxStorage = sessionStorage.getItem('lastPx')? parseFloat(sessionStorage.getItem('lastPx')) : null
+  const nyFCFStorage = sessionStorage.getItem('nyFCF')
+  const fcfGrStorage = sessionStorage.getItem('fcfGr')
+  const sharesGrStorage = sessionStorage.getItem('sharesGr')
+  const discRStorage = sessionStorage.getItem('discR')
+  const perpGrStorage = sessionStorage.getItem('perpGr')
+  const moSStorage = sessionStorage.getItem('moS')
+  const buyPxStorage = sessionStorage.getItem('buyPx')
+  const perShareIVStorage = sessionStorage.getItem('perShareIV')
 
-  const [ticker, setTicker] = useState(null)
+  const [ticker, setTicker] = useState(tickerStorage? tickerStorage : null)
   const [vendorValuations, setVendorValuations] = useState(null)
   const [keyRatiosArray, setKeyRatiosArray] = useState([])
-  const [lastPx, setLastPx] = useState(null)
-  const [nyFCF, setNyFCF] = useState(null)
-  const [fcfGr, setFcfGr] = useState(null)
-  const [sharesGr, setSharesGr] = useState(null)
-  const [discR, setDiscR] = useState(null)
-  const [perpGr, setPerpGr] = useState(null)
-  const [moS, setMoS] = useState(null)
-  const [buyPx, setBuyPx] = useState(null)
-  const [perShareIV, setPerShareIV] = useState(null)
+  const [lastPx, setLastPx] = useState(lastPxStorage? lastPxStorage : null)
+  const [nyFCF, setNyFCF] = useState(nyFCFStorage? nyFCFStorage : null)
+  const [fcfGr, setFcfGr] = useState(fcfGrStorage? fcfGrStorage : null)
+  const [sharesGr, setSharesGr] = useState(sharesGrStorage? sharesGrStorage : null)
+  const [discR, setDiscR] = useState(discRStorage? discRStorage : null)
+  const [perpGr, setPerpGr] = useState(perpGrStorage? perpGrStorage : null)
+  const [moS, setMoS] = useState(moSStorage? moSStorage : null)
+  const [buyPx, setBuyPx] = useState(buyPxStorage? buyPxStorage : null)
+  const [perShareIV, setPerShareIV] = useState(perShareIVStorage? perShareIVStorage : null)
+
+  useEffect(() => {
+    if(tickerStorage) {
+      getRelativeValuations()
+      getKeyRatios()
+    }
+  }, [])
 
   const onInputChange = (e) => {
-    e.target.value = e.target.value.toUpperCase()
-    setTicker(e.target.value)
+    const tickerInput = e.target.value.toUpperCase()
+    setTicker(tickerInput)
+    sessionStorage.setItem('ticker', tickerInput)
   }
 
   const handleKeyPress = (e) => {
@@ -56,7 +74,7 @@ const Valuation = () => {
             keyratios.id = index
             index++
           })
-          setKeyRatiosArray(fulfillment)          
+          setKeyRatiosArray(fulfillment)
         }
       })
     .catch(error => {
@@ -69,50 +87,74 @@ const Valuation = () => {
     myFetcher(`${SERVER_URL}/${VERSION}/api/ticker-eod-px?tickers=${ticker}`)
     .then(fulfillment => {
       setLastPx(fulfillment[ticker])
+      sessionStorage.setItem('lastPx', fulfillment[ticker])      
       })
     .catch(error => {
         console.error(`${ticker}: API error when retrieving ticker EOD Px: ${error} !`)
         setLastPx(null)
+        sessionStorage.setItem('lastPx', null)      
       })
     myFetcher(`${SERVER_URL}/${VERSION}/api/intrinsic-valuation?ticker=${ticker}`)
     .then(fulfillment => {
         if(fulfillment) {
           setNyFCF(fulfillment.nextYearFCF)
+          sessionStorage.setItem('nyFCF', fulfillment.nextYearFCF)      
           setFcfGr(fulfillment.nextDecadeFCFGrowthRate)
+          sessionStorage.setItem('fcfGr', fulfillment.nextDecadeFCFGrowthRate)      
           setSharesGr(fulfillment.nextDecadeSharesGrowthRate)
+          sessionStorage.setItem('sharesGr', fulfillment.nextDecadeSharesGrowthRate)
           setDiscR(fulfillment.discountRate)
+          sessionStorage.setItem('discR', fulfillment.discountRate)
           setPerpGr(fulfillment.perpetuityGrowthRate)
+          sessionStorage.setItem('perpGr', fulfillment.perpetuityGrowthRate)
           setMoS(fulfillment.marginOfSafety)
+          sessionStorage.setItem('moS', fulfillment.marginOfSafety)
           setBuyPx(fulfillment.buyPx)
+          sessionStorage.setItem('buyPx', fulfillment.buyPx)
           setPerShareIV(fulfillment.perShareIV)
+          sessionStorage.setItem('perShareIV', fulfillment.perShareIV)
         }
       })
     .catch(error => {
         console.log(`${ticker}: Error during intrinsic-valuation API call! ${error}`)
         setNyFCF(null)
+        sessionStorage.setItem('nyFCF', null)
         setFcfGr(null)
+        sessionStorage.setItem('fcfGr', null)
         setSharesGr(null)
+        sessionStorage.setItem('sharesGr', null)
         setDiscR(null)
+        sessionStorage.setItem('discR', null)
         setPerpGr(null)
+        sessionStorage.setItem('perpGr', null)
         setMoS(null)
+        sessionStorage.setItem('moS', null)
         setBuyPx(null)
+        sessionStorage.setItem('buyPx', null)
         setPerShareIV(null)
+        sessionStorage.setItem('perShareIV', null)
       })
   }
 
   const handleIVInputChange = (e) => {
     if(e.target.id === 'nyFCF') {
       setNyFCF(e.target.value)
+      sessionStorage.setItem('nyFCF', e.target.value)
     } else if(e.target.id === 'fcfGr') {
       setFcfGr(e.target.value)
+      sessionStorage.setItem('fcfGr', e.target.value)
     } else if(e.target.id === 'SharesGr') {
       setSharesGr(e.target.value)
+      sessionStorage.setItem('sharesGr', e.target.value)
     } else if(e.target.id === 'DiscR') {
       setDiscR(e.target.value)
+      sessionStorage.setItem('discR', e.target.value)
     } else if(e.target.id === 'PerpGr') {
       setPerpGr(e.target.value)
+      sessionStorage.setItem('perpGr', e.target.value)
     } else if(e.target.id === 'MoS') {
       setMoS(e.target.value)
+      sessionStorage.setItem('moS', e.target.value)
     }
   }
 
@@ -126,13 +168,21 @@ const Valuation = () => {
     .then(fulfillment => {
         if(fulfillment) {
           setNyFCF(fulfillment.nextYearFCF)
+          sessionStorage.setItem('nyFCF', fulfillment.nextYearFCF)      
           setFcfGr(fulfillment.nextDecadeFCFGrowthRate)
+          sessionStorage.setItem('fcfGr', fulfillment.nextDecadeFCFGrowthRate)      
           setSharesGr(fulfillment.nextDecadeSharesGrowthRate)
+          sessionStorage.setItem('sharesGr', fulfillment.nextDecadeSharesGrowthRate)
           setDiscR(fulfillment.discountRate)
+          sessionStorage.setItem('discR', fulfillment.discountRate)
           setPerpGr(fulfillment.perpetuityGrowthRate)
+          sessionStorage.setItem('perpGr', fulfillment.perpetuityGrowthRate)
           setMoS(fulfillment.marginOfSafety)
+          sessionStorage.setItem('moS', fulfillment.marginOfSafety)
           setBuyPx(fulfillment.buyPx)
+          sessionStorage.setItem('buyPx', fulfillment.buyPx)
           setPerShareIV(fulfillment.perShareIV)
+          sessionStorage.setItem('perShareIV', fulfillment.perShareIV)
         }
       })
     .catch(error => alert(`${ticker}: Error during intrinsic-valuation/calculate API call! ${error}`))
@@ -164,25 +214,25 @@ const Valuation = () => {
           <label>Industry Avg</label>
           <label>S&P 500</label>
           <label>P/E</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._PE : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._5YearAvgPE : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation.IndustryAvgPE : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._SnP500PE : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._PE : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._5YearAvgPE : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation.IndustryAvgPE : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._SnP500PE : null}</label>
           <label>P/B</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._PB : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._5YearAvgPB : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation.IndustryAvgPB : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._SnP500PB : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._PB : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._5YearAvgPB : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation.IndustryAvgPB : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._SnP500PB : null}</label>
           <label>P/S</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._PS : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._5YearAvgPS : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation.IndustryAvgPS : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._SnP500PS : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._PS : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._5YearAvgPS : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation.IndustryAvgPS : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._SnP500PS : null}</label>
           <label>P/C</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._PC : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._5YearAvgPC : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation.IndustryAvgPC : null}</label>
-          <label>{vendorValuations? vendorValuations.currentRelativeValuation._SnP500PC : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._PC : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._5YearAvgPC : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation.IndustryAvgPC : null}</label>
+          <label>{vendorValuations && vendorValuations.currentRelativeValuation? vendorValuations.currentRelativeValuation._SnP500PC : null}</label>
         </div>
         <div className="forward-relative-value">
           <label></label>
@@ -190,13 +240,13 @@ const Valuation = () => {
           <label>Industry Avg</label>
           <label>S&P 500</label>
           <label>Forward P/E</label>
-          <label>{vendorValuations? vendorValuations.forwardRelativeValuation.forwardPE : null}</label>
-          <label>{vendorValuations? vendorValuations.forwardRelativeValuation.IndustryAvgForwardPE : null}</label>
-          <label>{vendorValuations? vendorValuations.forwardRelativeValuation._SnP500ForwardPE : null}</label>
+          <label>{vendorValuations && vendorValuations.forwardRelativeValuation? vendorValuations.forwardRelativeValuation.forwardPE : null}</label>
+          <label>{vendorValuations && vendorValuations.forwardRelativeValuation? vendorValuations.forwardRelativeValuation.IndustryAvgForwardPE : null}</label>
+          <label>{vendorValuations && vendorValuations.forwardRelativeValuation? vendorValuations.forwardRelativeValuation._SnP500ForwardPE : null}</label>
           <label>PEG</label>
-          <label>{vendorValuations? vendorValuations.forwardRelativeValuation._PEG : null}</label>
-          <label>{vendorValuations? vendorValuations.forwardRelativeValuation.IndustryAvgPEG : null}</label>
-          <label>{vendorValuations? vendorValuations.forwardRelativeValuation._SnP500PEG : null}</label>
+          <label>{vendorValuations && vendorValuations.forwardRelativeValuation? vendorValuations.forwardRelativeValuation._PEG : null}</label>
+          <label>{vendorValuations && vendorValuations.forwardRelativeValuation? vendorValuations.forwardRelativeValuation.IndustryAvgPEG : null}</label>
+          <label>{vendorValuations && vendorValuations.forwardRelativeValuation? vendorValuations.forwardRelativeValuation._SnP500PEG : null}</label>
         </div>
       </div>
       <div className="keyratios-table">
@@ -237,22 +287,22 @@ const Valuation = () => {
           <Form.Label htmlFor="BuyPx" srOnly>TP</Form.Label>
           <InputGroup>
             <Form.Label>TP</Form.Label>
-            <FormControl id="BuyPx" defaultValue={formatNumberInCommaWithDecimal(buyPx, 1)} readOnly />
+            <FormControl id="BuyPx" value={formatNumberInCommaWithDecimal((typeof buyPx === 'string' || buyPx instanceof String)? parseFloat(buyPx) : buyPx, 1)} readOnly />
           </InputGroup>
           <Form.Label htmlFor="IV" srOnly>IV</Form.Label>
           <InputGroup>
             <Form.Label>IV</Form.Label>
-            <FormControl id="IV" defaultValue={formatNumberInCommaWithDecimal(perShareIV, 1)} readOnly />
+            <FormControl id="IV" value={formatNumberInCommaWithDecimal((typeof perShareIV === 'string' || perShareIV instanceof String)? parseFloat(perShareIV) : perShareIV, 1)} readOnly />
           </InputGroup>
           <Form.Label htmlFor="NT" srOnly>NT</Form.Label>
           <InputGroup>
             <Form.Label>NT</Form.Label>
-            <FormControl id="NT" defaultValue={buyPx != null && lastPx? ((buyPx - lastPx) < 0? '(' + formatNumberInPercent(-(buyPx - lastPx) / lastPx) + ')' : formatNumberInPercent((buyPx - lastPx) / lastPx)) : null} readOnly />
+            <FormControl id="NT" value={buyPx != null && lastPx? ((buyPx - lastPx) < 0? '(' + formatNumberInPercent(-(buyPx - lastPx) / lastPx) + ')' : formatNumberInPercent((buyPx - lastPx) / lastPx)) : ""} readOnly />
           </InputGroup>
           <Form.Label htmlFor="LT" srOnly>LT</Form.Label>
           <InputGroup>
             <Form.Label>LT</Form.Label>
-            <FormControl id="LT" defaultValue={perShareIV != null && lastPx? ((perShareIV - lastPx) < 0? '(' + formatNumberInPercent(-(perShareIV - lastPx) / lastPx) + ')' : formatNumberInPercent((perShareIV - lastPx) / lastPx)) : null} readOnly />
+            <FormControl id="LT" value={perShareIV != null && lastPx? ((perShareIV - lastPx) < 0? '(' + formatNumberInPercent(-(perShareIV - lastPx) / lastPx) + ')' : formatNumberInPercent((perShareIV - lastPx) / lastPx)) : ""} readOnly />
           </InputGroup>
           <Button variant="dark" type="submit">IV</Button>
         </Form>
@@ -260,4 +310,5 @@ const Valuation = () => {
     </div>
   )
 }
+
 export default React.memo(Valuation)

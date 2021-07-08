@@ -123,12 +123,11 @@ th {
 .rating-enforcement-table-panel {
   overflow: auto;
   border: ridge #D3D3D3;
-  height: 93vh;
+  height: 94vh;
 }
 
 .rating-enforcement-button-panel {
   background-color: #e6e6e6;
-  border: ridge #D3D3D3;
 }
 
 .screening-report-panel {
@@ -194,5 +193,15 @@ th {
   align-items: center;
   border: ridge #D3D3D3;
   font-weight: bold;
+  background-color: #e6e6e6;
+}
+
+.pxtarget-table-panel {
+  overflow: auto;
+  border: ridge #D3D3D3;
+  height: 94vh;
+}
+
+.pxtarget-button-panel {
   background-color: #e6e6e6;
 }

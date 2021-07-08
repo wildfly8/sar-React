@@ -14,7 +14,7 @@ const RatingEnforce = () => {
   useEffect(() => {
     myFetcher(`${SERVER_URL}/${VERSION}/api/rating-enforcement`)
     .then(fulfillment => {
-      setEditableArray([...fulfillment.map(e => assembleRatingEnforcementTableRow(e)), ...editableInitArray])
+        setEditableArray([...fulfillment.map(e => assembleRatingEnforcementTableRow(e)), ...editableInitArray])
       })
     .catch(error => console.error(`API error when retrieving All Rating Enforcements: ${error} !`))
     // eslint-disable-next-line
