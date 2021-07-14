@@ -70,7 +70,7 @@ const Valuation = () => {
     .then(fulfillment => {
         if(fulfillment) {
           let index = 0
-          fulfillment.forEach((keyratios) => {
+          fulfillment.forEach(keyratios => {
             keyratios.id = index
             index++
           })

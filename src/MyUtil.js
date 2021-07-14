@@ -136,6 +136,28 @@ export const aggregateEditableRatingEnforcements = (editableArray) => {
     })
 }
 
+export const aggregatePTEnforcement = (editableArray) => {
+    return editableArray.map(pt => {
+        let pte = {}
+        if(pt.isNew) {
+            pte.id = null
+        } else {
+            pte.id = pt.id
+        }
+        pte.ticker = pt.ticker
+        pte.sector = pt.sector
+        pte.confidenceLevel = pt.confidenceLevel
+        pte.enforcedFcf = pt.enforcedFcf
+        pte.enforcedFcfGrowth = pt.enforcedFcfGrowth
+        pte.enforcedSharesGrowth = pt.enforcedSharesGrowth
+        pte.enforcedPerpGrowth = pt.enforcedPerpGrowth
+        pte.enforcedNeartermPT = pt.enforcedNeartermPT
+        pte.enforcedLongtermPT = pt.enforcedLongtermPT
+        pte.enforcedPotentialPT = pt.enforcedPotentialPT
+        return pte
+    })
+}
+
 export const replaceWithEdgeCodes = (text) => {
     if(text && text.length > 0) {
         return text.replaceAll("鈥檚", "'s").replaceAll("鈥", "'").replaceAll("檚", "s").replaceAll("檛", "t").replaceAll("檙", "r").replaceAll("渂", "b").replaceAll("渢", "t").replaceAll("檇", "d").replaceAll("u0027", "'").replaceAll("u0026", "&").replaceAll("â€™", "'").replaceAll("u003c", "<").replaceAll("u003e", ">").replaceAll("檝", "ve")
