@@ -35,8 +35,6 @@ export const KEYRATIOS_HEADERS = Object.freeze({
   yearOverYearNIGrowth: 'yoyNetIncomeGrowth',
 })
 
-const rowStyle = { height: '17px' }
-
 const RatingEnforcementTable = ({ data }) => {
   const columns = [{
     dataField: KEYRATIOS_HEADERS.id,
@@ -376,6 +374,8 @@ const RatingEnforcementTable = ({ data }) => {
     paddingBottom: '0px'
   }
 }]
+
+const rowStyle = { height: '17px' }
 
 const selectRow = {
   mode: 'radio',

@@ -10,8 +10,6 @@ const HEADERS = Object.freeze({
   reports: 'reports',
 })
 
-const rowStyle = { height: '17px' }
-
 const MacroEconTable = ({ data }) => {
   const columns = [{
     dataField: HEADERS.id,
@@ -57,6 +55,8 @@ const MacroEconTable = ({ data }) => {
       paddingBottom: '0px'
     }
   }]
+
+  const rowStyle = { height: '17px' }
 
   const selectRow = {
     mode: 'radio',

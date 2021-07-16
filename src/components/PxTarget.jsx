@@ -3,6 +3,8 @@ import { Button, Modal, Spinner } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import PxTargetTable from './PxTargetTable'
 import { aggregatePTEnforcement } from '../MyUtil'
+import SecurityConstants from '../SecurityConstants'
+
 
 const PxTarget = () => {
 
@@ -15,7 +17,7 @@ const PxTarget = () => {
     .then(fulfillment => {
         let index = 0
         fulfillment.forEach(pt => {
-          if(pt.isNew) {
+          if(pt.newPT || SecurityConstants.LIST_TYPES.includes(pt.ticker)) {
             pt.id = index.toString()
             index++
           }

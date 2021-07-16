@@ -12,8 +12,6 @@ export const RATING_ENFORCEMENT_HEADERS = Object.freeze({
   enforcedReason: 'enforcedReason'
 })
 
-const rowStyle = { height: '17px' }
-
 const RatingEnforcementTable = ({ data }) => {
   const columns = [{
     dataField: RATING_ENFORCEMENT_HEADERS.id,
@@ -81,6 +79,8 @@ const RatingEnforcementTable = ({ data }) => {
       textAlign: 'start'
     }
   }]
+
+  const rowStyle = { height: '17px' }
 
   const selectRow = {
     mode: 'radio',

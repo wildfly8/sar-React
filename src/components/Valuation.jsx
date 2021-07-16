@@ -35,6 +35,7 @@ const Valuation = () => {
       getRelativeValuations()
       getKeyRatios()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onInputChange = (e) => {

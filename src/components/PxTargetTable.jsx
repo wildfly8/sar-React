@@ -2,6 +2,7 @@ import React from 'react'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
 import { formatNumberInCommaWithDecimal, formatNumberInPercent } from '../MyUtil'
+import SecurityConstants from '../SecurityConstants'
 
 export const PX_TARGET_HEADERS = Object.freeze({
   id: 'id',
@@ -36,8 +37,6 @@ export const PX_TARGET_HEADERS = Object.freeze({
   potentialMargin: 'potentialMargin',
   zacksAndYahooRank: 'zacksAndYahooRank'
 })
-
-const rowStyle = { height: '17px' }
 
 const RatingEnforcementTable = ({ data }) => {
   const columns = [{
@@ -145,6 +144,13 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.confidenceLevel,
     text: 'cl',
+    editable: (cell, row, rowIndex, colIndex) => {
+      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
+        return false
+      } else {
+        return true
+      }
+    },
     headerStyle: {
       width: '2%',
       paddingTop: '0px',
@@ -205,6 +211,13 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedFcf,
     text: 'fcf*',
+    editable: (cell, row, rowIndex, colIndex) => {
+      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
+        return false
+      } else {
+        return true
+      }
+    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -229,6 +242,13 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedFcfGrowth,
     text: 'fcfGr*',
+    editable: (cell, row, rowIndex, colIndex) => {
+      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
+        return false
+      } else {
+        return true
+      }
+    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -253,6 +273,13 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedSharesGrowth,
     text: 'shGr*',
+    editable: (cell, row, rowIndex, colIndex) => {
+      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
+        return false
+      } else {
+        return true
+      }
+    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -277,6 +304,13 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedPerpGrowth,
     text: 'perpGr*',
+    editable: (cell, row, rowIndex, colIndex) => {
+      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
+        return false
+      } else {
+        return true
+      }
+    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -340,6 +374,13 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedNeartermPT,
     text: 'enf_pt',
+    editable: (cell, row, rowIndex, colIndex) => {
+      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
+        return false
+      } else {
+        return true
+      }
+    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -417,6 +458,13 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedLongtermPT,
     text: 'enf_pt',
+    editable: (cell, row, rowIndex, colIndex) => {
+      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
+        return false
+      } else {
+        return true
+      }
+    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -494,6 +542,13 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedPotentialPT,
     text: 'enf_pt',
+    editable: (cell, row, rowIndex, colIndex) => {
+      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
+        return false
+      } else {
+        return true
+      }
+    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -555,6 +610,20 @@ const RatingEnforcementTable = ({ data }) => {
       paddingBottom: '0px'
     }
   }]
+  
+  const rowStyle = (row, rowIndex) => {
+    if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
+      return { 
+        height: '17px',
+        fontWeight: 'bold',
+        backgroundColor: '#D3D3D3'
+      }
+    } else {
+      return { 
+        height: '17px'  
+      }
+    }
+  }
 
   const selectRow = {
     mode: 'radio',

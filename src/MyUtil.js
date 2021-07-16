@@ -137,9 +137,9 @@ export const aggregateEditableRatingEnforcements = (editableArray) => {
 }
 
 export const aggregatePTEnforcement = (editableArray) => {
-    return editableArray.map(pt => {
+    return editableArray.filter(pt => !SecurityConstants.LIST_TYPES.includes(pt.ticker)).map(pt => {
         let pte = {}
-        if(pt.isNew) {
+        if(pt.newPT) {
             pte.id = null
         } else {
             pte.id = pt.id

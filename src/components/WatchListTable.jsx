@@ -37,8 +37,6 @@ const WATCHLIST_HEADERS = Object.freeze({
   isNasdaq100: 'isNasdaq100'
 })
 
-const rowStyle = { height: '17px' }
-
 const WatchListTable = ({ data, isEditable }) => {
   const columns = [{
     dataField: WATCHLIST_HEADERS.id,
@@ -432,6 +430,8 @@ const WatchListTable = ({ data, isEditable }) => {
   //   dataField: WATCHLIST_HEADERS.mktCap,
   //   order: 'desc'
   // }]
+
+  const rowStyle = { height: '17px' }
 
   const selectRow = {
     mode: 'radio',
