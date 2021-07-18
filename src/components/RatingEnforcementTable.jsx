@@ -93,20 +93,15 @@ const RatingEnforcementTable = ({ data }) => {
   const cellEdit = cellEditFactory({
     mode: 'click',
     blurToSave: true,
-    beforeSaveCell: (oldValue, newValue, row, column) => { 
-      newValue = newValue.toUpperCase()
-      console.log(`beforeSaveCell: oldValue=${oldValue}, newValue=${newValue}`)
-    },
     afterSaveCell: (oldValue, newValue, row, column) => { 
       newValue = newValue.toUpperCase()
-      console.log(`afterSaveCell: oldValue=${oldValue}, newValue=${newValue}`)
     }
   })
 
   return (
     <div className="rating-enforcement-table">
-      <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data}
-        selectRow={selectRow} condensed={true} rowStyle={rowStyle} cellEdit={cellEdit}  />
+      <BootstrapTable bootstrap4 hover columns={columns} keyField='id' data={data}
+        selectRow={selectRow} condensed={true} rowStyle={rowStyle} cellEdit={cellEdit} />
     </div>
   )
 }

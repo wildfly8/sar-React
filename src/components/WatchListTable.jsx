@@ -457,14 +457,14 @@ const WatchListTable = ({ data, isEditable }) => {
   if(isEditable) {
     return (
       <div className="editlist-table">
-        <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data}
-          selectRow={selectRow} condensed={true} rowStyle={rowStyle} cellEdit={cellEdit}  />
+        <BootstrapTable bootstrap4 hover columns={columns} keyField='id' data={data}
+          selectRow={selectRow} condensed={true} rowStyle={rowStyle} cellEdit={cellEdit} />
       </div>
     )
   } else {
     return (
       <div className="watchlist-table">
-        <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data} 
+        <BootstrapTable bootstrap4 hover columns={columns} keyField='id' data={data} 
           selectRow={selectRow} condensed={true} rowStyle={rowStyle} />
       </div>
     )

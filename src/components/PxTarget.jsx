@@ -19,7 +19,7 @@ const PxTarget = () => {
         let index = 0
         fulfillment.forEach(pt => {
           if(pt.newPT || SecurityConstants.LIST_TYPES.includes(pt.ticker)) {
-            pt.id = index.toString()
+            pt.id = index
             index++
           }
         })
@@ -59,6 +59,7 @@ const PxTarget = () => {
         if(jsonResponse && pt.lastPx) {
           pt.dailyPercentChg = (jsonResponse - pt.lastPx) / pt.lastPx
         }
+        //calculate currently looped List average dChg
         if(pt.sector === 'ETF') {
           pxTargetArray[0].dailyPercentChg = pxTargetArray.filter(e => 'ETF' === e.sector && e.dailyPercentChg != null).reduce((accumulator, currentValue, currentIndex) => (accumulator + currentValue.dailyPercentChg) / (currentIndex + 1), 0.0)
         } else {
@@ -78,7 +79,6 @@ const PxTarget = () => {
       index++
       setProgress(Math.round(100 * index / pxTargetArray.length))
     }
-    setPxTargetArray([...pxTargetArray])  //trigger state (array) change via clone
     setProgress(100)
   }
 

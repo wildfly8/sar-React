@@ -1,6 +1,7 @@
 import React from 'react'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
+import { SERVER_URL, VERSION, myFetcher } from '../api'
 import { formatNumberInCommaWithDecimal, formatNumberInPercentWithDecimal } from '../MyUtil'
 import SecurityConstants from '../SecurityConstants'
 
@@ -40,6 +41,9 @@ export const PX_TARGET_HEADERS = Object.freeze({
 })
 
 const RatingEnforcementTable = ({ data }) => {
+  const [, updateState] = React.useState()
+  const forceUpdate = React.useCallback(() => updateState({}), [])
+
   const columns = [{
     dataField: PX_TARGET_HEADERS.id,
     text: 'id',
@@ -177,13 +181,6 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.confidenceLevel,
     text: 'cl',
-    editable: (cell, row, rowIndex, colIndex) => {
-      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
-        return false
-      } else {
-        return true
-      }
-    },
     headerStyle: {
       width: '2%',
       paddingTop: '0px',
@@ -244,13 +241,6 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedFcf,
     text: 'fcf*',
-    editable: (cell, row, rowIndex, colIndex) => {
-      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
-        return false
-      } else {
-        return true
-      }
-    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -275,13 +265,6 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedFcfGrowth,
     text: 'fcfGr*',
-    editable: (cell, row, rowIndex, colIndex) => {
-      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
-        return false
-      } else {
-        return true
-      }
-    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -306,13 +289,6 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedSharesGrowth,
     text: 'shGr*',
-    editable: (cell, row, rowIndex, colIndex) => {
-      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
-        return false
-      } else {
-        return true
-      }
-    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -337,13 +313,6 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedPerpGrowth,
     text: 'perpGr*',
-    editable: (cell, row, rowIndex, colIndex) => {
-      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
-        return false
-      } else {
-        return true
-      }
-    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -407,13 +376,9 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedNeartermPT,
     text: 'enf_pt',
-    editable: (cell, row, rowIndex, colIndex) => {
-      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
-        return false
-      } else {
-        return true
-      }
-    },
+    formatter: (cell) => (
+      formatNumberInCommaWithDecimal(cell, 1)
+    ),
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -491,13 +456,9 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedLongtermPT,
     text: 'enf_pt',
-    editable: (cell, row, rowIndex, colIndex) => {
-      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
-        return false
-      } else {
-        return true
-      }
-    },
+    formatter: (cell) => (
+      formatNumberInCommaWithDecimal(cell, 1)
+    ),
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -575,13 +536,9 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedPotentialPT,
     text: 'enf_pt',
-    editable: (cell, row, rowIndex, colIndex) => {
-      if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
-        return false
-      } else {
-        return true
-      }
-    },
+    formatter: (cell) => (
+      formatNumberInCommaWithDecimal(cell, 1)
+    ),
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
@@ -669,20 +626,31 @@ const RatingEnforcementTable = ({ data }) => {
   const cellEdit = cellEditFactory({
     mode: 'click',
     blurToSave: true,
-    beforeSaveCell: (oldValue, newValue, row, column) => { 
-      newValue = newValue.toUpperCase()
-      console.log(`beforeSaveCell: oldValue=${oldValue}, newValue=${newValue}`)
-    },
+    nonEditableRows: () => [0, 1, 2, 3, 4, 5],
     afterSaveCell: (oldValue, newValue, row, column) => { 
-      newValue = newValue.toUpperCase()
-      console.log(`afterSaveCell: oldValue=${oldValue}, newValue=${newValue}`)
+      if(PX_TARGET_HEADERS.enforcedFcf === column.dataField || PX_TARGET_HEADERS.enforcedFcfGrowth === column.dataField || PX_TARGET_HEADERS.enforcedSharesGrowth === column.dataField || PX_TARGET_HEADERS.enforcedPerpGrowth === column.dataField) {
+        myFetcher(`${SERVER_URL}/${VERSION}/api/intrinsic-valuation/calculate?ticker=${row.ticker}&nyFCF=${(row.enforcedFcf == null || row.enforcedFcf.length === 0)? row.fcf : row.enforcedFcf}&fcfGr=${(row.enforcedFcfGrowth == null || row.enforcedFcfGrowth.length === 0)? row.fcfGrowth : row.enforcedFcfGrowth}&SharesGr=${(row.enforcedSharesGrowth == null || row.enforcedSharesGrowth.length === 0)? row.sharesGrowth : row.enforcedSharesGrowth}&PerpGr=${(row.enforcedPerpGrowth == null || row.enforcedPerpGrowth.length === 0)? row.perpGrowth : row.enforcedPerpGrowth}&DiscR=${row.discountRate}&MoS=${row.moS}`)
+        .then(fulfillment => {
+            if(fulfillment) {
+              row.enforcedNeartermPT = fulfillment.buyPx
+              row.enforcedLongtermPT = fulfillment.perShareIV
+              row.neartermMargin = (row.enforcedNeartermPT - row.lastPx) / row.lastPx
+              row.longtermMargin = (row.enforcedLongtermPT - row.lastPx) / row.lastPx
+              forceUpdate()
+            }
+          })
+        .catch(error => alert(`${row.ticker} field ${column.dataField}: Error during iv-calculate API call! ${error}`))
+      } else if(PX_TARGET_HEADERS.enforcedPotentialPT === column.dataField) {
+        row.potentialMargin = (row.enforcedPotentialPT - row.lastPx) / row.lastPx
+        forceUpdate()
+      }
     }
   })
 
   return (
     <div className="rating-enforcement-table">
-      <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data}
-        selectRow={selectRow} condensed={true} rowStyle={rowStyle} cellEdit={cellEdit}  />
+      <BootstrapTable bootstrap4 hover columns={columns} keyField='id' data={data}
+        selectRow={selectRow} condensed={true} rowStyle={rowStyle} cellEdit={cellEdit} />
     </div>
   )
 }

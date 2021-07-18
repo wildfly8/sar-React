@@ -67,7 +67,7 @@ const MacroEconTable = ({ data }) => {
 
   return (
     <div className="macro-econ-table">
-      <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data}
+      <BootstrapTable bootstrap4 hover columns={columns} keyField='id' data={data}
         selectRow={selectRow} condensed = {true} rowStyle={rowStyle} />
     </div>
   )

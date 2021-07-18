@@ -386,7 +386,7 @@ const selectRow = {
 
   return (
     <div className="rating-enforcement-table">
-      <BootstrapTable bootstrap4 columns={columns} keyField='id' data={data}
+      <BootstrapTable bootstrap4 hover columns={columns} keyField='id' data={data}
         selectRow={selectRow} condensed={true} rowStyle={rowStyle} />
     </div>
   )

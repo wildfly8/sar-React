@@ -11,8 +11,8 @@ const Valuation = () => {
   const nyFCFStorage = sessionStorage.getItem('nyFCF')
   const fcfGrStorage = sessionStorage.getItem('fcfGr')
   const sharesGrStorage = sessionStorage.getItem('sharesGr')
-  const discRStorage = sessionStorage.getItem('discR')
   const perpGrStorage = sessionStorage.getItem('perpGr')
+  const discRStorage = sessionStorage.getItem('discR')
   const moSStorage = sessionStorage.getItem('moS')
   const buyPxStorage = sessionStorage.getItem('buyPx')
   const perShareIVStorage = sessionStorage.getItem('perShareIV')
@@ -24,8 +24,8 @@ const Valuation = () => {
   const [nyFCF, setNyFCF] = useState(nyFCFStorage? nyFCFStorage : null)
   const [fcfGr, setFcfGr] = useState(fcfGrStorage? fcfGrStorage : null)
   const [sharesGr, setSharesGr] = useState(sharesGrStorage? sharesGrStorage : null)
-  const [discR, setDiscR] = useState(discRStorage? discRStorage : null)
   const [perpGr, setPerpGr] = useState(perpGrStorage? perpGrStorage : null)
+  const [discR, setDiscR] = useState(discRStorage? discRStorage : null)
   const [moS, setMoS] = useState(moSStorage? moSStorage : null)
   const [buyPx, setBuyPx] = useState(buyPxStorage? buyPxStorage : null)
   const [perShareIV, setPerShareIV] = useState(perShareIVStorage? perShareIVStorage : null)
@@ -104,10 +104,10 @@ const Valuation = () => {
           sessionStorage.setItem('fcfGr', fulfillment.nextDecadeFCFGrowthRate)      
           setSharesGr(fulfillment.nextDecadeSharesGrowthRate)
           sessionStorage.setItem('sharesGr', fulfillment.nextDecadeSharesGrowthRate)
-          setDiscR(fulfillment.discountRate)
-          sessionStorage.setItem('discR', fulfillment.discountRate)
           setPerpGr(fulfillment.perpetuityGrowthRate)
           sessionStorage.setItem('perpGr', fulfillment.perpetuityGrowthRate)
+          setDiscR(fulfillment.discountRate)
+          sessionStorage.setItem('discR', fulfillment.discountRate)
           setMoS(fulfillment.marginOfSafety)
           sessionStorage.setItem('moS', fulfillment.marginOfSafety)
           setBuyPx(fulfillment.buyPx)
@@ -124,10 +124,10 @@ const Valuation = () => {
         sessionStorage.setItem('fcfGr', null)
         setSharesGr(null)
         sessionStorage.setItem('sharesGr', null)
-        setDiscR(null)
-        sessionStorage.setItem('discR', null)
         setPerpGr(null)
         sessionStorage.setItem('perpGr', null)
+        setDiscR(null)
+        sessionStorage.setItem('discR', null)
         setMoS(null)
         sessionStorage.setItem('moS', null)
         setBuyPx(null)
@@ -162,10 +162,10 @@ const Valuation = () => {
   const calculateIV = (e) => {
     e.preventDefault()
     if(nyFCF == null || nyFCF.length === 0 || fcfGr == null || fcfGr.length === 0 || sharesGr == null || sharesGr.length === 0 || discR == null || discR.length === 0 || perpGr == null || perpGr.length === 0 || moS == null || moS.length === 0) {
-      alert("FCF || Gr || Sh || DR || Pp || MoS is not valid!")
+      alert("FCF || Gr || Sh || Pp || DR || MoS is not valid!")
       return
     }
-    myFetcher(`${SERVER_URL}/${VERSION}/api/intrinsic-valuation/calculate?ticker=${ticker}&nyFCF=${nyFCF}&fcfGr=${fcfGr}&SharesGr=${sharesGr}&DiscR=${discR}&PerpGr=${perpGr}&MoS=${moS}`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/intrinsic-valuation/calculate?ticker=${ticker}&nyFCF=${nyFCF}&fcfGr=${fcfGr}&SharesGr=${sharesGr}&PerpGr=${perpGr}&DiscR=${discR}&MoS=${moS}`)
     .then(fulfillment => {
         if(fulfillment) {
           setNyFCF(fulfillment.nextYearFCF)
@@ -174,10 +174,10 @@ const Valuation = () => {
           sessionStorage.setItem('fcfGr', fulfillment.nextDecadeFCFGrowthRate)      
           setSharesGr(fulfillment.nextDecadeSharesGrowthRate)
           sessionStorage.setItem('sharesGr', fulfillment.nextDecadeSharesGrowthRate)
-          setDiscR(fulfillment.discountRate)
-          sessionStorage.setItem('discR', fulfillment.discountRate)
           setPerpGr(fulfillment.perpetuityGrowthRate)
           sessionStorage.setItem('perpGr', fulfillment.perpetuityGrowthRate)
+          setDiscR(fulfillment.discountRate)
+          sessionStorage.setItem('discR', fulfillment.discountRate)
           setMoS(fulfillment.marginOfSafety)
           sessionStorage.setItem('moS', fulfillment.marginOfSafety)
           setBuyPx(fulfillment.buyPx)
@@ -270,15 +270,15 @@ const Valuation = () => {
             <Form.Label>Sh</Form.Label>
             <FormControl id="SharesGr" value={formatNumberInCommaWithDecimal(sharesGr, 2)} onChange={handleIVInputChange} />
           </InputGroup>
-          <Form.Label htmlFor="DiscR" srOnly>DiscR</Form.Label>
-          <InputGroup>
-            <Form.Label>DR</Form.Label>
-            <FormControl id="DiscR" value={formatNumberInCommaWithDecimal(discR, 3)} onChange={handleIVInputChange} />
-          </InputGroup>
           <Form.Label htmlFor="PerpGr" srOnly>PerpGr</Form.Label>
           <InputGroup>
             <Form.Label>Pp</Form.Label>
             <FormControl id="PerpGr" value={formatNumberInCommaWithDecimal(perpGr, 2)} onChange={handleIVInputChange} />
+          </InputGroup>
+          <Form.Label htmlFor="DiscR" srOnly>DiscR</Form.Label>
+          <InputGroup>
+            <Form.Label>DR</Form.Label>
+            <FormControl id="DiscR" value={formatNumberInCommaWithDecimal(discR, 3)} onChange={handleIVInputChange} />
           </InputGroup>
           <Form.Label htmlFor="MoS" srOnly>MoS</Form.Label>
           <InputGroup>
