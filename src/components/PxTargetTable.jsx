@@ -1,7 +1,7 @@
 import React from 'react'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
-import { formatNumberInCommaWithDecimal, formatNumberInPercent } from '../MyUtil'
+import { formatNumberInCommaWithDecimal, formatNumberInPercentWithDecimal } from '../MyUtil'
 import SecurityConstants from '../SecurityConstants'
 
 export const PX_TARGET_HEADERS = Object.freeze({
@@ -9,6 +9,7 @@ export const PX_TARGET_HEADERS = Object.freeze({
   ticker: 'ticker',
   sector: 'sector',
   lastPx: 'lastPx',
+  dailyPercentChg: 'dailyPercentChg',
   ttmPE: 'ttmPE',
   leverage: 'leverage',
   passGrahamTest: 'passGrahamTest',
@@ -69,7 +70,7 @@ const RatingEnforcementTable = ({ data }) => {
     }
   }, {
     dataField: PX_TARGET_HEADERS.lastPx,
-    text: 'lastPx',
+    text: 'eodPx',
     editable: false,
     headerStyle: {
       paddingTop: '0px',
@@ -78,6 +79,38 @@ const RatingEnforcementTable = ({ data }) => {
     style: {
       paddingTop: '0px',
       paddingBottom: '0px'
+    }
+  }, {
+    dataField: PX_TARGET_HEADERS.dailyPercentChg,
+    text: 'dChg%',
+    editable: false,
+    formatter: (cell) => (
+      formatNumberInPercentWithDecimal(cell, 2)
+    ),
+    headerStyle: {
+      paddingTop: '0px',
+      paddingBottom: '0px'
+    },
+    style: (cell, row, rowIndex, colIndex) => {
+      if(cell != null && cell > 0.0) {
+        return {
+          color: 'lime',
+          paddingTop: '0px',
+          paddingBottom: '0px'
+        }
+      } else if(cell != null && cell === 0.0) {
+        return {
+          color: 'black',
+          paddingTop: '0px',
+          paddingBottom: '0px'
+        }
+      } else {
+        return {
+          color: 'red',
+          paddingTop: '0px',
+          paddingBottom: '0px'
+        }
+      }
     }
   }, {
     dataField: PX_TARGET_HEADERS.ttmPE,
@@ -392,10 +425,10 @@ const RatingEnforcementTable = ({ data }) => {
     }
   }, {
     dataField: PX_TARGET_HEADERS.neartermMargin,
-    text: 'nt %',
+    text: 'nt%',
     editable: false,
     formatter: (cell) => (
-      formatNumberInPercent(cell)
+      formatNumberInPercentWithDecimal(cell, 0)
     ),
     headerStyle: {
       paddingTop: '0px',
@@ -476,10 +509,10 @@ const RatingEnforcementTable = ({ data }) => {
     }
   }, {
     dataField: PX_TARGET_HEADERS.longtermMargin,
-    text: 'lt %',
+    text: 'lt%',
     editable: false,
     formatter: (cell) => (
-      formatNumberInPercent(cell)
+      formatNumberInPercentWithDecimal(cell, 0)
     ),
     headerStyle: {
       paddingTop: '0px',
@@ -560,10 +593,10 @@ const RatingEnforcementTable = ({ data }) => {
     }
   }, {
     dataField: PX_TARGET_HEADERS.potentialMargin,
-    text: 'pt %',
+    text: 'pt%',
     editable: false,
     formatter: (cell) => (
-      formatNumberInPercent(cell)
+      formatNumberInPercentWithDecimal(cell, 0)
     ),
     headerStyle: {
       paddingTop: '0px',
@@ -601,7 +634,7 @@ const RatingEnforcementTable = ({ data }) => {
     text: 'Zacks_Yahoo_rank',
     editable: false,
     headerStyle: {
-      width: '12%',
+      width: '11%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },

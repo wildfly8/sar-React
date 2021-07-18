@@ -63,11 +63,11 @@ export const formatNumberInCommaWithDecimal = (number, decimal) => {
     return number.toLocaleString('en-US', {minimumFractionDigits: decimal, maximumFractionDigits: decimal})
 }
 
-export const formatNumberInPercent = (number) => {
+export const formatNumberInPercentWithDecimal = (number, decimal) => {
     if(number == null) {
         return ""
     }
-    return number.toLocaleString('en-US', {style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0})
+    return number.toLocaleString('en-US', {style: 'percent', minimumFractionDigits: decimal, maximumFractionDigits: decimal})
 }
 
 export const assembleWatchlistTableRow = (apiINVWatchlistTicker, index) => {

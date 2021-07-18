@@ -19,7 +19,6 @@ const NavBar = ({ userInfo, authState, authService }) => {
               <NavLink to="/screening" className="nav-link SARNavBar">Screening</NavLink>
               <NavLink to="/valuation" className="nav-link SARNavBar">Valuation</NavLink>
               <NavLink to="/px-target" className="nav-link SARNavBar">PxTarget</NavLink>
-              <NavLink to="/security-rank" className="nav-link SARNavBar">SecurityRank</NavLink>
             </Nav>
             <Nav>
               {!authState.isPending && !authState.isAuthenticated && <Navbar.Text className="nav-text SARNavBar">Welcome Visitor!</Navbar.Text>}

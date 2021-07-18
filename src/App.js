@@ -9,7 +9,6 @@ import RatingEnforce from './components/RatingEnforce'
 import Screening from './components/Screening'
 import Valuation from './components/Valuation'
 import PxTarget from './components/PxTarget'
-import SecurityRank from './components/SecurityRank'
 import CustomLoginComponent from './components/Login'
 import Profile from './components/Profile'
 import NavBar from './components/NavBar'
@@ -65,7 +64,6 @@ const HasAccessToRouter = () => {
           <Route exact path="/screening" render={(props) => <Screening {...props} />} />
           <Route exact path="/valuation" render={(props) => <Valuation {...props} />} />
           <Route exact path="/px-target" render={(props) => <PxTarget {...props} />} />
-          <Route exact path="/security-rank" render={(props) => <SecurityRank {...props} />} />
           <SecureRoute exact path="/profile" render={(props) => <Profile {...props} userInfo={userInfo} />}  />
         </Switch>
       </MyContext.Provider>

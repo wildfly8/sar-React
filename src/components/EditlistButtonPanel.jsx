@@ -148,7 +148,12 @@ const EditlistButtonPanel = ({ loaded, editableMap }) => {
         </div>
       ) : (
         <div className="editlist-button-panel">
-          <Button variant="warning">Loading All Watchlist Tickers...</Button>
+          <Modal centered size="lg" show={!loaded} backdrop="static" keyboard={false}>
+            <Modal.Header>
+              <Modal.Title>Attention:</Modal.Title>
+            </Modal.Header>
+            <Modal.Body><h5>Loading All Watchlist Tickers...</h5><Spinner animation="border" variant="success" /></Modal.Body>
+          </Modal>
         </div>
       )}
     </>

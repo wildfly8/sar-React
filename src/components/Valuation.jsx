@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Form, InputGroup, FormControl, Button } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import KeyRatiosTable from './KeyRatiosTable'
-import { formatNumberInCommaWithDecimal, formatNumberInPercent } from '../MyUtil'
+import { formatNumberInCommaWithDecimal, formatNumberInPercentWithDecimal } from '../MyUtil'
 
 
 const Valuation = () => {
@@ -298,12 +298,12 @@ const Valuation = () => {
           <Form.Label htmlFor="NT" srOnly>NT</Form.Label>
           <InputGroup>
             <Form.Label>NT</Form.Label>
-            <FormControl id="NT" value={buyPx != null && lastPx? ((buyPx - lastPx) < 0? '(' + formatNumberInPercent(-(buyPx - lastPx) / lastPx) + ')' : formatNumberInPercent((buyPx - lastPx) / lastPx)) : ""} readOnly />
+            <FormControl id="NT" value={buyPx != null && lastPx? ((buyPx - lastPx) < 0? '(' + formatNumberInPercentWithDecimal(-(buyPx - lastPx) / lastPx, 0) + ')' : formatNumberInPercentWithDecimal((buyPx - lastPx) / lastPx, 0)) : ""} readOnly />
           </InputGroup>
           <Form.Label htmlFor="LT" srOnly>LT</Form.Label>
           <InputGroup>
             <Form.Label>LT</Form.Label>
-            <FormControl id="LT" value={perShareIV != null && lastPx? ((perShareIV - lastPx) < 0? '(' + formatNumberInPercent(-(perShareIV - lastPx) / lastPx) + ')' : formatNumberInPercent((perShareIV - lastPx) / lastPx)) : ""} readOnly />
+            <FormControl id="LT" value={perShareIV != null && lastPx? ((perShareIV - lastPx) < 0? '(' + formatNumberInPercentWithDecimal(-(perShareIV - lastPx) / lastPx, 0) + ')' : formatNumberInPercentWithDecimal((perShareIV - lastPx) / lastPx, 0)) : ""} readOnly />
           </InputGroup>
           <Button variant="dark" type="submit">IV</Button>
         </Form>

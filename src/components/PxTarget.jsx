@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Modal, Spinner } from 'react-bootstrap'
+import { Button, Modal, Spinner, ProgressBar } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import PxTargetTable from './PxTargetTable'
 import { aggregatePTEnforcement } from '../MyUtil'
@@ -8,8 +8,9 @@ import SecurityConstants from '../SecurityConstants'
 
 const PxTarget = () => {
 
-  const [subscribed, setSubscribed] = useState(false)
   const [pxTargetArray, setPxTargetArray] = useState([])
+  const [subscribed, setSubscribed] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     setSubscribed(false)
@@ -22,7 +23,7 @@ const PxTarget = () => {
             index++
           }
         })
-        setPxTargetArray(fulfillment)
+        setPxTargetArray(fulfillment)       
       })
     .catch(error => console.error(`API error when retrieving All Px Targets: ${error} !`))
     .finally(() => setSubscribed(true))
@@ -45,19 +46,61 @@ const PxTarget = () => {
     .finally(() => window.location = window.location.href)
   }
 
+  const updatePx = () => {
+    requestYahooQuote(pxTargetArray)
+  }
+
+  const requestYahooQuote = async (pxTargetArray) => {
+    let index = 0
+    for(let pt of pxTargetArray) {  //cannot use forEach here for async/await because forEach won't await 
+      if(!SecurityConstants.LIST_TYPES.includes(pt.ticker)) {
+        const response = await fetch(`${SERVER_URL}/${VERSION}/api/yahoo-quote?ticker=${pt.ticker.replace('^', '%5E')}`);
+        const jsonResponse = await response.json();
+        if(jsonResponse && pt.lastPx) {
+          pt.dailyPercentChg = (jsonResponse - pt.lastPx) / pt.lastPx
+        }
+        if(pt.sector === 'ETF') {
+          pxTargetArray[0].dailyPercentChg = pxTargetArray.filter(e => 'ETF' === e.sector && e.dailyPercentChg != null).map(e => e.dailyPercentChg).reduce((accumulator, currentValue, currentIndex) => (accumulator + currentValue) / (currentIndex + 1))
+        } else {
+          let temp = pxTargetArray.filter(e => {
+            if(pt.propRatingCode == null) {
+              if(pt.newPT) {
+                return 'New_List' === e.ticker
+              } else {
+                return 'NR_List' === e.ticker
+              }
+            } else {
+              return `${pt.propRatingCode.replace('+', '')}_List` === e.ticker
+            }
+          })
+          temp[0].dailyPercentChg = pxTargetArray.filter(e => ((pt.propRatingCode == null && e.propRatingCode == null) || (pt.propRatingCode === e.propRatingCode)) && e.dailyPercentChg != null).map(e => e.dailyPercentChg).reduce((accumulator, currentValue, currentIndex) => (accumulator + currentValue) / (currentIndex + 1))
+        }
+      }
+      index++
+      setProgress(Math.round(100 * index / pxTargetArray.length))
+    }
+    setPxTargetArray([...pxTargetArray])  //trigger state (array) change via clone
+    setProgress(100)
+  }
+
   return (
     <>
       <Modal centered size="lg" show={!subscribed} backdrop="static" keyboard={false}>
         <Modal.Header>
           <Modal.Title>Attention:</Modal.Title>
         </Modal.Header>
-        <Modal.Body><h5>Server is handling your request...</h5><Spinner animation="border" variant="success" /></Modal.Body>
+        <Modal.Body><h5>Loading All Watchlist Tickers...</h5><Spinner animation="border" variant="success" /></Modal.Body>
       </Modal>
       <div className="pxtarget-table-panel">
         <PxTargetTable data={pxTargetArray} />
       </div>
       <div className="pxtarget-button-panel">
         <Button variant="dark" onClick={savePxTarget}>Save</Button>{" "}
+        <Button variant="dark" onClick={updatePx}>Rank</Button>{" "}
+        <Button variant="dark" onClick={updatePx}>UpdatePx</Button>{" "}
+        <div className="progressbar">
+          <ProgressBar variant="success" now={progress} label={`${progress}%`}/>
+        </div>
       </div>
     </>
   )
