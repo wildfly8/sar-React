@@ -60,7 +60,7 @@ const PxTarget = () => {
           pt.dailyPercentChg = (jsonResponse - pt.lastPx) / pt.lastPx
         }
         if(pt.sector === 'ETF') {
-          pxTargetArray[0].dailyPercentChg = pxTargetArray.filter(e => 'ETF' === e.sector && e.dailyPercentChg != null).map(e => e.dailyPercentChg).reduce((accumulator, currentValue, currentIndex) => (accumulator + currentValue) / (currentIndex + 1))
+          pxTargetArray[0].dailyPercentChg = pxTargetArray.filter(e => 'ETF' === e.sector && e.dailyPercentChg != null).reduce((accumulator, currentValue, currentIndex) => (accumulator + currentValue.dailyPercentChg) / (currentIndex + 1), 0.0)
         } else {
           pxTargetArray.filter(e => {
             if(pt.propRatingCode == null) {
@@ -72,7 +72,7 @@ const PxTarget = () => {
             } else {
               return `${pt.propRatingCode.replace('+', '')}_List` === e.ticker
             }
-          })[0].dailyPercentChg = pxTargetArray.filter(e => ((pt.propRatingCode == null && e.propRatingCode == null) || (pt.propRatingCode === e.propRatingCode)) && e.dailyPercentChg != null).map(e => e.dailyPercentChg).reduce((accumulator, currentValue, currentIndex) => (accumulator + currentValue) / (currentIndex + 1))
+          })[0].dailyPercentChg = pxTargetArray.filter(e => ((pt.propRatingCode == null && e.propRatingCode == null) || (pt.propRatingCode === e.propRatingCode)) && e.dailyPercentChg != null).reduce((accumulator, currentValue, currentIndex) => (accumulator + currentValue.dailyPercentChg) / (currentIndex + 1), 0.0)
         }
       }
       index++
