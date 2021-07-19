@@ -82,6 +82,10 @@ const PxTarget = () => {
     setProgress(100)
   }
 
+  const securityRank = () => {
+    
+  }
+
   return (
     <>
       <Modal centered size="lg" show={!subscribed} backdrop="static" keyboard={false}>
@@ -95,7 +99,7 @@ const PxTarget = () => {
       </div>
       <div className="pxtarget-button-panel">
         <Button variant="dark" onClick={savePxTarget}>Save</Button>{" "}
-        <Button variant="dark" onClick={updatePx}>Rank</Button>{" "}
+        <Button variant="dark" onClick={securityRank}>Rank</Button>{" "}
         <Button variant="dark" onClick={updatePx}>UpdatePx</Button>{" "}
         <div className="progressbar">
           <ProgressBar variant="success" now={progress} label={`${progress}%`}/>
