@@ -376,6 +376,7 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedNeartermPT,
     text: 'enf_pt',
+    editable: false,
     formatter: (cell) => (
       formatNumberInCommaWithDecimal(cell, 1)
     ),
@@ -384,7 +385,6 @@ const RatingEnforcementTable = ({ data }) => {
       paddingBottom: '0px'
     },
     style: {
-      backgroundColor: '#D3D3D3',
       paddingTop: '0px',
       paddingBottom: '0px'
     }
@@ -456,6 +456,7 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedLongtermPT,
     text: 'enf_pt',
+    editable: false,
     formatter: (cell) => (
       formatNumberInCommaWithDecimal(cell, 1)
     ),
@@ -464,7 +465,6 @@ const RatingEnforcementTable = ({ data }) => {
       paddingBottom: '0px'
     },
     style: {
-      backgroundColor: '#D3D3D3',
       paddingTop: '0px',
       paddingBottom: '0px'
     }
@@ -641,7 +641,11 @@ const RatingEnforcementTable = ({ data }) => {
           })
         .catch(error => alert(`${row.ticker} field ${column.dataField}: Error during iv-calculate API call! ${error}`))
       } else if(PX_TARGET_HEADERS.enforcedPotentialPT === column.dataField) {
-        row.potentialMargin = (row.enforcedPotentialPT - row.lastPx) / row.lastPx
+        if(newValue == null || newValue.length === 0) {
+          row.potentialMargin = (row.potentialPT - row.lastPx) / row.lastPx
+        } else {
+          row.potentialMargin = (row.enforcedPotentialPT - row.lastPx) / row.lastPx
+        }
         forceUpdate()
       }
     }
