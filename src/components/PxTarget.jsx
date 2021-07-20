@@ -51,6 +51,12 @@ const PxTarget = () => {
   }
 
   const requestYahooQuote = async (pxTargetArray) => {
+    const summaryMap = pxTargetArray.reduce((map, currentValue) => {
+      if(SecurityConstants.LIST_TYPES.includes(currentValue.ticker)) {
+        map[currentValue.ticker] = currentValue
+      }
+      return map
+    }, {})
     let index = 0
     for(let pt of pxTargetArray) {  //cannot use forEach here for async/await because forEach won't await 
       if(!SecurityConstants.LIST_TYPES.includes(pt.ticker)) {
@@ -61,19 +67,23 @@ const PxTarget = () => {
         }
         //calculate currently looped List average dChg
         if(pt.sector === 'ETF') {
-          pxTargetArray[0].dailyPercentChg = pxTargetArray.filter(e => 'ETF' === e.sector && e.dailyPercentChg != null).reduce((accumulator, currentValue, currentIndex) => (accumulator + currentValue.dailyPercentChg) / (currentIndex + 1), 0.0)
+          const quotedETFs = pxTargetArray.filter(e => 'ETF' === e.sector && e.dailyPercentChg != null && '^VIX' !== e.ticker)
+          summaryMap['ETF_List'].dailyPercentChg = quotedETFs.reduce((sum, currentValue) => (sum + currentValue.dailyPercentChg), 0) / quotedETFs.length
         } else {
-          pxTargetArray.filter(e => {
-            if(pt.propRatingCode == null) {
-              if(pt.newPT) {
-                return 'New_List' === e.ticker
-              } else {
-                return 'NR_List' === e.ticker
-              }
+          const quotedSameList = pxTargetArray.filter(e => {
+            return (pt.propRatingCode? pt.propRatingCode.replace('+', '') : pt.propRatingCode) === (e.propRatingCode? e.propRatingCode.replace('+', '') : e.propRatingCode) && (e.dailyPercentChg != null)
+          })
+          let listName = ''
+          if(pt.propRatingCode == null) {
+            if(pt.newPT) {
+              listName = 'New_List'
             } else {
-              return `${pt.propRatingCode.replace('+', '')}_List` === e.ticker
+              listName = 'NR_List'
             }
-          })[0].dailyPercentChg = pxTargetArray.filter(e => ((pt.propRatingCode == null && e.propRatingCode == null) || (pt.propRatingCode === e.propRatingCode)) && e.dailyPercentChg != null).reduce((accumulator, currentValue, currentIndex) => (accumulator + currentValue.dailyPercentChg) / (currentIndex + 1), 0.0)
+          } else {
+            listName = `${pt.propRatingCode.replace('+', '')}_List`
+          }
+          summaryMap[listName].dailyPercentChg = quotedSameList.reduce((sum, currentValue) => (sum + currentValue.dailyPercentChg), 0) / quotedSameList.length
         }
       }
       index++
@@ -83,7 +93,7 @@ const PxTarget = () => {
   }
 
   const securityRank = () => {
-    
+
   }
 
   return (
