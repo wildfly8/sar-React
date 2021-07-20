@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Button, Modal, Spinner, ProgressBar } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import PxTargetTable from './PxTargetTable'
@@ -7,10 +7,11 @@ import SecurityConstants from '../SecurityConstants'
 
 
 const PxTarget = () => {
-
   const [pxTargetArray, setPxTargetArray] = useState([])
   const [subscribed, setSubscribed] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [, updateState] = useState()
+  const forceUpdate = useCallback(() => updateState({}), [])
 
   useEffect(() => {
     setSubscribed(false)
@@ -90,6 +91,7 @@ const PxTarget = () => {
       }
       index++
       setProgress(Math.round(100 * index / pxTargetArray.length))
+      forceUpdate()
     }
     setProgress(100)
   }
