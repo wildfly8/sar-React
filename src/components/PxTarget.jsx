@@ -74,7 +74,7 @@ const PxTarget = () => {
           const quotedSameList = pxTargetArray.filter(e => {
             return e.sector != null && e.sector !== 'ETF'
                     && (pt.propRatingCode? pt.propRatingCode.replace('+', '') : pt.propRatingCode) === (e.propRatingCode? e.propRatingCode.replace('+', '') : e.propRatingCode) 
-                    && e.dailyPercentChg != null
+                    && e.dailyPercentChg != null && pt.newPT === e.newPT
           })
           let listName = ''
           if(pt.propRatingCode == null) {
