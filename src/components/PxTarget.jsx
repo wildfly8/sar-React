@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Button, Modal, Spinner, ProgressBar } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import PxTargetTable from './PxTargetTable'
-import { aggregatePTEnforcement } from '../MyUtil'
+import { aggregatePTEnforcement, formatNumberInPercentWithDecimal } from '../MyUtil'
 import SecurityConstants from '../SecurityConstants'
 
 
@@ -10,6 +10,19 @@ const PxTarget = () => {
   const [pxTargetArray, setPxTargetArray] = useState([])
   const [subscribed, setSubscribed] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [showSecurityRank, setShowSecurityRank] = useState(false)
+  const [ntETFs, setNtETFs] = useState([])
+  const [ltETFs, setLtETFs] = useState([])
+  const [ptETFs, setPtETFs] = useState([])
+  const [ntAs, setNtAs] = useState([])
+  const [ltAs, setLtAs] = useState([])
+  const [ptAs, setPtAs] = useState([])
+  const [ntBs, setNtBs] = useState([])
+  const [ltBs, setLtBs] = useState([])
+  const [ptBs, setPtBs] = useState([])
+  const [ntCs, setNtCs] = useState([])
+  const [ltCs, setLtCs] = useState([])
+  const [ptCs, setPtCs] = useState([])
   const [, updateState] = useState()
   const forceUpdate = useCallback(() => updateState({}), [])
 
@@ -97,11 +110,78 @@ const PxTarget = () => {
   }
 
   const securityRank = () => {
+    const etfList = pxTargetArray.filter(e => e.sector === 'ETF' && e.ticker !== '^VIX' && !e.newPT)
+    setNtETFs([...etfList].sort((a, b) => b.neartermMargin - a.neartermMargin).slice(0, 10))
+    setLtETFs([...etfList].sort((a, b) => b.longtermMargin - a.longtermMargin).slice(0, 10))
+    setPtETFs([...etfList].sort((a, b) => b.potentialMargin - a.potentialMargin).slice(0, 10))
+    const aList = pxTargetArray.filter(e => (e.propRatingCode === 'A' || e.propRatingCode === 'A+') && !e.newPT)
+    setNtAs([...aList].sort((a, b) => b.neartermMargin - a.neartermMargin).slice(0, 10))
+    setLtAs([...aList].sort((a, b) => b.longtermMargin - a.longtermMargin).slice(0, 10))
+    setPtAs([...aList].sort((a, b) => b.potentialMargin - a.potentialMargin).slice(0, 10))
+    const bList = pxTargetArray.filter(e => e.propRatingCode === 'B' && !e.newPT)
+    setNtBs([...bList].sort((a, b) => b.neartermMargin - a.neartermMargin).slice(0, 10))
+    setLtBs([...bList].sort((a, b) => b.longtermMargin - a.longtermMargin).slice(0, 10))
+    setPtBs([...bList].sort((a, b) => b.potentialMargin - a.potentialMargin).slice(0, 10))
+    const cList = pxTargetArray.filter(e => e.propRatingCode === 'C' && !e.newPT)
+    setNtCs([...cList].sort((a, b) => b.neartermMargin - a.neartermMargin).slice(0, 10))
+    setLtCs([...cList].sort((a, b) => b.longtermMargin - a.longtermMargin).slice(0, 10))
+    setPtCs([...cList].sort((a, b) => b.potentialMargin - a.potentialMargin).slice(0, 10))
+    setShowSecurityRank(true)
+  }
 
+  const handleDialogueClose = () => {
+    setShowSecurityRank(false)
   }
 
   return (
     <>
+      <Modal centered size="lg" show={showSecurityRank} backdrop="static" keyboard={false}>
+        <Modal.Body className="security-rank-modal">
+          <div><b>ETF_List NT Rank:</b></div><div><b>ETF_List LT Rank:</b></div><div><b>ETF_List PT Rank:</b></div>
+          {[...Array(30).keys()].map(i => {
+            if(i % 3 === 0) {
+              return ntETFs.length >= 10? <div><span>{ntETFs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntETFs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntETFs[i/3].neartermMargin, 0)}</span></div> : null
+            } else if(i % 3 === 1) {
+              return ltETFs.length >= 10? <div><span>{ltETFs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltETFs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltETFs[(i-1)/3].longtermMargin, 0)}</span></div> : null
+            } else {
+              return ptETFs.length >= 10? <div><span>{ptETFs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptETFs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptETFs[(i-2)/3].potentialMargin, 0)}</span></div> : null
+            }
+          })}
+          <div><b>A_List NT Rank:</b></div><div><b>A_List LT Rank:</b></div><div><b>A_List PT Rank:</b></div>
+          {[...Array(30).keys()].map(i => {
+            if(i % 3 === 0) {
+              return ntAs.length >= 10? <div><span>{ntAs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntAs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntAs[i/3].neartermMargin, 0)}</span></div> : null
+            } else if(i % 3 === 1) {
+              return ltAs.length >= 10? <div><span>{ltAs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltAs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltAs[(i-1)/3].longtermMargin, 0)}</span></div> : null
+            } else {
+              return ptAs.length >= 10? <div><span>{ptAs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptAs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptAs[(i-2)/3].potentialMargin, 0)}</span></div> : null
+            }
+          })}
+          <div><b>B_List NT Rank:</b></div><div><b>B_List LT Rank:</b></div><div><b>B_List PT Rank:</b></div>
+          {[...Array(30).keys()].map(i => {
+            if(i % 3 === 0) {
+              return ntBs.length >= 10? <div><span>{ntBs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntBs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntBs[i/3].neartermMargin, 0)}</span></div> : null
+            } else if(i % 3 === 1) {
+              return ltBs.length >= 10? <div><span>{ltBs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltBs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltBs[(i-1)/3].longtermMargin, 0)}</span></div> : null
+            } else {
+              return ptBs.length >= 10? <div><span>{ptBs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptBs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptBs[(i-2)/3].potentialMargin, 0)}</span></div> : null
+            }
+          })}
+          <div><b>C_List NT Rank:</b></div><div><b>C_List LT Rank:</b></div><div><b>C_List PT Rank:</b></div>
+          {[...Array(30).keys()].map(i => {
+            if(i % 3 === 0) {
+              return ntCs.length >= 10? <div><span>{ntCs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntCs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntCs[i/3].neartermMargin, 0)}</span></div> : null
+            } else if(i % 3 === 1) {
+              return ltCs.length >= 10? <div><span>{ltCs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltCs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltCs[(i-1)/3].longtermMargin, 0)}</span></div> : null
+            } else {
+              return ptCs.length >= 10? <div><span>{ptCs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptCs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptCs[(i-2)/3].potentialMargin, 0)}</span></div> : null
+            }
+          })}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleDialogueClose}>Close</Button>
+        </Modal.Footer>
+      </Modal>
       <Modal centered size="lg" show={!subscribed} backdrop="static" keyboard={false}>
         <Modal.Header>
           <Modal.Title>Attention:</Modal.Title>

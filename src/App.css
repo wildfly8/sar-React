@@ -205,3 +205,12 @@ th {
 .pxtarget-button-panel {
   background-color: #e6e6e6;
 }
+
+.security-rank-modal {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: left;
+  align-items: center;
+  border: ridge #D3D3D3;
+  padding: 5px;
+}

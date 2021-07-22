@@ -98,7 +98,7 @@ const RatingEnforcementTable = ({ data }) => {
     style: (cell, row, rowIndex, colIndex) => {
       if(cell != null && cell > 0.0) {
         return {
-          color: 'lime',
+          color: 'green',
           paddingTop: '0px',
           paddingBottom: '0px'
         }
@@ -127,7 +127,7 @@ const RatingEnforcementTable = ({ data }) => {
     style: (cell, row, rowIndex, colIndex) => {
       if(cell && cell < 20.0 && cell > 0.0) {
         return {
-          color: 'lime',
+          color: 'green',
           paddingTop: '0px',
           paddingBottom: '0px'
         }
@@ -156,7 +156,7 @@ const RatingEnforcementTable = ({ data }) => {
         }
       } else {
         return {
-          color: 'lime',
+          color: 'green',
           paddingTop: '0px',
           paddingBottom: '0px'
         }
@@ -420,7 +420,7 @@ const RatingEnforcementTable = ({ data }) => {
         }
       }  else {
         return {
-          color: 'lime',
+          color: 'green',
           paddingTop: '0px',
           paddingBottom: '0px'
         }
@@ -500,7 +500,7 @@ const RatingEnforcementTable = ({ data }) => {
         }
       }  else {
         return {
-          color: 'lime',
+          color: 'green',
           paddingTop: '0px',
           paddingBottom: '0px'
         }
@@ -580,7 +580,7 @@ const RatingEnforcementTable = ({ data }) => {
         }
       }  else {
         return {
-          color: 'lime',
+          color: 'green',
           paddingTop: '0px',
           paddingBottom: '0px'
         }
