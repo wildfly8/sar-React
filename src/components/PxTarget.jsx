@@ -85,19 +85,15 @@ const PxTarget = () => {
           summaryMap['ETF_List'].dailyPercentChg = quotedETFs.reduce((sum, currentValue) => (sum + currentValue.dailyPercentChg), 0) / quotedETFs.length
         } else {
           const quotedSameList = pxTargetArray.filter(e => {
-            return e.sector != null && e.sector !== 'ETF'
-                    && (pt.propRatingCode? pt.propRatingCode.replace('+', '') : pt.propRatingCode) === (e.propRatingCode? e.propRatingCode.replace('+', '') : e.propRatingCode) 
-                    && e.dailyPercentChg != null && pt.newPT === e.newPT
+            return e.dailyPercentChg != null && ((pt.newPT && e.newPT) || (e.sector != null && e.sector !== 'ETF' && (pt.propRatingCode? pt.propRatingCode.replace('+', '') : pt.propRatingCode) === (e.propRatingCode? e.propRatingCode.replace('+', '') : e.propRatingCode)))
           })
-          let listName = ''
-          if(pt.propRatingCode == null) {
-            if(pt.newPT) {
-              listName = 'New_List'
-            } else {
+          let listName = 'New_List'
+          if(!pt.newPT) {
+            if(pt.propRatingCode == null) {
               listName = 'NR_List'
+            } else {
+              listName = `${pt.propRatingCode.replace('+', '')}_List`
             }
-          } else {
-            listName = `${pt.propRatingCode.replace('+', '')}_List`
           }
           summaryMap[listName].dailyPercentChg = quotedSameList.reduce((sum, currentValue) => (sum + currentValue.dailyPercentChg), 0) / quotedSameList.length
         }
