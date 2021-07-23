@@ -136,41 +136,41 @@ const PxTarget = () => {
           <div><b>ETF_List NT Rank:</b></div><div><b>ETF_List LT Rank:</b></div><div><b>ETF_List PT Rank:</b></div>
           {[...Array(30).keys()].map(i => {
             if(i % 3 === 0) {
-              return ntETFs.length >= 10? <div><span>{ntETFs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntETFs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntETFs[i/3].neartermMargin, 0)}</span></div> : null
+              return ntETFs.length >= 10? <div key={i}><span>{ntETFs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntETFs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntETFs[i/3].neartermMargin, 0)}</span></div> : null
             } else if(i % 3 === 1) {
-              return ltETFs.length >= 10? <div><span>{ltETFs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltETFs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltETFs[(i-1)/3].longtermMargin, 0)}</span></div> : null
+              return ltETFs.length >= 10? <div key={i}><span>{ltETFs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltETFs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltETFs[(i-1)/3].longtermMargin, 0)}</span></div> : null
             } else {
-              return ptETFs.length >= 10? <div><span>{ptETFs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptETFs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptETFs[(i-2)/3].potentialMargin, 0)}</span></div> : null
+              return ptETFs.length >= 10? <div key={i}><span>{ptETFs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptETFs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptETFs[(i-2)/3].potentialMargin, 0)}</span></div> : null
             }
           })}
           <div><b>A_List NT Rank:</b></div><div><b>A_List LT Rank:</b></div><div><b>A_List PT Rank:</b></div>
           {[...Array(30).keys()].map(i => {
             if(i % 3 === 0) {
-              return ntAs.length >= 10? <div><span>{ntAs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntAs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntAs[i/3].neartermMargin, 0)}</span></div> : null
+              return ntAs.length >= 10? <div key={i}><span>{ntAs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntAs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntAs[i/3].neartermMargin, 0)}</span></div> : null
             } else if(i % 3 === 1) {
-              return ltAs.length >= 10? <div><span>{ltAs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltAs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltAs[(i-1)/3].longtermMargin, 0)}</span></div> : null
+              return ltAs.length >= 10? <div key={i}><span>{ltAs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltAs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltAs[(i-1)/3].longtermMargin, 0)}</span></div> : null
             } else {
-              return ptAs.length >= 10? <div><span>{ptAs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptAs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptAs[(i-2)/3].potentialMargin, 0)}</span></div> : null
+              return ptAs.length >= 10? <div key={i}><span>{ptAs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptAs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptAs[(i-2)/3].potentialMargin, 0)}</span></div> : null
             }
           })}
           <div><b>B_List NT Rank:</b></div><div><b>B_List LT Rank:</b></div><div><b>B_List PT Rank:</b></div>
           {[...Array(30).keys()].map(i => {
             if(i % 3 === 0) {
-              return ntBs.length >= 10? <div><span>{ntBs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntBs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntBs[i/3].neartermMargin, 0)}</span></div> : null
+              return ntBs.length >= 10? <div key={i}><span>{ntBs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntBs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntBs[i/3].neartermMargin, 0)}</span></div> : null
             } else if(i % 3 === 1) {
-              return ltBs.length >= 10? <div><span>{ltBs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltBs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltBs[(i-1)/3].longtermMargin, 0)}</span></div> : null
+              return ltBs.length >= 10? <div key={i}><span>{ltBs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltBs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltBs[(i-1)/3].longtermMargin, 0)}</span></div> : null
             } else {
-              return ptBs.length >= 10? <div><span>{ptBs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptBs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptBs[(i-2)/3].potentialMargin, 0)}</span></div> : null
+              return ptBs.length >= 10? <div key={i}><span>{ptBs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptBs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptBs[(i-2)/3].potentialMargin, 0)}</span></div> : null
             }
           })}
           <div><b>C_List NT Rank:</b></div><div><b>C_List LT Rank:</b></div><div><b>C_List PT Rank:</b></div>
           {[...Array(30).keys()].map(i => {
             if(i % 3 === 0) {
-              return ntCs.length >= 10? <div><span>{ntCs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntCs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntCs[i/3].neartermMargin, 0)}</span></div> : null
+              return ntCs.length >= 10? <div key={i}><span>{ntCs[i/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ntCs[i/3].neartermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ntCs[i/3].neartermMargin, 0)}</span></div> : null
             } else if(i % 3 === 1) {
-              return ltCs.length >= 10? <div><span>{ltCs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltCs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltCs[(i-1)/3].longtermMargin, 0)}</span></div> : null
+              return ltCs.length >= 10? <div key={i}><span>{ltCs[(i-1)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ltCs[(i-1)/3].longtermMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ltCs[(i-1)/3].longtermMargin, 0)}</span></div> : null
             } else {
-              return ptCs.length >= 10? <div><span>{ptCs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptCs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptCs[(i-2)/3].potentialMargin, 0)}</span></div> : null
+              return ptCs.length >= 10? <div key={i}><span>{ptCs[(i-2)/3].ticker}</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style={{'color': ptCs[(i-2)/3].potentialMargin > 0? 'green' : 'red'}}>{formatNumberInPercentWithDecimal(ptCs[(i-2)/3].potentialMargin, 0)}</span></div> : null
             }
           })}
         </Modal.Body>
