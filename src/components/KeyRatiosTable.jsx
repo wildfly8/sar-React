@@ -35,7 +35,7 @@ export const KEYRATIOS_HEADERS = Object.freeze({
   yearOverYearNIGrowth: 'yoyNetIncomeGrowth',
 })
 
-const RatingEnforcementTable = ({ data }) => {
+const KeyRatiosTable = ({ data }) => {
   const columns = [{
     dataField: KEYRATIOS_HEADERS.id,
     text: 'id',
@@ -392,4 +392,4 @@ const selectRow = {
   )
 }
 
-export default RatingEnforcementTable
+export default KeyRatiosTable

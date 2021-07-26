@@ -2,12 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Button, Modal, Spinner, ProgressBar } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import PxTargetTable from './PxTargetTable'
-import { aggregatePTEnforcement, formatNumberInPercentWithDecimal } from '../MyUtil'
+import { aggregatePTEnforcementAudit, aggregatePTEnforcement, formatNumberInPercentWithDecimal } from '../MyUtil'
 import SecurityConstants from '../SecurityConstants'
 
 
 const PxTarget = () => {
-  const [pxTargetArray, setPxTargetArray] = useState([])
+  const [pxTargets, setPxTargets] = useState([])
+  const [editablePxTargets, setEditablePxTargets] = useState([])
   const [subscribed, setSubscribed] = useState(false)
   const [progress, setProgress] = useState(0)
   const [showSecurityRank, setShowSecurityRank] = useState(false)
@@ -30,6 +31,7 @@ const PxTarget = () => {
     setSubscribed(false)
     myFetcher(`${SERVER_URL}/${VERSION}/api/px-target`)
     .then(fulfillment => {
+      setPxTargets(JSON.parse(JSON.stringify(fulfillment))) //array of objects deep copy
         let index = 0
         fulfillment.forEach(pt => {
           if(pt.newPT || SecurityConstants.LIST_TYPES.includes(pt.ticker)) {
@@ -37,7 +39,7 @@ const PxTarget = () => {
             index++
           }
         })
-        setPxTargetArray(fulfillment)       
+        setEditablePxTargets(fulfillment)       
       })
     .catch(error => console.error(`API error when retrieving All Px Targets: ${error} !`))
     .finally(() => setSubscribed(true))
@@ -45,12 +47,14 @@ const PxTarget = () => {
   }, [])
 
   const savePxTarget = () => {
+    let ptEnforcements = aggregatePTEnforcement(editablePxTargets)
+    ptEnforcements.push(...aggregatePTEnforcementAudit(pxTargets, editablePxTargets))
     const postMethodArgs = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(aggregatePTEnforcement(pxTargetArray))
+      body: JSON.stringify(ptEnforcements)
     }
     myFetcher(`${SERVER_URL}/${VERSION}/api/px-target/save`, postMethodArgs)
     .then(fulfillment => {
@@ -61,7 +65,7 @@ const PxTarget = () => {
   }
 
   const updatePx = () => {
-    requestYahooQuote(pxTargetArray)
+    requestYahooQuote(editablePxTargets)
   }
 
   const requestYahooQuote = async (pxTargetArray) => {
@@ -106,19 +110,19 @@ const PxTarget = () => {
   }
 
   const securityRank = () => {
-    const etfList = pxTargetArray.filter(e => e.sector === 'ETF' && e.ticker !== '^VIX' && !e.newPT)
+    const etfList = editablePxTargets.filter(e => e.sector === 'ETF' && e.ticker !== '^VIX' && !e.newPT)
     setNtETFs([...etfList].sort((a, b) => b.neartermMargin - a.neartermMargin).slice(0, 10))
     setLtETFs([...etfList].sort((a, b) => b.longtermMargin - a.longtermMargin).slice(0, 10))
     setPtETFs([...etfList].sort((a, b) => b.potentialMargin - a.potentialMargin).slice(0, 10))
-    const aList = pxTargetArray.filter(e => (e.propRatingCode === 'A' || e.propRatingCode === 'A+') && !e.newPT)
+    const aList = editablePxTargets.filter(e => (e.propRatingCode === 'A' || e.propRatingCode === 'A+') && !e.newPT)
     setNtAs([...aList].sort((a, b) => b.neartermMargin - a.neartermMargin).slice(0, 10))
     setLtAs([...aList].sort((a, b) => b.longtermMargin - a.longtermMargin).slice(0, 10))
     setPtAs([...aList].sort((a, b) => b.potentialMargin - a.potentialMargin).slice(0, 10))
-    const bList = pxTargetArray.filter(e => e.propRatingCode === 'B' && !e.newPT)
+    const bList = editablePxTargets.filter(e => e.propRatingCode === 'B' && !e.newPT)
     setNtBs([...bList].sort((a, b) => b.neartermMargin - a.neartermMargin).slice(0, 10))
     setLtBs([...bList].sort((a, b) => b.longtermMargin - a.longtermMargin).slice(0, 10))
     setPtBs([...bList].sort((a, b) => b.potentialMargin - a.potentialMargin).slice(0, 10))
-    const cList = pxTargetArray.filter(e => e.propRatingCode === 'C' && !e.newPT)
+    const cList = editablePxTargets.filter(e => e.propRatingCode === 'C' && !e.newPT)
     setNtCs([...cList].sort((a, b) => b.neartermMargin - a.neartermMargin).slice(0, 10))
     setLtCs([...cList].sort((a, b) => b.longtermMargin - a.longtermMargin).slice(0, 10))
     setPtCs([...cList].sort((a, b) => b.potentialMargin - a.potentialMargin).slice(0, 10))
@@ -182,10 +186,10 @@ const PxTarget = () => {
         <Modal.Header>
           <Modal.Title>Attention:</Modal.Title>
         </Modal.Header>
-        <Modal.Body><h5>Loading All Watchlist Tickers...</h5><Spinner animation="border" variant="success" /></Modal.Body>
+        <Modal.Body><h5>Loading All Px Targets...</h5><Spinner animation="border" variant="success" /></Modal.Body>
       </Modal>
       <div className="pxtarget-table-panel">
-        <PxTargetTable data={pxTargetArray} />
+        <PxTargetTable data={editablePxTargets} />
       </div>
       <div className="pxtarget-button-panel">
         <Button variant="dark" onClick={savePxTarget}>Save</Button>{" "}

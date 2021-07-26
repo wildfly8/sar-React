@@ -136,8 +136,72 @@ export const aggregateEditableRatingEnforcements = (editableArray) => {
     })
 }
 
-export const aggregatePTEnforcement = (editableArray) => {
-    return editableArray.filter(pt => !SecurityConstants.LIST_TYPES.includes(pt.ticker)).map(pt => {
+export const aggregatePTEnforcementAudit = (pxTargets, editablePxTargets) => {
+    return pxTargets.filter(pt => !SecurityConstants.LIST_TYPES.includes(pt.ticker)).map(pt => {
+        let pteAudit = {}
+        const editablePT = editablePxTargets.find(e => e.ticker === pt.ticker)
+        if(editablePT) {
+            const enforcedFcfOld = pt.enforcedFcf
+            const enforcedFcfNew = editablePT.enforcedFcf
+            const enforcedFcfGrowthOld = pt.enforcedFcfGrowth
+            const enforcedFcfGrowthNew = editablePT.enforcedFcfGrowth
+            const enforcedSharesGrowthOld = pt.enforcedSharesGrowth
+            const enforcedSharesGrowthNew = editablePT.enforcedSharesGrowth
+            const enforcedPerpGrowthOld = pt.enforcedPerpGrowth
+            const enforcedPerpGrowthNew = editablePT.enforcedPerpGrowth
+            const enforcedNtPTOld = pt.enforcedNeartermPT
+            const enforcedNtPTNew = editablePT.enforcedNeartermPT
+            const enforcedLtPTOld = pt.enforcedLongtermPT
+            const enforcedLtPTNew = editablePT.enforcedLongtermPT
+            const enforcedPtPTOld = pt.enforcedPotentialPT
+            const enforcedPtPTNew = editablePT.enforcedPotentialPT
+            let audited = false
+            if(enforcedFcfOld != null && enforcedFcfOld !== enforcedFcfNew) {
+                audited = true
+                pteAudit.enforcedFcfOld = pt.enforcedFcf
+                pteAudit.enforcedFcfNew = editablePT.enforcedFcf
+            }
+            if(enforcedFcfGrowthOld != null && enforcedFcfGrowthOld !== enforcedFcfGrowthNew) {
+                audited = true
+                pteAudit.enforcedFcfGrowthOld = pt.enforcedFcfGrowth
+                pteAudit.enforcedFcfGrowthNew = editablePT.enforcedFcfGrowth
+            }
+            if(enforcedSharesGrowthOld != null && enforcedSharesGrowthOld !== enforcedSharesGrowthNew) {
+                audited = true
+                pteAudit.enforcedSharesGrowthOld = pt.enforcedSharesGrowth
+                pteAudit.enforcedSharesGrowthNew = editablePT.enforcedSharesGrowth
+            }
+            if(enforcedPerpGrowthOld != null && enforcedPerpGrowthOld !== enforcedPerpGrowthNew) {
+                audited = true
+                pteAudit.enforcedPerpGrowthOld = pt.enforcedPerpGrowth
+                pteAudit.enforcedPerpGrowthNew = editablePT.enforcedPerpGrowth
+            }
+            if(enforcedNtPTOld != null && enforcedNtPTOld !== enforcedNtPTNew) {
+                audited = true
+                pteAudit.enforcedNeartermPTOld = pt.enforcedNeartermPT
+                pteAudit.enforcedNeartermPTNew = editablePT.enforcedNeartermPT
+            }
+            if(enforcedLtPTOld != null && enforcedLtPTOld !== enforcedLtPTNew) {
+                audited = true
+                pteAudit.enforcedLongtermPTOld = pt.enforcedLongtermPT
+                pteAudit.enforcedLongtermPTNew = editablePT.enforcedLongtermPT
+            }
+            if(enforcedPtPTOld != null && enforcedPtPTOld !== enforcedPtPTNew) {
+                audited = true
+                pteAudit.enforcedPotentialPTOld = pt.enforcedPotentialPT
+                pteAudit.enforcedPotentialPTNew = editablePT.enforcedPotentialPT
+            }
+            if(audited) {
+                pteAudit.ticker = pt.ticker
+                pteAudit.auditNote = prompt(`Px Target Audit Note for ${pteAudit.ticker}:`)
+            }
+        }
+        return pteAudit
+    }).filter(e => Object.keys(e).length !== 0)
+}
+
+export const aggregatePTEnforcement = (editablePxTargets) => {
+    return editablePxTargets.filter(pt => !SecurityConstants.LIST_TYPES.includes(pt.ticker)).map(pt => {
         let pte = {}
         if(pt.newPT) {
             pte.id = null

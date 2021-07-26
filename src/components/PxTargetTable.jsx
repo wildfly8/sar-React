@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
+import { Button, Modal } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import { formatNumberInCommaWithDecimal, formatNumberInPercentWithDecimal } from '../MyUtil'
 import SecurityConstants from '../SecurityConstants'
@@ -40,9 +41,12 @@ export const PX_TARGET_HEADERS = Object.freeze({
   zacksAndYahooRank: 'zacksAndYahooRank'
 })
 
-const RatingEnforcementTable = ({ data }) => {
-  const [, updateState] = React.useState()
-  const forceUpdate = React.useCallback(() => updateState({}), [])
+const PxTargetTable = ({ data }) => {
+  const [showAudit, setShowAudit] = useState(false)
+  const [selectedTicker, setSelectedTicker] = useState(null)
+  const [ptEnforcementAudits, setPtEnforcementAudits] = useState([])
+  const [, updateState] = useState()
+  const forceUpdate = useCallback(() => updateState({}), [])
 
   const columns = [{
     dataField: PX_TARGET_HEADERS.id,
@@ -376,7 +380,6 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedNeartermPT,
     text: 'enf_pt',
-    editable: false,
     formatter: (cell) => (
       formatNumberInCommaWithDecimal(cell, 1)
     ),
@@ -385,6 +388,7 @@ const RatingEnforcementTable = ({ data }) => {
       paddingBottom: '0px'
     },
     style: {
+      backgroundColor: '#D3D3D3',
       paddingTop: '0px',
       paddingBottom: '0px'
     }
@@ -456,7 +460,6 @@ const RatingEnforcementTable = ({ data }) => {
   }, {
     dataField: PX_TARGET_HEADERS.enforcedLongtermPT,
     text: 'enf_pt',
-    editable: false,
     formatter: (cell) => (
       formatNumberInCommaWithDecimal(cell, 1)
     ),
@@ -465,6 +468,7 @@ const RatingEnforcementTable = ({ data }) => {
       paddingBottom: '0px'
     },
     style: {
+      backgroundColor: '#D3D3D3',
       paddingTop: '0px',
       paddingBottom: '0px'
     }
@@ -601,6 +605,14 @@ const RatingEnforcementTable = ({ data }) => {
     }
   }]
   
+  const selectRow = {
+    mode: 'radio',
+    bgColor: '#99ccff',
+    hideSelectColumn: true,
+    clickToSelect: true,
+    clickToEdit: true
+  }
+
   const rowStyle = (row, rowIndex) => {
     if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
       return { 
@@ -615,12 +627,18 @@ const RatingEnforcementTable = ({ data }) => {
     }
   }
 
-  const selectRow = {
-    mode: 'radio',
-    bgColor: '#99ccff',
-    hideSelectColumn: true,
-    clickToSelect: true,
-    clickToEdit: true
+  const rowEvents = {
+    onDoubleClick: (e, row, rowIndex) => {
+      setSelectedTicker(row.ticker)
+      myFetcher(`${SERVER_URL}/${VERSION}/api/pt-enforcement-audit?ticker=${row.ticker}`)
+      .then(fulfillment => {
+          if(fulfillment) {
+            setPtEnforcementAudits(fulfillment)
+          }
+        })
+      .catch(error => alert(`${row.ticker}: Error during pt-enforcement-audit API call! ${error}`))
+      setShowAudit(true)
+    }
   }
 
   const cellEdit = cellEditFactory({
@@ -651,12 +669,41 @@ const RatingEnforcementTable = ({ data }) => {
     }
   })
 
+  const handleDialogueClose = () => {
+    setSelectedTicker(null)
+    setPtEnforcementAudits([])
+    setShowAudit(false)
+  }
+
   return (
     <div className="rating-enforcement-table">
+      <Modal centered size="xl" show={showAudit} backdrop="static" keyboard={false}>
+        <Modal.Header>
+          <Modal.Title>PT Enforcement Audit for {selectedTicker}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="pt-enforcement-audit-modal">
+          <div><b>fcf*</b></div><div><b>fcfGr*</b></div><div><b>shGr*</b></div><div><b>perpGr*</b></div><div><b>nt_pt*</b></div><div><b>lt_pt*</b></div><div><b>pt_pt*</b></div><div><b>audit_note</b></div>
+          {ptEnforcementAudits.map((pteAudit, i) => 
+            <React.Fragment key={i}>
+              <div>{pteAudit.enforcedFcfOld == null? null : pteAudit.enforcedFcfOld + ' -> ' + pteAudit.enforcedFcfNew}</div>
+              <div>{pteAudit.enforcedFcfGrowthOld == null? null : pteAudit.enforcedFcfGrowthOld + ' -> ' + pteAudit.enforcedFcfGrowthNew}</div>
+              <div>{pteAudit.enforcedSharesGrowthOld == null? null : pteAudit.enforcedSharesGrowthOld + ' -> ' + pteAudit.enforcedSharesGrowthNew}</div>
+              <div>{pteAudit.enforcedPerpGrowthOld == null? null : pteAudit.enforcedPerpGrowthOld + ' -> ' + pteAudit.enforcedPerpGrowthNew}</div>
+              <div>{pteAudit.enforcedNeartermPTOld == null? null : pteAudit.enforcedNeartermPTOld + ' -> ' + pteAudit.enforcedNeartermPTNew}</div>
+              <div>{pteAudit.enforcedLongtermPTOld == null? null : pteAudit.enforcedLongtermPTOld + ' -> ' + pteAudit.enforcedLongtermPTNew}</div>
+              <div>{pteAudit.enforcedPotentialPTOld == null? null : pteAudit.enforcedPotentialPTOld + ' -> ' + pteAudit.enforcedPotentialPTNew}</div>
+              <div>{pteAudit.auditNote}</div>
+            </React.Fragment>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleDialogueClose}>Close</Button>
+        </Modal.Footer>
+      </Modal>
       <BootstrapTable bootstrap4 hover columns={columns} keyField='id' data={data}
-        selectRow={selectRow} condensed={true} rowStyle={rowStyle} cellEdit={cellEdit} />
+        selectRow={selectRow} condensed={true} rowStyle={rowStyle} rowEvents={rowEvents} cellEdit={cellEdit} />
     </div>
   )
 }
 
-export default RatingEnforcementTable
+export default PxTargetTable
