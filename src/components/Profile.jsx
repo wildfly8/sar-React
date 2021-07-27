@@ -10,7 +10,7 @@ const Profile = ({ userInfo }) => {
   }
 
   return (
-      <div>
+      <>
         <div as="h1">
           <div name="drivers license" />
           {' '}
@@ -38,7 +38,7 @@ const Profile = ({ userInfo }) => {
             })}
           </tbody>
         </table>
-      </div>
+      </>
   )
 }
 

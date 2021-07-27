@@ -4,9 +4,11 @@ import MacroEconTable from './MacroEconTable'
 const MacroEcon = ({ economicIndices }) => {
 
   return (
-    <div id="macroecon" className="macro-econ">
-      <MacroEconTable data={economicIndices} />
-    </div>
+    <>
+      <div id="macroecon" className="macro-econ">
+        <MacroEconTable data={economicIndices} />
+      </div>
+    </>
   )
 }
 

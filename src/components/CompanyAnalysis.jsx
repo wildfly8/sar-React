@@ -72,7 +72,7 @@ const CompanyAnalysis = () => {
   }
 
   return (
-    <div>
+    <>
       <div className="company-analysis-input-panel">
         <label>Ticker:</label>{" "}
         <InputGroup>
@@ -186,7 +186,7 @@ const CompanyAnalysis = () => {
       <div className="company-analysis-sar-report-panel">
         {sarReport}
       </div>
-    </div>
+    </>
   )
 }
 export default React.memo(CompanyAnalysis)

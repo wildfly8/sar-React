@@ -190,7 +190,7 @@ const Valuation = () => {
   }
 
   return (
-    <div className="valuation-panel">
+    <>
       <div className="relative-valuation-panel">
         <div className="value-traps">
             <label>Ticker:</label>{" "}
@@ -308,7 +308,7 @@ const Valuation = () => {
           <Button variant="dark" type="submit">IV</Button>
         </Form>
       </div>
-    </div>
+    </>
   )
 }
 

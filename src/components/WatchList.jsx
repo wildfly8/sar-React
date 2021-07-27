@@ -46,7 +46,7 @@ const WatchList = () => {
   }, [])
   
   return (
-    <div>
+    <>
       {error && <Button variant="danger">{error}</Button>}
       {!error && 
         <div id="watchlist" className="watchlist-panel">
@@ -69,7 +69,7 @@ const WatchList = () => {
         </Tabs>
         <EditlistButtonPanel loaded={loaded} editableMap={editableMap} />
       </div>
-    </div>
+    </>
   )
 }
 

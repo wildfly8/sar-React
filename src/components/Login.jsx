@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import * as OktaSignIn from '@okta/okta-signin-widget';
-import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css';
+import React, { useEffect } from 'react'
+import * as OktaSignIn from '@okta/okta-signin-widget'
+import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css'
 
-import config from '../config';
+import config from '../config'
 
 const Login = () => {
   useEffect(() => {
-    const { pkce, issuer, clientId, redirectUri, responseType, scopes, idps, idpDisplay } = config.oidc;
+    const { pkce, issuer, clientId, redirectUri, responseType, scopes, idps, idpDisplay } = config.oidc
     const widget = new OktaSignIn({
       /**
        * Note: when using the Sign-In Widget for an OIDC flow, it still
@@ -45,7 +45,7 @@ const Login = () => {
         // scopes,
         // responseMode: pkce ? 'query' : 'fragment',
       },
-    });
+    })
 
     widget.renderEl(
       { el: '#sign-in-widget' },
@@ -56,15 +56,15 @@ const Login = () => {
          */
       },
       (err) => {
-        throw err;
+        throw err
       },
-    );
-  }, []);
+    )
+  }, [])
 
   return (
-    <div>
+    <>
       <div id="sign-in-widget" />
-    </div>
-  );
-};
-export default Login;
+    </>
+  )
+}
+export default Login

@@ -37,7 +37,7 @@ const Screening = () => {
   }
 
   return (
-    <div>
+    <>
       <Modal centered size="lg" show={showStartModal} backdrop="static" keyboard={false}>
         <Modal.Header>
           <Modal.Title>Attention:</Modal.Title>
@@ -50,7 +50,7 @@ const Screening = () => {
       <div className="screening-report-panel">
         {screeningReport}
       </div>
-    </div>
+    </>
   )
 }
 export default React.memo(Screening)

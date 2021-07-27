@@ -39,14 +39,14 @@ const RatingEnforce = () => {
   }
 
   return (
-    <div>
+    <>
       <div className="rating-enforcement-table-panel">
         <RatingEnforcementTable data={editableArray} />
       </div>
       <div className="rating-enforcement-button-panel">
         <Button variant="dark" onClick={saveRatingEnforcements}>Save</Button>{" "}
       </div>
-    </div>
+    </>
   )
 }
 export default React.memo(RatingEnforce)

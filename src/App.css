@@ -139,12 +139,6 @@ th {
   border: ridge #D3D3D3;
 }
 
-.valuation-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 .relative-valuation-panel {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
