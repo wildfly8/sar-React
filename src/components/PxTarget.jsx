@@ -86,7 +86,7 @@ const PxTarget = () => {
           }
         } catch (error) {
           alert(`${pt.ticker} Request Yahoo quote error! ${error}`)
-          break
+          continue
         }
         //calculate currently looped List average dChg
         if(pt.sector === 'ETF') {
