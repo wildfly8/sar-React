@@ -78,10 +78,15 @@ const PxTarget = () => {
     let index = 0
     for(let pt of pxTargetArray) {  //cannot use forEach here for async/await because forEach won't await 
       if(!SecurityConstants.LIST_TYPES.includes(pt.ticker)) {
-        const response = await fetch(`${SERVER_URL}/${VERSION}/api/yahoo-quote?ticker=${pt.ticker.replace('^', '%5E')}`);
-        const jsonResponse = await response.json();
-        if(jsonResponse && pt.lastPx) {
-          pt.dailyPercentChg = (jsonResponse - pt.lastPx) / pt.lastPx
+        try {
+          const response = await fetch(`${SERVER_URL}/${VERSION}/api/yahoo-quote?ticker=${pt.ticker.replace('^', '%5E')}`)
+          const jsonResponse = await response.json()
+          if(jsonResponse && pt.lastPx) {
+            pt.dailyPercentChg = (jsonResponse - pt.lastPx) / pt.lastPx
+          }
+        } catch (error) {
+          alert(`${pt.ticker} Request Yahoo quote error! ${error}`)
+          break
         }
         //calculate currently looped List average dChg
         if(pt.sector === 'ETF') {
