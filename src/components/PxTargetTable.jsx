@@ -595,7 +595,7 @@ const PxTargetTable = ({ data }) => {
     text: 'Zacks_Yahoo_rank',
     editable: false,
     headerStyle: {
-      width: '11%',
+      width: '13%',
       paddingTop: '0px',
       paddingBottom: '0px'
     },
