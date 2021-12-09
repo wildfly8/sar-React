@@ -85,7 +85,7 @@ const PxTarget = () => {
             pt.dailyPercentChg = (jsonResponse - pt.lastPx) / pt.lastPx
           }
         } catch (error) {
-          alert(`${pt.ticker} Request Yahoo quote error! ${error}`)
+          console.error(`${pt.ticker} Request Yahoo quote error! ${error}`)
           continue
         }
         //calculate currently looped List average dChg
