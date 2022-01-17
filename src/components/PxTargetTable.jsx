@@ -3,7 +3,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
 import { Button, Modal } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
-import { formatNumberInCommaWithDecimal, formatNumberInPercentWithDecimal } from '../MyUtil'
+import { formatNumberInCommaWithDecimal, formatNumberInPercentWithDecimal, formatDate } from '../MyUtil'
 import SecurityConstants from '../SecurityConstants'
 
 export const PX_TARGET_HEADERS = Object.freeze({
@@ -682,9 +682,10 @@ const PxTargetTable = ({ data }) => {
           <Modal.Title>PT Enforcement Audit for {selectedTicker}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="pt-enforcement-audit-modal">
-          <div><b>fcf*</b></div><div><b>fcfGr*</b></div><div><b>shGr*</b></div><div><b>perpGr*</b></div><div><b>nt_pt*</b></div><div><b>lt_pt*</b></div><div><b>pt_pt*</b></div><div><b>audit_note</b></div>
+          <div><b>last_update</b></div><div><b>fcf*</b></div><div><b>fcfGr*</b></div><div><b>shGr*</b></div><div><b>perpGr*</b></div><div><b>nt_pt*</b></div><div><b>lt_pt*</b></div><div><b>pt_pt*</b></div><div><b>audit_note</b></div>
           {ptEnforcementAudits.map((pteAudit, i) => 
             <React.Fragment key={i}>
+              <div>{formatDate(pteAudit.lastUpdate)}</div>
               <div>{pteAudit.enforcedFcfOld == null? null : pteAudit.enforcedFcfOld + ' -> ' + pteAudit.enforcedFcfNew}</div>
               <div>{pteAudit.enforcedFcfGrowthOld == null? null : pteAudit.enforcedFcfGrowthOld + ' -> ' + pteAudit.enforcedFcfGrowthNew}</div>
               <div>{pteAudit.enforcedSharesGrowthOld == null? null : pteAudit.enforcedSharesGrowthOld + ' -> ' + pteAudit.enforcedSharesGrowthNew}</div>

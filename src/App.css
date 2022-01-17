@@ -211,7 +211,7 @@ th {
 
 .pt-enforcement-audit-modal {
   display: grid;
-  grid-template-columns: repeat(7, 1fr) 5fr;
+  grid-template-columns: repeat(8, 1fr) 5fr;
   justify-items: left;
   align-items: center;
   border: ridge #D3D3D3;
