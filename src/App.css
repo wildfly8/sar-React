@@ -1,0 +1,219 @@
+* {
+  font-size: 13px;
+  text-align: center;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: #e6e6e6;
+}
+
+.SARNavBar {
+  font-size: 15px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.watchlist-panel {
+  border: ridge #D3D3D3;
+}
+
+.editlist-panel {
+  border: ridge #D3D3D3;
+  margin-top: 2px;
+}
+
+.editlist-button-panel {
+  background-color: #e6e6e6;
+  font-weight: bold;
+}
+
+.watchlist-table {
+  height: 67vh;
+  overflow: auto;
+}
+
+.editlist-table {
+  height: 22vh;
+  overflow: auto;
+}
+
+.watchlist-tabs > a {
+  color: black;
+  font-weight: bold;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.watchlist-tabs > .nav-item.nav-link {
+  border: thin solid black;
+  background-color: #e6e6e6;
+}
+
+.watchlist-tabs > .nav-item.nav-link.active {
+  background-color: #99ccff;
+}
+
+.progressbar {
+  display: inline-block;
+  width: 5%;
+}
+
+.macro-econ-table {
+  overflow: auto;
+  border: ridge #D3D3D3;
+  height: 93vh;
+}
+
+.company-analysis-input-panel {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  align-items: center;
+  font-weight: bold;
+  border: ridge #D3D3D3;
+  padding: 5px;
+  background-color: #e6e6e6;
+}
+
+.company-performance-summary {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  justify-items: start;
+  padding: 5px;
+  overflow: auto;
+  height: 20vh;
+  border: ridge #D3D3D3;
+  font-weight: bold;
+  background-color: #e6e6e6;
+}
+
+.company-performance-summary label {
+  margin: 0px;
+}
+
+.company-analysis-analyst-report-panel {
+  white-space: pre-line;
+  text-align: left;
+  padding: 5px;
+  overflow: auto;
+  height: 35vh;
+  border: ridge #D3D3D3;
+  background-color: #e6e6e6;
+}
+
+.company-analysis-sar-report-panel {
+  white-space: pre-line;
+  text-align: left;
+  padding: 5px;
+  overflow: auto;
+  height: 35vh;
+  border: ridge #D3D3D3;
+}
+
+.screening-button-panel {
+  align-items: center;
+  font-weight: bold;
+  border: ridge #D3D3D3;
+  padding: 5px;
+  background-color: #e6e6e6;
+}
+
+.rating-enforcement-table-panel {
+  overflow: auto;
+  border: ridge #D3D3D3;
+  height: 94vh;
+}
+
+.rating-enforcement-button-panel {
+  background-color: #e6e6e6;
+}
+
+.screening-report-panel {
+  white-space: pre-line;
+  text-align: left;
+  padding: 5px;
+  overflow: auto;
+  height: 90vh;
+  border: ridge #D3D3D3;
+}
+
+.relative-valuation-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  font-weight: bold;
+  background-color: #e6e6e6;
+}
+
+.value-traps {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: left;
+  align-items: center;
+  border: ridge #D3D3D3;
+  padding: 5px;
+}
+
+.current-relative-value {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  justify-items: left;
+  align-items: center;
+  border: ridge #D3D3D3;
+  padding: 5px;
+}
+
+.forward-relative-value {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  justify-items: left;
+  align-items: center;
+  border: ridge #D3D3D3;
+  padding: 5px;
+}
+
+.keyratios-table {
+  overflow: auto;
+  height: 74vh;
+  border: ridge #D3D3D3;
+}
+
+.intrinsic-valuation-panel {
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  border: ridge #D3D3D3;
+  font-weight: bold;
+  background-color: #e6e6e6;
+}
+
+.pxtarget-table-panel {
+  overflow: auto;
+  border: ridge #D3D3D3;
+  height: 94vh;
+}
+
+.pxtarget-button-panel {
+  background-color: #e6e6e6;
+}
+
+.security-rank-modal {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: left;
+  align-items: center;
+  border: ridge #D3D3D3;
+  padding: 5px;
+}
+
+.pt-enforcement-audit-modal {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr) 5fr;
+  justify-items: left;
+  align-items: center;
+  border: ridge #D3D3D3;
+  padding: 5px;
+}
