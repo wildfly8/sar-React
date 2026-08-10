@@ -8,10 +8,14 @@ const TRILLION = 1000000000000;
 const BILLION = 1000000000;
 const MILLION = 1000000;
 
-/** API placeholder shown in some keyStats fields when a metric is unavailable. */
-const PENDING_NEXT_EPS_REPORT = 'Pending Next EPS Report'
-
-const displayOrNA = (value) => (value === PENDING_NEXT_EPS_REPORT ? 'N/A' : value)
+/** Show N/A for non-numeric API values (placeholders, null, empty, etc.). */
+const displayOrNA = (value) => {
+    if (value === null || value === undefined || value === '') {
+        return 'N/A'
+    }
+    const n = typeof value === 'number' ? value : Number(value)
+    return Number.isFinite(n) ? value : 'N/A'
+}
 
 export const formatDate = (long) => {
     if(!long)
