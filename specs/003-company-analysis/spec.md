@@ -64,6 +64,10 @@ Analyst reviews employees/auditor/legal, Morningstar/analyst notes, SAR report, 
 
 - API availability required for fresh data; cache may be stale.
 
+## Changelog
+
+- 2026-08-10: Analyze button matches Enter — both run analysis and clear the ticker input (`CompanyAnalysis.jsx`).
+
 ## Gaps
 
-- No tests; typo `analystReportTitile`; `JSON.parse(sessionStorage.getItem('perfSummary'))` may throw if missing; basics/perf errors mostly console-only; Enter clears input after submit.
+- No tests; typo `analystReportTitile`; `JSON.parse(sessionStorage.getItem('perfSummary'))` may throw if missing; basics/perf errors mostly console-only.

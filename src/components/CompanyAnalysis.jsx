@@ -13,7 +13,7 @@ const CompanyAnalysis = () => {
   const perfSummaryFromStorage = JSON.parse(sessionStorage.getItem('perfSummary'))
   const sarReportFromStorage = sessionStorage.getItem('sarReport')
 
-  const [ticker, setTicker] = useState(null)
+  const [ticker, setTicker] = useState('')
   const [numOfEmployees, setNumOfEmployees] = useState(numOfEmployeesFromStorage? numOfEmployeesFromStorage : null)
   const [auditor, setAuditor] = useState(auditorFromStorage? auditorFromStorage : null)
   const [legalAdvisor, setLegalAdvisor] = useState(legalAdvisorFromStorage? legalAdvisorFromStorage : null)
@@ -23,7 +23,13 @@ const CompanyAnalysis = () => {
   const [sarReport, setSarReport] = useState(sarReportFromStorage? sarReportFromStorage : null)
 
   const analyzeCompany = () => {
-    myFetcher(`${SERVER_URL}/${VERSION}/api/company-basics?ticker=${ticker}`)
+    if (!ticker) {
+      return
+    }
+    const symbol = ticker
+    setTicker('')
+
+    myFetcher(`${SERVER_URL}/${VERSION}/api/company-basics?ticker=${symbol}`)
     .then(fulfillment => {
         if(fulfillment && fulfillment.basicsOverview) {
           setNumOfEmployees(fulfillment.basicsOverview.numOfEmployees)
@@ -40,7 +46,7 @@ const CompanyAnalysis = () => {
       })
     .catch(error => console.log(`Error during company-basics API call! ${error}`))
 
-    myFetcher(`${SERVER_URL}/${VERSION}/api/company-perfsummary?ticker=${ticker}`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/company-perfsummary?ticker=${symbol}`)
     .then(fulfillment => {
         if(fulfillment) {
           setPerfSummary(fulfillment)
@@ -49,7 +55,7 @@ const CompanyAnalysis = () => {
       })
     .catch(error => console.log(`Error during company-perfsummary API call! ${error}`))
 
-    myFetcher(`${SERVER_URL}/${VERSION}/api/company-report?ticker=${ticker}`)
+    myFetcher(`${SERVER_URL}/${VERSION}/api/company-report?ticker=${symbol}`)
     .then(fulfillment => {
         if(fulfillment) {
           setSarReport(fulfillment.response)
@@ -60,15 +66,14 @@ const CompanyAnalysis = () => {
   }
 
   const onInputChange = (e) => {
-    e.target.value = e.target.value.toUpperCase()
-    setTicker(e.target.value)
+    setTicker(e.target.value.toUpperCase())
   }
 
   const handleKeyPress = (e) => {
-    if(e.charCode === 13) {
+    if (e.charCode === 13 || e.key === 'Enter') {
+      e.preventDefault()
       analyzeCompany()
-      e.target.value = null
-    } 
+    }
   }
 
   return (
@@ -76,7 +81,7 @@ const CompanyAnalysis = () => {
       <div className="company-analysis-input-panel">
         <label>Ticker:</label>{" "}
         <InputGroup>
-          <FormControl onChange={onInputChange} onKeyPress={handleKeyPress} aria-label="Ticker" aria-describedby="ticker-addon1" />
+          <FormControl value={ticker} onChange={onInputChange} onKeyPress={handleKeyPress} aria-label="Ticker" aria-describedby="ticker-addon1" />
           <InputGroup.Append><Button variant="dark" onClick={analyzeCompany}>Analyze</Button></InputGroup.Append>
         </InputGroup>
         <label>Employees:</label>{" "}
