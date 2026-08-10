@@ -8,6 +8,11 @@ const TRILLION = 1000000000000;
 const BILLION = 1000000000;
 const MILLION = 1000000;
 
+/** API placeholder shown in some keyStats fields when a metric is unavailable. */
+const PENDING_NEXT_EPS_REPORT = 'Pending Next EPS Report'
+
+const displayOrNA = (value) => (value === PENDING_NEXT_EPS_REPORT ? 'N/A' : value)
+
 export const formatDate = (long) => {
     if(!long)
         return null
@@ -93,7 +98,7 @@ export const assembleWatchlistTableRow = (apiINVWatchlistTicker, index) => {
         [WATCHLIST_HEADERS.returnOnEquity]: apiINVWatchlistTicker.keyStats.rOE_TTM,
         [WATCHLIST_HEADERS.quarterlyRevenueGrowthYoY]: apiINVWatchlistTicker.keyStats.quarterlyRevenueGrowth_YOY,
         [WATCHLIST_HEADERS.quarterlyEarningsGrowthYoY]: apiINVWatchlistTicker.keyStats.quarterlyEarningsGrowth_YOY,
-        [WATCHLIST_HEADERS.debtToEquity]: apiINVWatchlistTicker.keyStats.debtToEquity_MRQ,
+        [WATCHLIST_HEADERS.debtToEquity]: displayOrNA(apiINVWatchlistTicker.keyStats.debtToEquity_MRQ),
         [WATCHLIST_HEADERS.pE]: apiINVWatchlistTicker.keyStats.trailingPE_TTM,
         [WATCHLIST_HEADERS.forwardPE]: apiINVWatchlistTicker.keyStats.forwardPE_TTM,
         [WATCHLIST_HEADERS.pS]: apiINVWatchlistTicker.keyStats.pS_TTM,

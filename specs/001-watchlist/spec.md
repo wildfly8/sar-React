@@ -86,6 +86,10 @@ Analyst sees VIX, 10y TYT, and next FOMC/Jobs/Retail/GDP dates from shared App b
 - No authentication.
 - Map/Test buttons currently have no handlers (known gap).
 
+## Changelog
+
+- 2026-08-09: WatchList D/E shows `N/A` instead of API placeholder `Pending Next EPS Report` (`MyUtil.assembleWatchlistTableRow`).
+
 ## Gaps
 
 - No automated tests
