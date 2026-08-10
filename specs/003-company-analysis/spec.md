@@ -66,7 +66,7 @@ Analyst reviews employees/auditor/legal, Morningstar/analyst notes, SAR report, 
 
 ## Changelog
 
-- 2026-08-10: Analyze button matches Enter — both run analysis and clear the ticker input (`CompanyAnalysis.jsx`).
+- 2026-08-10: Analyze button matches Enter — both run analysis, clear the ticker input, and keep focus in the ticker field (`CompanyAnalysis.jsx`).
 
 ## Gaps
 

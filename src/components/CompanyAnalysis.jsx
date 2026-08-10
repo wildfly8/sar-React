@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { InputGroup, FormControl, Button } from 'react-bootstrap'
 import { SERVER_URL, VERSION, myFetcher } from '../api'
 import { replaceWithEdgeCodes } from '../MyUtil'
@@ -13,6 +13,7 @@ const CompanyAnalysis = () => {
   const perfSummaryFromStorage = JSON.parse(sessionStorage.getItem('perfSummary'))
   const sarReportFromStorage = sessionStorage.getItem('sarReport')
 
+  const tickerInputRef = useRef(null)
   const [ticker, setTicker] = useState('')
   const [numOfEmployees, setNumOfEmployees] = useState(numOfEmployeesFromStorage? numOfEmployeesFromStorage : null)
   const [auditor, setAuditor] = useState(auditorFromStorage? auditorFromStorage : null)
@@ -28,6 +29,12 @@ const CompanyAnalysis = () => {
     }
     const symbol = ticker
     setTicker('')
+    // Restore focus after button click steals it (Enter already keeps focus in the field).
+    setTimeout(() => {
+      if (tickerInputRef.current) {
+        tickerInputRef.current.focus()
+      }
+    }, 0)
 
     myFetcher(`${SERVER_URL}/${VERSION}/api/company-basics?ticker=${symbol}`)
     .then(fulfillment => {
@@ -81,7 +88,7 @@ const CompanyAnalysis = () => {
       <div className="company-analysis-input-panel">
         <label>Ticker:</label>{" "}
         <InputGroup>
-          <FormControl value={ticker} onChange={onInputChange} onKeyPress={handleKeyPress} aria-label="Ticker" aria-describedby="ticker-addon1" />
+          <FormControl ref={tickerInputRef} value={ticker} onChange={onInputChange} onKeyPress={handleKeyPress} aria-label="Ticker" />
           <InputGroup.Append><Button variant="dark" onClick={analyzeCompany}>Analyze</Button></InputGroup.Append>
         </InputGroup>
         <label>Employees:</label>{" "}
