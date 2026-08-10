@@ -247,6 +247,23 @@ th {
   height: 94vh;
 }
 
+/* Keep click-to-edit inputs sized to the cell, not Bootstrap's default ~34px. */
+.pxtarget-table-panel .react-bootstrap-table td {
+  position: relative;
+}
+
+.pxtarget-table-panel .react-bootstrap-table input.form-control.editor {
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  padding: 0 2px;
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
 .pxtarget-button-panel {
   background-color: #e6e6e6;
 }

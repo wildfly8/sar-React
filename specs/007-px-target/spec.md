@@ -77,3 +77,7 @@ Analyst clicks UpdatePx to sequentially refresh yahoo quotes for non-list ticker
 ## Gaps
 
 - No tests; Rank hidden if list length &lt; 10; assumes first six rows are list aggregates; sequential quotes are slow; mutation + forceUpdate patterns; alerts/prompts for UX.
+
+## Changelog
+
+- 2026-08-10: PxTarget click-to-edit inputs no longer expand row height (editor uses `height: 100%` / `min-height: 0` inside the cell).
