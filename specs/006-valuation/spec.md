@@ -64,3 +64,7 @@ Analyst revisits page and sees persisted ticker/IV fields from sessionStorage; r
 ## Gaps
 
 - No tests; “value traps” UI placeholders unused; full refresh is Enter-only (no Analyze button); calculate uses `alert` for errors.
+
+## Changelog
+
+- 2026-08-10: Valuation page has no outer vertical scrollbar; relative / key-ratios / IV subpanels scroll independently (`valuation-page` layout in `App.css`).
