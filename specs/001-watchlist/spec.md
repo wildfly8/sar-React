@@ -88,6 +88,8 @@ Analyst sees VIX, 10y TYT, and next FOMC/Jobs/Retail/GDP dates from shared App b
 
 ## Changelog
 
+- 2026-08-10: Condensed table row height centralized as CSS var `--sar-table-row-height` (`App.css` + table `rowStyle`s).
+- 2026-08-10: WatchList editlist rows stay fixed height after ticker input (tbody `td` max-height + nowrap/overflow; editor stays absolutely positioned).
 - 2026-08-10: WatchList editlist click-to-edit inputs no longer expand row height (editor uses `height: 100%` / `min-height: 0` inside the cell).
 - 2026-08-09: WatchList page has no outer vertical scrollbar; each subpanel table (readonly / editlist) scrolls independently (`App.css` `.watchlist-page` layout).
 - 2026-08-09: WatchList D/E shows `N/A` when `debtToEquity_MRQ` is not a finite number (`MyUtil.displayOrNA`).

@@ -1,3 +1,7 @@
+:root {
+  --sar-table-row-height: 17px;
+}
+
 * {
   font-size: 13px;
   text-align: center;
@@ -74,12 +78,24 @@ th {
   overflow-y: auto;
 }
 
-/* Keep click-to-edit controls inside the cell; don't let Bootstrap focus chrome expand the row. */
-.editlist-table .react-bootstrap-table td,
-.pxtarget-table-panel .react-bootstrap-table td {
-  position: relative;
+/* Lock editlist row/cell height so typing/saving tickers cannot expand rows. */
+.editlist-table .react-bootstrap-table tbody tr {
+  height: var(--sar-table-row-height);
 }
 
+.editlist-table .react-bootstrap-table tbody td {
+  position: relative;
+  height: var(--sar-table-row-height);
+  max-height: var(--sar-table-row-height);
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: var(--sar-table-row-height);
+  vertical-align: middle;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Keep click-to-edit controls inside the cell; don't let Bootstrap focus chrome expand the row. */
 .editlist-table .react-bootstrap-table .form-control.editor,
 .pxtarget-table-panel .react-bootstrap-table .form-control.editor {
   position: absolute;
@@ -106,6 +122,10 @@ th {
   box-shadow: none;
   outline: 1px solid #80bdff;
   outline-offset: -1px;
+}
+
+.pxtarget-table-panel .react-bootstrap-table td {
+  position: relative;
 }
 
 .watchlist-tabs > a {

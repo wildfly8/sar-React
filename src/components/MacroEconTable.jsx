@@ -56,7 +56,7 @@ const MacroEconTable = ({ data }) => {
     }
   }]
 
-  const rowStyle = { height: '17px' }
+  const rowStyle = { height: 'var(--sar-table-row-height)' }
 
   const selectRow = {
     mode: 'radio',

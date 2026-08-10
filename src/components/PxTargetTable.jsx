@@ -616,13 +616,13 @@ const PxTargetTable = ({ data }) => {
   const rowStyle = (row, rowIndex) => {
     if(SecurityConstants.LIST_TYPES.includes(row.ticker)) {
       return { 
-        height: '17px',
+        height: 'var(--sar-table-row-height)',
         fontWeight: 'bold',
         backgroundColor: '#D3D3D3'
       }
     } else {
       return { 
-        height: '17px'  
+        height: 'var(--sar-table-row-height)'  
       }
     }
   }
