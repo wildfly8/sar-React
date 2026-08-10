@@ -88,6 +88,7 @@ Analyst sees VIX, 10y TYT, and next FOMC/Jobs/Retail/GDP dates from shared App b
 
 ## Changelog
 
+- 2026-08-09: WatchList page has no outer vertical scrollbar; each subpanel table (readonly / editlist) scrolls independently (`App.css` `.watchlist-page` layout).
 - 2026-08-09: WatchList D/E shows `N/A` when `debtToEquity_MRQ` is not a finite number (`MyUtil.displayOrNA`).
 
 ## Gaps
