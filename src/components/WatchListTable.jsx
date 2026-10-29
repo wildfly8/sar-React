@@ -37,6 +37,22 @@ const WATCHLIST_HEADERS = Object.freeze({
   isNasdaq100: 'isNasdaq100'
 })
 
+const toDisplayString = (cell) => {
+  if (cell === null || cell === undefined || cell === '') {
+    return null
+  }
+  return typeof cell === 'string' ? cell : String(cell)
+}
+
+const parseNumericCell = (cell) => {
+  const value = toDisplayString(cell)
+  if (value === null) {
+    return null
+  }
+  const parsed = Number(value.replace(/,/g, ''))
+  return Number.isFinite(parsed) ? parsed : null
+}
+
 const WatchListTable = ({ data, isEditable }) => {
   const columns = [{
     dataField: WATCHLIST_HEADERS.id,
@@ -120,9 +136,13 @@ const WatchListTable = ({ data, isEditable }) => {
     dataField: WATCHLIST_HEADERS.earDate,
     text: 'earDate',
     editable: false,
-    formatter: (cell) => (
-      cell? (cell.startsWith(",")? cell.replace(",", "") : cell.replace(",", " ")) : null
-    ),
+    formatter: (cell) => {
+      const value = toDisplayString(cell)
+      if (value === null) {
+        return null
+      }
+      return value.startsWith(',') ? value.replace(',', '') : value.replace(',', ' ')
+    },
     headerStyle: {
       width: '5%',
       paddingTop: '0px',
@@ -173,9 +193,10 @@ const WatchListTable = ({ data, isEditable }) => {
     dataField: WATCHLIST_HEADERS.avgVolume,
     text: 'avgVol',
     editable: false,
-    formatter: (cell) => (
-      cell? formatNumber(parseFloat(cell.replace(/,/g, ''))) : null
-    ),
+    formatter: (cell) => {
+      const value = parseNumericCell(cell)
+      return value === null ? null : formatNumber(value)
+    },
     headerStyle: {
       paddingTop: '0px',
       paddingBottom: '0px'
